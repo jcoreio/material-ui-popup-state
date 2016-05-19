@@ -1,0 +1,39 @@
+{
+  "name": "es2015-library-skeleton",
+  "version": "1.0.0",
+  "description": "my personal skeleton for ES6 library NPM packages",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint *.js src test examples; exit 0",
+    "lint:fix": "eslint *.js src test examples --fix; exit 0",
+    "build": "rm -rf lib; NODE_ENV=production babel src --out-dir lib",
+    "test": "rm -rf testlib; NODE_ENV=production babel src --out-dir testlib/src && NODE_ENV=production babel test --out-dir testlib/test && jasmine",
+    "prepublish": "eslint *.js src test examples --fix && flow status && npm run test && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jedwards1211/es2015-library-skeleton.git"
+  },
+  "keywords": [
+    "es2015"
+  ],
+  "author": "Andy Edwards",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jedwards1211/es2015-library-skeleton/issues"
+  },
+  "homepage": "https://github.com/jedwards1211/es2015-library-skeleton#readme",
+  "devDependencies": {
+    "babel-cli": "^6.8.0",
+    "babel-core": "^6.8.0",
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-transform-flow-strip-types": "^6.8.0",
+    "babel-polyfill": "^6.8.0",
+    "babel-preset-es2015": "^6.6.0",
+    "babel-preset-stage-1": "^6.5.0",
+    "eslint": "^2.9.0",
+    "jasmine": "^2.4.1",
+    "progress-bar-webpack-plugin": "^1.6.0"
+  },
+  "dependencies": {}
+}

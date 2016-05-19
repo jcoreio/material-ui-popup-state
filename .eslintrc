@@ -1,0 +1,24 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "eslint:recommended"
+  ],
+  "rules": {
+    "comma-dangle": 2,
+    "comma-spacing": 2,
+    "eol-last": 2,
+    "indent": ["error", 2],
+    "keyword-spacing": 2,
+    "linebreak-style": 2,
+    "no-console": 2,
+    "no-unused-vars": [2, {"args": "none", "varsIgnorePattern": "React"}],
+    "no-extra-semi": 2,
+    "no-trailing-spaces": 2,
+    "no-unexpected-multiline": 2,
+    "no-unreachable": 2,
+    "semi": ["error", "never"]
+  },
+  "env": {
+    "node": true
+  }
+}
