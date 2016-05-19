@@ -1,7 +1,7 @@
 {
   "name": "es2015-library-skeleton",
   "version": "1.0.0",
-  "description": "my personal skeleton for ES6 library NPM packages",
+  "description": "my personal skeleton for ES2015 library NPM packages",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint *.js src test examples; exit 0",
