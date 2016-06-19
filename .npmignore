@@ -1,7 +1,6 @@
+coverage
 examples
-spec
 test
-testlib
 node_modules
 .babelrc
 .eslintrc
