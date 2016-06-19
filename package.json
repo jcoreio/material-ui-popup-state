@@ -7,7 +7,7 @@
     "lint": "eslint src test",
     "lint:fix": "eslint --fix src test",
     "test": "mocha $npm_package_config_mocha",
-    "test:cov": "babel-node ./node_modules/.bin/isparta cover --report lcov _mocha -- $npm_package_config_mocha",
+    "coverage": "babel-node ./node_modules/.bin/isparta cover --report lcov _mocha -- $npm_package_config_mocha",
     "prepublish": "npm run lint:fix && flow status && npm test && rimraf lib && babel src --out-dir lib"
   },
   "config": {
