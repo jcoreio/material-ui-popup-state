@@ -1,6 +1,6 @@
 {
   "name": "es2015-library-skeleton",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "my personal skeleton for ES2015 library NPM packages",
   "main": "lib/index.js",
   "scripts": {
@@ -32,9 +32,7 @@
     "babel-cli": "^6.8.0",
     "babel-core": "^6.8.0",
     "babel-eslint": "^6.0.4",
-    "babel-plugin-transform-flow-strip-types": "^6.8.0",
     "babel-plugin-transform-runtime": "^6.12.0",
-    "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-flow": "^1.0.0",
     "babel-preset-stage-1": "^6.5.0",
