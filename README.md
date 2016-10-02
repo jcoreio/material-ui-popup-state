@@ -9,7 +9,6 @@ This is my personal skeleton for creating an ES2015 library component npm module
 * babel 6
 * mocha
 * chai
-* sinon
 * isparta
 * istanbul
 * eslint

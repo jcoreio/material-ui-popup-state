@@ -1,6 +1,6 @@
 coverage
-examples
 test
+scripts
 node_modules
 .babelrc
 .eslintrc

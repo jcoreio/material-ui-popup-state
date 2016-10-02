@@ -1,8 +1,5 @@
 {
   "extends": [
     "eslint-config-andy"
-  ],
-  "env": {
-    "node": true
-  }
+  ]
 }
