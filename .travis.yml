@@ -5,5 +5,3 @@ node_js:
   - "6"
 before_install:
   - npm config set progress false
-script:
-  - npm run prepublish
