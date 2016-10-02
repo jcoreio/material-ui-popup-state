@@ -8,7 +8,7 @@
     "lint:fix": "eslint --fix src test",
     "lint:watch": "esw --watch src test",
     "flow": "flow",
-    "flow:watch": "supervisor -q -n exit -w .flowconfig,.eslintrc,.babelrc,scripts,src,test -e flowconfig,eslintrc,babelrc,node,js -x node scripts/flow-watch.js",
+    "flow:watch": "nodemon --ignore lib/ --ignore node_modules/ --watch .flowconfig scripts/flow-watch.js",
     "test": "mocha $npm_package_config_mocha",
     "coverage": "babel-node ./node_modules/.bin/isparta cover --report lcov _mocha -- $npm_package_config_mocha",
     "prepublish": "npm run lint:fix && flow && npm run coverage && rimraf lib && babel src --out-dir lib",
@@ -47,8 +47,8 @@
     "isparta": "^4.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.0",
-    "rimraf": "^2.5.4",
-    "supervisor": "^0.11.0"
+    "nodemon": "^1.10.2",
+    "rimraf": "^2.5.4"
   },
   "dependencies": {}
 }
