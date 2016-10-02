@@ -14,5 +14,6 @@ This is my personal skeleton for creating an ES2015 library npm package.  You ar
 * eslint
 * eslint-watch
 * flow
+* flow-watch
 
 The `prepublish` script checks the output of `eslint` and `flow` and runs tests.
