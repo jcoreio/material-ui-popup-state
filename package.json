@@ -8,10 +8,10 @@
     "lint:fix": "eslint --fix src test",
     "lint:watch": "esw --watch src test",
     "flow": "flow",
-    "flow:watch": "nodemon --ignore lib/ --ignore node_modules/ --watch .flowconfig scripts/flow-watch.js",
+    "flow:watch": "flow-watch --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch scripts/ --watch test/",
     "test": "mocha $npm_package_config_mocha",
     "coverage": "babel-node ./node_modules/.bin/isparta cover --report lcov _mocha -- $npm_package_config_mocha",
-    "prepublish": "npm run lint:fix && flow && npm run coverage && rimraf lib && babel src --out-dir lib",
+    "prepublish": "npm run lint && flow && npm run coverage && rimraf lib && babel src --out-dir lib",
     "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version"
   },
   "config": {
@@ -44,10 +44,10 @@
     "eslint-config-andy": "github:jedwards1211/eslint-config-andy#2.0.0-beta7",
     "eslint-watch": "^2.1.14",
     "flow-bin": "^0.33.0",
+    "flow-watch": "^1.0.0",
     "isparta": "^4.0.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.0",
-    "nodemon": "^1.10.2",
     "rimraf": "^2.5.4"
   },
   "dependencies": {}
