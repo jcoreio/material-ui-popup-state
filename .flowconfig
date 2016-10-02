@@ -1,19 +1,13 @@
 [ignore]
-<PROJECT_ROOT>/test/.*
-.*/node_modules/react/.*
-.*/node_modules/fbjs/.*
-.*/node_modules/json5/.*
-.*/node_modules/babel.*
-.*/node_modules/npmconf.*
-.*/node_modules/y18n.*
-.*/node_modules/config-chain.*
 
 [include]
+./src
+./test
 
 [libs]
 
 [options]
-module.system=haste
+module.system=node
 module.name_mapper='.*\.sass$' -> 'empty/object'
 module.name_mapper='.*\.scss$' -> 'empty/object'
 module.name_mapper='.*\.css$' -> 'empty/object'
