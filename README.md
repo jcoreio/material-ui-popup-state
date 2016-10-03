@@ -10,8 +10,9 @@ This is my personal skeleton for creating an ES2015 library npm package.  You ar
 * babel 6
 * mocha
 * chai
-* isparta
 * istanbul
+* nyc
+* babel-plugin-istanbul
 * eslint
 * eslint-watch
 * flow

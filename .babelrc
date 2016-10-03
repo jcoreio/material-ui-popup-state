@@ -1,4 +1,9 @@
 {
   "presets": ["es2015", "stage-1", "flow"],
-  "plugins": ["transform-runtime"]
+  "plugins": ["transform-runtime"],
+  "env": {
+    "coverage": {
+      "plugins": ["istanbul"]
+    }
+  }
 }
