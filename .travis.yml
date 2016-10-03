@@ -6,5 +6,4 @@ node_js:
 before_install:
   - npm config set progress false
 script:
-  - npm run coverage
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
