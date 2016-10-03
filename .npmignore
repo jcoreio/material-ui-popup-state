@@ -1,4 +1,5 @@
 coverage
+.nyc_output
 test
 node_modules
 .babelrc
