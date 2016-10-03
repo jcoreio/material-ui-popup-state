@@ -1,3 +1,4 @@
 /* @flow */
 
-process.stdout.write('Hello world!')
+/* eslint-disable no-console, no-undef */
+console.log('Hello world!')
