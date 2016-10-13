@@ -1,4 +1,5 @@
 // @flow
+/* eslint-env es6 */
 
 async function asyncScript(run: () => Promise<*>, options?: {exitOnSuccess?: boolean} = {}): Promise<any> {
   try {
