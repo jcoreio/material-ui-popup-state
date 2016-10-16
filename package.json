@@ -35,7 +35,9 @@
     "url": "git+https://github.com/jedwards1211/react-library-skeleton.git"
   },
   "keywords": [
-    "es2015"
+    "es2015",
+    "react",
+    "skeleton"
   ],
   "author": "Andy Edwards",
   "license": "MIT",
