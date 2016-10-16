@@ -1,6 +1,6 @@
 {
   "name": "react-library-skeleton",
-  "version": "3.0.0",
+  "version": "5.0.0",
   "description": "my personal skeleton for React library NPM packages",
   "main": "lib/index.js",
   "scripts": {
