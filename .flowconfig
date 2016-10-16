@@ -15,4 +15,4 @@ module.name_mapper='.*\.scss$' -> 'empty/object'
 module.name_mapper='.*\.css$' -> 'empty/object'
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
-suppress_comment= \\(.\\|\n\\)*\\flow-issue(react-library-skeleton)
+suppress_comment= \\(.\\|\n\\)*\\flow-issue
