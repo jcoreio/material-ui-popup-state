@@ -1,9 +1,9 @@
-# es2015-library-skeleton
+# react-library-skeleton
 
-[![Build Status](https://travis-ci.org/jedwards1211/es2015-library-skeleton.svg?branch=master)](https://travis-ci.org/jedwards1211/es2015-library-skeleton)
-[![Coverage Status](https://coveralls.io/repos/github/jedwards1211/es2015-library-skeleton/badge.svg?branch=master)](https://coveralls.io/github/jedwards1211/es2015-library-skeleton?branch=master)
+[![Build Status](https://travis-ci.org/jedwards1211/react-library-skeleton.svg?branch=master)](https://travis-ci.org/jedwards1211/react-library-skeleton)
+[![Coverage Status](https://coveralls.io/repos/github/jedwards1211/react-library-skeleton/badge.svg?branch=master)](https://coveralls.io/github/jedwards1211/react-library-skeleton?branch=master)
 
-This is my personal skeleton for creating an ES2015 library npm package.  You are welcome to use it.
+This is my personal skeleton for creating a React library npm package.  You are welcome to use it.
 
 ## Tools used
 
@@ -17,6 +17,8 @@ This is my personal skeleton for creating an ES2015 library npm package.  You ar
 * eslint-watch
 * flow
 * flow-watch
+* enzyme
+* jsdom
 * Travis CI
 * Coveralls
 

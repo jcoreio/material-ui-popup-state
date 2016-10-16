@@ -1,4 +1,7 @@
 /* @flow */
 
-/* eslint-disable no-console, no-undef */
-console.log('Hello world!')
+import React from 'react'
+
+const Hello = () => <div>Hello world!</div>
+
+export default Hello

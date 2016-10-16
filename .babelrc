@@ -1,9 +1,12 @@
 {
-  "presets": ["es2015", "stage-1", "flow"],
+  "presets": ["es2015", "stage-1", "flow", "react"],
   "plugins": ["transform-runtime"],
   "env": {
     "coverage": {
       "plugins": ["istanbul"]
+    },
+    "production": {
+      "plugins": ["transform-react-constant-elements"]
     }
   }
 }
