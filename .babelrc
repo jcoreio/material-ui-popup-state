@@ -5,6 +5,9 @@
     "test": {
       "plugins": ["istanbul"]
     },
+    "development": {
+      "plugins": ["flow-react-proptypes"]
+    },
     "production": {
       "plugins": ["transform-react-constant-elements"]
     }
