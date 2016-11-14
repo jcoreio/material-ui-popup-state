@@ -58,6 +58,7 @@
     "es6-promisify": "^5.0.0",
     "eslint": "^3.7.0",
     "eslint-config-andy": "github:jedwards1211/eslint-config-andy#2.0.0-beta7",
+    "eslint-config-andy-flow": "github:jedwards1211/eslint-config-andy-flow#1.0.0-beta2",
     "eslint-watch": "^2.1.14",
     "flow-bin": "^0.35.0",
     "flow-watch": "^1.0.0",

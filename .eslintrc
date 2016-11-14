@@ -1,5 +1,5 @@
 {
   "extends": [
-    "eslint-config-andy"
+    "eslint-config-andy", "eslint-config-andy-flow"
   ]
 }
