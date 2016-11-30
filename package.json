@@ -11,9 +11,10 @@
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
     "gen-flow-files": "flow gen-flow-files src/ --out-dir lib",
+    "copy-flow-files": "cd src; for file in *.js.flow **/*.js.flow; do mkdir -p ../lib/$(dirname $file) && cp $file ../lib/$file && echo \"$file -> ../lib/$file\"; done",
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
-    "prepublish": "npm run lint && flow && npm test && npm run build",
+    "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version"
   },
   "config": {
