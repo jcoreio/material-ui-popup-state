@@ -1,12 +1,9 @@
 {
   "presets": ["es2015", "stage-1", "flow", "react"],
-  "plugins": ["transform-runtime"],
+  "plugins": ["transform-runtime", "flow-react-proptypes"],
   "env": {
     "test": {
       "plugins": ["istanbul"]
-    },
-    "development": {
-      "plugins": ["flow-react-proptypes"]
     },
     "production": {
       "plugins": ["transform-react-constant-elements"]
