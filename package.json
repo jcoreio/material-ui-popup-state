@@ -15,7 +15,8 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version"
+    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version",
+    "open:coverage": "open coverage/lcov-report/index.html"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register ./test/**/*.js"
