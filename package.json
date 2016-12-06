@@ -4,9 +4,9 @@
   "description": "my personal skeleton for React library NPM packages",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src test",
-    "lint:fix": "eslint --fix src test",
-    "lint:watch": "esw --watch src test",
+    "lint": "eslint src test stories",
+    "lint:fix": "eslint --fix src test stories",
+    "lint:watch": "esw --watch src test stories",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
@@ -15,7 +15,9 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version"
+    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**.js"
@@ -84,7 +86,8 @@
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.2",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "@kadira/storybook": "^2.21.0"
   },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0"

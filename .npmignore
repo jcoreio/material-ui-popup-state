@@ -1,9 +1,11 @@
-coverage
-.nyc_output
-test
-scripts
-node_modules
 .babelrc
 .eslintrc
 .flowconfig
+.nyc_output
+.storybook
 .travis.yml
+coverage
+node_modules
+test
+stories
+
