@@ -1,5 +1,4 @@
 .nyc_output
-.storybook
 coverage
 node_modules
 lib
