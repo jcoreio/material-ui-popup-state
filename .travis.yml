@@ -1,9 +1,19 @@
 language: node_js
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
 node_js:
-  - "4"
-  - "5"
-  - "6"
-before_install:
-  - npm config set progress false
+  - '7'
+  - '6'
+  - '4'
+before_script:
+  - npm prune
 script:
   - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_success:
+  - npm run semantic-release
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/

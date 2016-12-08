@@ -1,6 +1,6 @@
 {
   "name": "es2015-library-skeleton",
-  "version": "3.0.0",
+  "version": "0.0.0-development",
   "description": "my personal skeleton for ES2015 library NPM packages",
   "main": "lib/index.js",
   "scripts": {
@@ -15,8 +15,8 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register ./test/**/*.js"
@@ -33,7 +33,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedwards1211/es2015-library-skeleton.git"
+    "url": "https://github.com/jedwards1211/es2015-library-skeleton.git"
   },
   "keywords": [
     "es2015"
@@ -69,7 +69,8 @@
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
     "pre-commit": "^1.1.3",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "semantic-release": "^6.3.2"
   },
   "dependencies": {},
   "pre-commit": [
