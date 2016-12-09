@@ -18,8 +18,7 @@ This is my personal skeleton for creating an ES2015 library npm package.  You ar
 * eslint-watch
 * flow
 * flow-watch
+* pre-commit (runs eslnt and flow)
+* semantic-release
 * Travis CI
 * Coveralls
-* semantic-release
-
-The `prepublish` script checks the output of `eslint` and `flow` and runs tests.
