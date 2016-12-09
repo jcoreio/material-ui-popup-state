@@ -9,7 +9,7 @@
     "lint:watch": "esw --watch src test stories",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "flow:watch": "flow-watch --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
+    "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
     "gen-flow-files": "flow gen-flow-files src/ --out-dir lib",
     "copy-flow-files": "cd src; copy *.js.flow **/*.js.flow ../lib",
     "build": "rimraf lib && babel src --out-dir lib",
@@ -17,7 +17,8 @@
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "open:coverage": "open coverage/lcov-report/index.html"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**.js"
@@ -65,7 +66,6 @@
     "copy": "^0.3.0",
     "coveralls": "^2.11.15",
     "enzyme": "^2.4.1",
-    "es6-promisify": "^5.0.0",
     "eslint": "^3.11.1",
     "eslint-config-andy": "github:jedwards1211/eslint-config-andy#2.0.0-beta7",
     "eslint-config-andy-flow": "github:jedwards1211/eslint-config-andy-flow#1.0.0-beta2",
@@ -74,8 +74,7 @@
     "eslint-plugin-react": "^6.4.1",
     "eslint-watch": "^2.1.14",
     "flow-bin": "^0.36.0",
-    "flow-watch": "^1.0.0",
-    "glob": "^7.1.1",
+    "flow-watch": "^1.1.0",
     "istanbul": "^0.4.5",
     "jsdom": "^9.8.0",
     "jsdom-global": "^2.1.0",

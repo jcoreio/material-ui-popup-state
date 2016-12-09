@@ -21,5 +21,6 @@ This is my personal skeleton for creating a React library npm package.  You are 
 * jsdom
 * Travis CI
 * Coveralls
+* pre-commit (runs eslnt and flow)
 
 The `prepublish` script checks the output of `eslint` and `flow` and runs tests.
