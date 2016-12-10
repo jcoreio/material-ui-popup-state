@@ -1,5 +1,5 @@
 {
   "extends": [
-    "eslint-config-andy-react", "eslint-config-andy-flow"
+    "@jedwards1211/eslint-config-react", "@jedwards1211/eslint-config-flow"
   ]
 }
