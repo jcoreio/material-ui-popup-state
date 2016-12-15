@@ -14,12 +14,18 @@
     "copy-flow-files": "cd src; copy *.js.flow **/*.js.flow ../lib",
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
+    "commitmsg": "validate-commit-msg",
+    "precommit": "npm run lint && flow",
+    "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
-    "mocha": "--compilers js:babel-core/register ./test/**/*.js"
+    "mocha": "--compilers js:babel-core/register ./test/**/*.js",
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "nyc": {
     "include": [
@@ -65,16 +71,13 @@
     "eslint-watch": "^2.1.14",
     "flow-bin": "^0.36.0",
     "flow-watch": "^1.1.0",
+    "husky": "^0.12.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "pre-commit": "^1.1.3",
     "rimraf": "^2.5.4",
-    "semantic-release": "^6.3.2"
+    "semantic-release": "^6.3.2",
+    "validate-commit-msg": "^2.8.2"
   },
-  "dependencies": {},
-  "pre-commit": [
-    "lint",
-    "flow"
-  ]
+  "dependencies": {}
 }
