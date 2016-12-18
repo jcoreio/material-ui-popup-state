@@ -18,8 +18,7 @@
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "open:coverage": "open coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "open:coverage": "open coverage/lcov-report/index.html"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register ./test/**/*.js",
@@ -76,7 +75,6 @@
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
     "rimraf": "^2.5.4",
-    "semantic-release": "^6.3.2",
     "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {}
