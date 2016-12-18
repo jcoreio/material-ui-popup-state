@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jedwards1211/react-library-skeleton.svg?branch=master)](https://travis-ci.org/jedwards1211/react-library-skeleton)
 [![Coverage Status](https://coveralls.io/repos/github/jedwards1211/react-library-skeleton/badge.svg?branch=master)](https://coveralls.io/github/jedwards1211/react-library-skeleton?branch=master)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 This is my personal skeleton for creating a React library npm package.  You are welcome to use it.
 
@@ -19,8 +20,10 @@ This is my personal skeleton for creating a React library npm package.  You are 
 * flow-watch
 * enzyme
 * jsdom
+* husky
+  * commitmsg: uses validate-commit-msg
+  * precommit: runs lint and flow
+  * prepush: runs test
 * Travis CI
 * Coveralls
-* pre-commit (runs eslnt and flow)
 
-The `prepublish` script checks the output of `eslint` and `flow` and runs tests.

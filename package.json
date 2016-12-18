@@ -14,14 +14,19 @@
     "copy-flow-files": "cd src; copy *.js.flow **/*.js.flow ../lib",
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
+    "commitmsg": "validate-commit-msg",
+    "precommit": "npm run lint && flow",
+    "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "postpublish": "git tag -a v$npm_package_version -m v$npm_package_version && git push origin v$npm_package_version",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "open:coverage": "open coverage/lcov-report/index.html"
   },
   "config": {
-    "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**.js"
+    "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**.js",
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "nyc": {
     "include": [
@@ -75,24 +80,21 @@
     "eslint-watch": "^2.1.14",
     "flow-bin": "^0.36.0",
     "flow-watch": "^1.1.0",
+    "husky": "^0.12.0",
     "istanbul": "^0.4.5",
     "jsdom": "^9.8.0",
     "jsdom-global": "^2.1.0",
     "mocha": "^3.2.0",
     "nyc": "^10.0.0",
-    "pre-commit": "^1.1.3",
     "react": "^15.3.2",
     "react-addons-test-utils": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-hot-loader": "^3.0.0-beta.2",
-    "rimraf": "^2.5.4"
+    "rimraf": "^2.5.4",
+    "validate-commit-msg": "^2.8.2"
   },
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0"
   },
-  "dependencies": {},
-  "pre-commit": [
-    "lint",
-    "flow"
-  ]
+  "dependencies": {}
 }
