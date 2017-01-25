@@ -18,6 +18,7 @@
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
     "open:coverage": "open coverage/lcov-report/index.html"
   },
   "config": {
