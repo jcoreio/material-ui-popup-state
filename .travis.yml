@@ -8,9 +8,9 @@ node_js:
   - '4'
 before_install:
   - npm i -g howardroark/pollinate#feature/keep-history
-before_script:
   - git config --global user.email "jedwards@fastmail.com"
   - git config --global user.name "Andy Edwards"
+before_script:
   - npm prune
 script:
   - cat ./pollinated/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
