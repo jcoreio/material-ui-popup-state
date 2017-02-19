@@ -1,0 +1,22 @@
+{
+  "organization": "jedwards1211",
+  "name": "es2015-library-skeleton",
+  "description": "my personal skeleton for ES2015 library NPM packages",
+  "author": "Andy Edwards",
+  "parse": [
+    "PROJECT-README",
+    "PROJECT-LICENSE",
+    "package.json"
+  ],
+  "discard": [
+    "README.md",
+    "LICENSE.md",
+    "template.json"
+  ],
+  "move": [
+    { "PROJECT-README": "README.md" },
+    { "PROJECT-LICENSE": "LICENSE.md" }
+  ],
+  "complete": "git remote rename origin skeleton && git checkout -b --squash master"
+}
+

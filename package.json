@@ -1,7 +1,7 @@
 {
-  "name": "es2015-library-skeleton",
+  "name": "{{ name }}",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for ES2015 library NPM packages",
+  "description": "{{ description }}",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test",
@@ -39,17 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/es2015-library-skeleton.git"
+    "url": "https://github.com/{{ organization }}/{{ name }}.git"
   },
   "keywords": [
     "es2015"
   ],
-  "author": "Andy Edwards",
+  "author": "{{ author }}",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedwards1211/es2015-library-skeleton/issues"
+    "url": "https://github.com/{{ organization }}/{{ name }}/issues"
   },
-  "homepage": "https://github.com/jedwards1211/es2015-library-skeleton#readme",
+  "homepage": "https://github.com/{{ organization }}/{{ name }}#readme",
   "devDependencies": {
     "@jedwards1211/eslint-config": "^1.0.0",
     "@jedwards1211/eslint-config-flow": "^1.0.0",
