@@ -12,6 +12,6 @@ before_install:
   - git config --global user.name "Andy Edwards"
 before_script:
   - npm prune
-script:
-  - cat ./pollinated/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_script:
+  - cd pollinated && cat ./coverage/lcov.info | ./coveralls/bin/coveralls.js
 

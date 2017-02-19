@@ -10,7 +10,7 @@
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
-    "test": "rimraf pollinated && pollinate https://github.com/jedwards1211/es2015-library-skeleton.git#$(git rev-parse --abbrev-ref HEAD) --name pollinated --keep-history && cd pollinated && npm i && cd .. && rimraf pollinated",
+    "test": "rimraf pollinated && pollinate https://github.com/jedwards1211/es2015-library-skeleton.git#$(git rev-parse --abbrev-ref HEAD) --name pollinated --keep-history && cd pollinated && npm i",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
