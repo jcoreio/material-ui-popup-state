@@ -14,7 +14,6 @@
     "commitmsg": "validate-commit-msg",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
-    "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "open:coverage": "open coverage/lcov-report/index.html"
