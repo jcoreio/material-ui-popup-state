@@ -1,7 +1,7 @@
 {
-  "name": "es2015-library-skeleton",
+  "name": "{{ name }}",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for ES2015 library NPM packages",
+  "description": "{{ description }}",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test",
@@ -10,14 +10,19 @@
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
-    "test": "rimraf pollinated && pollinate git@github.com:jedwards1211/es2015-library-skeleton#pollinate --name pollinated --keep-history && cd pollinated && npm i && cd .. && rimraf pollinated",
+    "gen-flow-files": "flow gen-flow-files src/ --out-dir lib",
+    "copy-flow-files": "cd src; copy *.js.flow **/*.js.flow ../lib",
+    "build": "rimraf lib && babel src --out-dir lib",
+    "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
+    "mocha": "--compilers js:babel-core/register ./test/**/*.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -34,17 +39,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/es2015-library-skeleton.git"
+    "url": "https://github.com/{{ organization }}/{{ name }}.git"
   },
   "keywords": [
     "es2015"
   ],
-  "author": "Andy Edwards",
+  "author": "{{ author }}",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedwards1211/es2015-library-skeleton/issues"
+    "url": "https://github.com/{{ organization }}/{{ name }}/issues"
   },
-  "homepage": "https://github.com/jedwards1211/es2015-library-skeleton#readme",
+  "homepage": "https://github.com/{{ organization }}/{{ name }}#readme",
   "devDependencies": {
     "@jedwards1211/eslint-config": "^1.0.0",
     "@jedwards1211/eslint-config-flow": "^1.0.0",
@@ -58,6 +63,9 @@
     "babel-preset-stage-1": "^6.22.0",
     "babel-register": "^6.22.0",
     "babel-runtime": "^6.22.0",
+    "chai": "^3.5.0",
+    "copy": "^0.3.0",
+    "coveralls": "^2.11.15",
     "eslint": "^3.13.1",
     "eslint-plugin-flowtype": "^2.30.0",
     "eslint-watch": "^2.1.14",
@@ -65,10 +73,11 @@
     "flow-watch": "^1.1.0",
     "husky": "^0.12.0",
     "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.5.4",
+    "semantic-release": "^6.3.2",
     "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {}
 }
-
