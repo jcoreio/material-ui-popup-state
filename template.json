@@ -21,6 +21,6 @@
     { "PROJECT-package.json": "package.json" },
     { "PROJECT-.travis.yml": ".travis.yml" }
   ],
-  "complete": "cd {{ name }} && git remote rename origin skeleton && git add . && git commit -n -m 'pollinate project'"
+  "complete": "cd {{ name }} && git remote rename origin skeleton && git add --all . && git commit -n -m 'pollinate project'"
 }
 
