@@ -11,5 +11,5 @@ before_install:
 before_script:
   - npm prune
 script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - cat ./pollinated/coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
 
