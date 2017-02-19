@@ -17,6 +17,6 @@
     { "PROJECT-README": "README.md" },
     { "PROJECT-LICENSE": "LICENSE.md" }
   ],
-  "complete": "cd {{ name }} && git remote rename origin skeleton && git checkout -b master"
+  "complete": "cd {{ name }} && git remote rename origin skeleton && git add . && git commit -n -m 'pollinate project'"
 }
 
