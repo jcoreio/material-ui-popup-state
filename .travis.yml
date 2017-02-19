@@ -13,5 +13,5 @@ before_install:
 before_script:
   - npm prune
 after_script:
-  - cd pollinated && cat ./coverage/lcov.info | ./coveralls/bin/coveralls.js
+  - cd pollinated && cat coverage/lcov.info | node_modules/bin/coveralls.js
 
