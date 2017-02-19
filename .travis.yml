@@ -2,14 +2,16 @@ language: node_js
 cache:
   directories:
     - node_modules
-notifications:
-  email: false
 node_js:
   - '7'
   - '6'
   - '4'
+before_install:
+  - npm i -g howardroark/pollinate#feature/keep-history
+  - git config --global user.email "jedwards@fastmail.com"
+  - git config --global user.name "Andy Edwards"
 before_script:
   - npm prune
-script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+after_script:
+  - cd pollinated && cat coverage/lcov.info | node_modules/coveralls/bin/coveralls.js
 
