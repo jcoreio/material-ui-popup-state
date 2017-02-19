@@ -17,6 +17,6 @@
     { "PROJECT-README": "README.md" },
     { "PROJECT-LICENSE": "LICENSE.md" }
   ],
-  "complete": "git remote rename origin skeleton && git checkout -b --squash master"
+  "complete": "cd {{ name }} && git remote rename origin skeleton && git checkout -b --squash master"
 }
 
