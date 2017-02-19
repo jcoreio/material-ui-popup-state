@@ -18,11 +18,13 @@
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
-    "mocha": "--compilers js:babel-core/register ./test/**/*.js",
+    "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**/*.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
