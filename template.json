@@ -6,8 +6,7 @@
   "parse": [
     "PROJECT-README",
     "PROJECT-LICENSE",
-    "PROJECT-package.json",
-    "complete.sh"
+    "PROJECT-package.json"
   ],
   "discard": [
     "README.md",
@@ -18,6 +17,6 @@
     { "PROJECT-README": "README.md" },
     { "PROJECT-LICENSE": "LICENSE.md" }
   ],
-  "complete": "./complete.sh"
+  "complete": "cd {{ name }} && ./complete.sh"
 }
 
