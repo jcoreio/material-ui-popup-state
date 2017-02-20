@@ -73,7 +73,6 @@
     "flow-watch": "^1.1.0",
     "husky": "^0.13.1",
     "istanbul": "^0.4.5",
-    "lodash.merge": "^4.6.0",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.5.4",
