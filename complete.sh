@@ -7,5 +7,5 @@ npm i lodash.merge
 npm rm lodash.merge
 rm merge-package-json.js PROJECT-package.json complete.sh
 git add --all .
-git commit -n -m 'pollinate project'"
+git commit -n -m 'pollinate project'
 
