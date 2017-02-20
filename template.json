@@ -6,21 +6,18 @@
   "parse": [
     "PROJECT-README",
     "PROJECT-LICENSE",
-    "PROJECT-package.json"
+    "PROJECT-package.json",
+    "complete.sh"
   ],
   "discard": [
     "README.md",
     "LICENSE.md",
-    "package.json",
-    "template.json",
-    ".travis.yml"
+    "template.json"
   ],
   "move": [
     { "PROJECT-README": "README.md" },
-    { "PROJECT-LICENSE": "LICENSE.md" },
-    { "PROJECT-package.json": "package.json" },
-    { "PROJECT-.travis.yml": ".travis.yml" }
+    { "PROJECT-LICENSE": "LICENSE.md" }
   ],
-  "complete": "cd {{ name }} && git remote rename origin skeleton && git add --all . && git commit -n -m 'pollinate project'"
+  "complete": "./complete.sh"
 }
 

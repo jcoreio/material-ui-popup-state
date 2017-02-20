@@ -1,7 +1,7 @@
 {
   "name": "es2015-library-skeleton",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for ES2015 library NPM packages",
+  "description": "my personal ES2015 library project skeleton",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test",
@@ -10,13 +10,19 @@
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
-    "test": "rimraf pollinated && pollinate https://github.com/jedwards1211/es2015-library-skeleton.git#$(git rev-parse --abbrev-ref HEAD) --name pollinated --keep-history && cd pollinated && npm i",
+    "gen-flow-files": "flow gen-flow-files src/ --out-dir lib",
+    "copy-flow-files": "cd src; copy *.js.flow **/*.js.flow ../lib",
+    "build": "rimraf lib && babel src --out-dir lib",
+    "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
+    "mocha": "--compilers js:babel-core/register ./test/**/*.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -57,6 +63,9 @@
     "babel-preset-stage-1": "^6.22.0",
     "babel-register": "^6.22.0",
     "babel-runtime": "^6.22.0",
+    "chai": "^3.5.0",
+    "copy": "^0.3.0",
+    "coveralls": "^2.11.16",
     "eslint": "^3.13.1",
     "eslint-plugin-flowtype": "^2.30.0",
     "eslint-watch": "^3.0.0",
@@ -64,8 +73,11 @@
     "flow-watch": "^1.1.0",
     "husky": "^0.13.1",
     "istanbul": "^0.4.5",
+    "lodash.merge": "^4.6.0",
+    "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.5.4",
+    "semantic-release": "^6.3.6",
     "validate-commit-msg": "^2.8.2"
   },
   "dependencies": {}
