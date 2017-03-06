@@ -1,5 +1,5 @@
 {
-  "name": "{{ name }}",
+  "name": "{% if scope %}@{{ scope }}/{% endif %}{{ name }}",
   "version": "0.0.0-development",
   "description": "{{ description }}",
   "repository": {
