@@ -10,6 +10,6 @@
 ## Usage
 
 ```sh
-npm install --save {% if scope %}{{ scope }}@{% endif %}{{ name }}
+npm install --save {% if scope %}@{{ scope }}/{% endif %}{{ name }}
 ```
 
