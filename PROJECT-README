@@ -7,3 +7,9 @@
 
 {{ description }}
 
+## Usage
+
+```sh
+npm install --save {% if scope %}{{ scope }}@{% endif %}{{ name }}
+```
+

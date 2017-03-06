@@ -1,5 +1,6 @@
 {
   "organization": "jedwards1211",
+  "scope": "",
   "name": "es2015-library-skeleton",
   "description": "my personal skeleton for ES2015 library NPM packages",
   "author": "Andy Edwards",
@@ -8,9 +9,13 @@
     "PROJECT-LICENSE",
     "PROJECT-package.json"
   ],
+  "merge": [
+    ["package.json", "PROJECT-package.json"]
+  ],
   "discard": [
     "README.md",
     "LICENSE.md",
+    "PROJECT-package.json",
     "template.json"
   ],
   "move": [
