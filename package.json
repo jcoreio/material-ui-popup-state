@@ -1,7 +1,7 @@
 {
   "name": "es2015-library-skeleton",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for ES2015 library NPM packages",
+  "description": "my personal ES2015 library project skeleton",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint src test",
@@ -19,7 +19,8 @@
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
-    "open:coverage": "open coverage/lcov-report/index.html"
+    "open:coverage": "open coverage/lcov-report/index.html",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register ./test/**/*.js",
@@ -76,6 +77,7 @@
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.6.0",
+    "semantic-release": "^6.3.6",
     "validate-commit-msg": "^2.11.1"
   },
   "dependencies": {}
