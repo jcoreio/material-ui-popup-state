@@ -10,9 +10,8 @@ This is my personal skeleton for creating a React library npm package.  You are 
 ## Quick start
 
 ```sh
-# this PR of mine will hopefully be merged soon
-npm i -g howardroark/pollinate#keep-history
-pollinate https://github.com/jedwards1211/react-library-skeleton.git#pollinate --name <package name> --author <your name> --organization <github organization> --description <package description>
+npm i -g howardroark/pollinate
+pollinate https://github.com/jedwards1211/react-library-skeleton.git --keep-history --name <package name> --author <your name> --organization <github organization> --description <package description>
 cd <package name>
 npm i
 ```
@@ -32,9 +31,9 @@ npm i
 * enzyme
 * jsdom
 * husky
-  * commitmsg: uses validate-commit-msg
-  * precommit: runs lint and flow
-  * prepush: runs test
+  * commitmsg: uses `validate-commit-msg`
+  * precommit: runs `eslint` and `flow`
+  * prepush: runs tests
 * semantic-release
 * Travis CI
 * Coveralls
