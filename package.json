@@ -55,12 +55,12 @@
   "homepage": "https://github.com/jedwards1211/react-library-skeleton#readme",
   "devDependencies": {
     "@jedwards1211/eslint-config-flow": "^1.0.0",
-    "@jedwards1211/eslint-config-react": "^1.0.1",
+    "@jedwards1211/eslint-config-react": "^2.0.0",
     "@kadira/storybook": "^2.35.2",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
-    "babel-plugin-flow-react-proptypes": "^0.21.0",
+    "babel-plugin-flow-react-proptypes": "^2.2.1",
     "babel-plugin-istanbul": "^4.0.0",
     "babel-plugin-transform-react-constant-elements": "^6.9.1",
     "babel-plugin-transform-runtime": "^6.22.0",
@@ -76,14 +76,14 @@
     "enzyme": "^2.7.0",
     "eslint": "^3.13.1",
     "eslint-plugin-flowtype": "^2.30.0",
-    "eslint-plugin-react": "^6.8.0",
+    "eslint-plugin-react": "^7.0.0",
     "eslint-watch": "^3.0.0",
-    "flow-bin": "^0.41.0",
+    "flow-bin": "^0.46.0",
     "flow-watch": "^1.1.0",
     "husky": "^0.13.1",
     "istanbul": "^0.4.5",
-    "jsdom": "^9.9.1",
-    "jsdom-global": "^2.1.1",
+    "jsdom": "^10.1.0",
+    "jsdom-global": "^3.0.2",
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "react": "^15.4.2",
@@ -97,5 +97,7 @@
   "peerDependencies": {
     "react": "0.14.x || ^15.0.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "prop-types": "^15.0.0"
+  }
 }
