@@ -20,7 +20,9 @@
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build && npm run copy-flow-files",
     "open:coverage": "open coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register -r jsdom-global/register ./test/**.js",
@@ -55,8 +57,8 @@
   "homepage": "https://github.com/jedwards1211/react-library-skeleton#readme",
   "devDependencies": {
     "@jedwards1211/eslint-config-flow": "^1.0.0",
-    "@jedwards1211/eslint-config-react": "^2.0.0",
-    "@kadira/storybook": "^2.35.2",
+    "@jedwards1211/eslint-config-react": "^2.0.1",
+    "@storybook/react": "^3.1.6",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
