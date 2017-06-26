@@ -6,9 +6,9 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.0.tgz#306baa90573f772342f53bef67ef4f2fe3f7cb8c"
 
-"@jedwards1211/eslint-config-react@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-react/-/eslint-config-react-2.0.0.tgz#70fed67f254254a90e0d0574a9004455188ed297"
+"@jedwards1211/eslint-config-react@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-react/-/eslint-config-react-2.0.1.tgz#8f5f8e2240b88dea1926535d46ff24ab1735ee61"
   dependencies:
     "@jedwards1211/eslint-config" "^1.0.0"
 
