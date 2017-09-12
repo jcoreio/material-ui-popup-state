@@ -11,7 +11,7 @@ node_js:
 before_script:
   - npm prune
 script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm run codecov
 after_success:
   - npm run semantic-release
 branches:
