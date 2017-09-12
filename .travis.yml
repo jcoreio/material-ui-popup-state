@@ -4,14 +4,11 @@ cache:
     - node_modules
 notifications:
   email: false
-node_js:
-  - '7'
-  - '6'
-  - '4'
+node_js: '7'
 before_script:
   - npm prune
 script:
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm run codecov
 after_success:
   - npm run semantic-release
 branches:

@@ -15,6 +15,7 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "test": "NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "test:watch": "mocha --watch $npm_package_config_mocha",
+    "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
     "commitmsg": "validate-commit-msg",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
@@ -72,7 +73,6 @@
     "babel-runtime": "^6.22.0",
     "chai": "^3.5.0",
     "copy": "^0.3.0",
-    "coveralls": "^2.11.16",
     "enzyme": "^2.7.0",
     "eslint": "^3.13.1",
     "eslint-plugin-flowtype": "^2.30.0",
@@ -98,6 +98,7 @@
     "react": "0.14.x || ^15.0.0"
   },
   "dependencies": {
+    "codecov": "^2.3.0",
     "prop-types": "^15.0.0"
   }
 }
