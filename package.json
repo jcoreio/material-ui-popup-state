@@ -80,5 +80,5 @@
     "rimraf": "^2.6.0",
     "semantic-release": "^6.3.6",
     "validate-commit-msg": "^2.11.1"
-  },
+  }
 }
