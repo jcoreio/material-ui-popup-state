@@ -7,9 +7,8 @@ notifications:
 node_js: '7'
 before_script:
   - npm prune
-script:
-  - npm run codecov
 after_success:
+  - npm run codecov
   - npm run semantic-release
 branches:
   except:
