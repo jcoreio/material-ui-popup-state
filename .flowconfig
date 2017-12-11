@@ -1,6 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
-.*/node_modules/.*/tests?/.*\.json
+<PROJECT_ROOT>/node_modules/.*/tests?/.*\.json
 
 [include]
 ./src
@@ -10,9 +10,6 @@
 
 [options]
 module.system=node
-module.name_mapper='.*\.sass$' -> 'empty/object'
-module.name_mapper='.*\.scss$' -> 'empty/object'
-module.name_mapper='.*\.css$' -> 'empty/object'
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
-suppress_comment= \\(.\\|\n\\)*\\flow-issue
+
