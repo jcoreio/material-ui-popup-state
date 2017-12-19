@@ -4,9 +4,9 @@
   "description": "my personal ES2015 library project skeleton",
   "main": "lib/index.js",
   "scripts": {
-    "lint": "eslint src test",
-    "lint:fix": "eslint --fix src test",
-    "lint:watch": "esw --watch src test",
+    "lint": "eslint src test --cache",
+    "lint:fix": "eslint --fix src test --cache",
+    "lint:watch": "esw --watch src test --cache",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
