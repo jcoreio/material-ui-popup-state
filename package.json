@@ -19,7 +19,7 @@
     "prepush": "npm test",
     "prepublish": "npm run lint && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release"
   },
   "config": {
     "mocha": "--compilers js:babel-core/register ./test/**/*.js",
@@ -79,6 +79,6 @@
     "mocha": "^3.2.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.6.0",
-    "semantic-release": "^6.3.6"
+    "semantic-release": "^11.0.0"
   }
 }

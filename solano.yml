@@ -1,0 +1,25 @@
+nodejs:
+  version:
+    SPLIT:
+      - 8
+      - 7
+      - 6
+
+environment:
+  'CI': 'true'
+
+hooks:
+  pre_setup: yarn --ignore-scripts
+  post_build: npm run codecov && npm run semantic-release
+
+tests:
+  - yarn run prepublish
+
+cache:
+  key_paths:
+    - package.json
+    - yarn.lock  # to freeze packages installed by yarn
+  save_paths:
+    - REPO/node_modules  # Repo's "local" cache
+    - HOME/.yarn         # Yarn's "global" cache
+

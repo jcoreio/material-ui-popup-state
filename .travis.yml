@@ -5,11 +5,9 @@ cache:
 notifications:
   email: false
 node_js:
+  - '8'
   - '7'
   - '6'
-  - '4'
-before_script:
-  - npm prune
 after_success:
   - npm run codecov
   - npm run semantic-release
