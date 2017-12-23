@@ -74,7 +74,7 @@
     "flow-bin": "^0.61.0",
     "flow-copy-source": "^1.2.1",
     "flow-watch": "^1.1.0",
-    "husky": "^0.13.1",
+    "husky": "^0.14.0",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.0",
     "nyc": "^11.0.0",
