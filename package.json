@@ -76,7 +76,7 @@
     "flow-watch": "^1.1.0",
     "husky": "^0.13.1",
     "istanbul": "^0.4.5",
-    "mocha": "^3.2.0",
+    "mocha": "^4.0.0",
     "nyc": "^10.1.2",
     "rimraf": "^2.6.0",
     "semantic-release": "^11.0.0"
