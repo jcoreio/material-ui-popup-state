@@ -1,0 +1,18 @@
+{
+  "extends": [
+    ":separateMajorReleases",
+    ":combinePatchMinorReleases",
+    ":ignoreUnstable",
+    ":prImmediately",
+    ":renovatePrefix",
+    ":updateNotScheduled",
+    ":preserveSemverRanges",
+    ":semanticPrefixFix",
+    ":automergeDisabled",
+    "group:monorepos"
+  ],
+  "automerge": true,
+  "major": {
+    "automerge": false
+  }
+}
