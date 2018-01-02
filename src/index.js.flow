@@ -1,5 +1,0 @@
-// @flow
-
-import React from "react";
-declare export default function Hello(): React$Element<{}>;
-

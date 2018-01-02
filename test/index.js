@@ -1,7 +1,11 @@
-import React from 'react'
-import Hello from '../src/index'
+// @flow
+
+import {describe, it} from 'mocha'
+import * as React from 'react'
 import {mount} from 'enzyme'
 import {expect} from 'chai'
+
+import Hello from '../src/index'
 
 describe('test setup', () => {
   it('works', () => {
