@@ -9,11 +9,11 @@ environment:
   'CI': 'true'
 
 hooks:
-  pre_setup: yarn --ignore-scripts
+  pre_setup: yarn install --ignore-engines --check-files --frozen-lockfile
   post_build: npm run codecov && npm run semantic-release
 
 tests:
-  - yarn run prepublish
+  - yarn run prepublishOnly
 
 cache:
   key_paths:
