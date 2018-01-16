@@ -9,7 +9,7 @@ environment:
   'CI': 'true'
 
 hooks:
-  pre_setup: yarn --ignore-scripts
+  pre_setup: yarn install --ignore-engines --check-files --frozen-lockfile --ignore-scripts
   post_build: npm run codecov && npm run semantic-release
 
 tests:
