@@ -93,10 +93,8 @@
     "nyc": "^11.4.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-hot-loader": "^3.0.0-beta.2",
     "rimraf": "^2.6.0",
-    "semantic-release": "^11.0.0",
-    "validate-commit-msg": "^2.8.2"
+    "semantic-release": "^11.0.0"
   },
   "peerDependencies": {
     "react": "^15.0.0 || ^16.0.0"
