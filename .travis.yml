@@ -14,7 +14,7 @@ script:
   - yarn run prepublishOnly
 after_success:
   - npm run codecov
-  - npm-run travis-deploy-once "npm run semantic-release"
+  - npm run travis-deploy-once "npm run semantic-release"
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/
