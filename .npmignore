@@ -8,4 +8,10 @@ coverage
 node_modules
 test
 stories
+.eslintcache
+.idea
+solano.yml
+renovate.json
+commitlint.config.js
+flow-typed
 
