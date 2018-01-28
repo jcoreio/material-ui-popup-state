@@ -1,6 +1,5 @@
 .babelrc
 .eslintrc
-.flowconfig
 .nyc_output
 .storybook
 .travis.yml
