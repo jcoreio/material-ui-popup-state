@@ -106,9 +106,9 @@
   version "1.0.0"
   resolved "https://registry.npmjs.org/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.0.tgz#306baa90573f772342f53bef67ef4f2fe3f7cb8c"
 
-"@jedwards1211/eslint-config@^1.0.0":
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config/-/eslint-config-1.0.1.tgz#bd1d42b4ebf5e48084781ff5f77cacc4faa88118"
+"@jedwards1211/eslint-config@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/@jedwards1211/eslint-config/-/eslint-config-2.0.0.tgz#9a12391cbdfe449983b7a299a9057dc7afa87cdf"
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
