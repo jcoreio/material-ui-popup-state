@@ -9,7 +9,20 @@ environment:
   'CI': 'true'
 
 hooks:
-  pre_setup: yarn install --ignore-engines --check-files --frozen-lockfile
+  pre_setup: |
+    set -o errexit -o pipefail  # Exit on error
+    # Install yarn if it isn't already present
+    if [ ! -d $HOME/.yarn ]; then
+      wget https://yarnpkg.com/install.sh -O $TMPDIR/yarn-install.sh
+      chmod +x $TMPDIR/yarn-install.sh
+      $TMPDIR/yarn-install.sh --version 1.5.1
+    fi
+    mkdir -p $HOME/bin  # Automatically in $PATH on workers
+    ln -fs $HOME/.yarn/bin/yarn $HOME/bin/yarn
+    yarn config set registry "https://registry.npmjs.org/"
+    echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> $HOME/.npmrc
+    echo "registry=https://registry.npmjs.org/" >> $HOME/.npmrc
+    yarn install --ignore-engines --check-files --frozen-lockfile
   post_build: npm run codecov && npm run semantic-release
 
 tests:
