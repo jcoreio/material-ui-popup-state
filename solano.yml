@@ -1,9 +1,17 @@
-nodejs:
-  version:
-    SPLIT:
-      - '8.9'
-      - '7.10'
-      - '6.13'
+plan:
+  - node_6
+  - node_7
+  - node_8
+profiles:
+  node_6:
+    nodejs:
+      version: '6.11.5'
+  node_7:
+    nodejs:
+      version: '7.10.1'
+  node_8:
+    nodejs:
+      version: '8.9.0'
 
 environment:
   'CI': 'true'
@@ -23,7 +31,19 @@ hooks:
     echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> $HOME/.npmrc
     echo "registry=https://registry.npmjs.org/" >> $HOME/.npmrc
     yarn install --ignore-engines --check-files --frozen-lockfile
-  post_build: npm run codecov && npm run semantic-release
+  post_build: |
+    # Only deploy if all tests have passed
+    if [[ "passed" != "$TDDIUM_BUILD_STATUS" ]]; then
+      echo "\$TDDIUM_BUILD_STATUS = $TDDIUM_BUILD_STATUS"
+      echo "Will only deploy on passed builds"
+      exit
+    fi
+    # Only deploy on 'node_8' profile
+    if [[ "node_8" != "$SOLANO_PROFILE_NAME" ]]; then
+      echo "Will only deploy on 'node_8' profile"
+      exit
+    fi
+    npm run codecov && npm run semantic-release
 
 tests:
   - yarn run prepublishOnly
