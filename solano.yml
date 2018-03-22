@@ -1,9 +1,9 @@
 nodejs:
   version:
     SPLIT:
-      - 8
-      - 7
-      - 6
+      - '8.10'
+      - '7.10'
+      - '6.13'
 
 environment:
   'CI': 'true'
