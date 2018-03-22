@@ -15,7 +15,7 @@ hooks:
     if [ ! -d $HOME/.yarn ]; then
       wget https://yarnpkg.com/install.sh -O $TMPDIR/yarn-install.sh
       chmod +x $TMPDIR/yarn-install.sh
-      $TMPDIR/yarn-install.sh --version 1.5.1
+      bash $TMPDIR/yarn-install.sh --version 1.5.1
     fi
     mkdir -p $HOME/bin  # Automatically in $PATH on workers
     ln -fs $HOME/.yarn/bin/yarn $HOME/bin/yarn
