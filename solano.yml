@@ -43,6 +43,12 @@ hooks:
       echo "Will only deploy on 'node_8' profile"
       exit
     fi
+    git config remote.origin.tagOpt --tags
+    if [ -f .git/shallow ]; then
+      git fetch --unshallow origin
+    else
+      git fetch origin
+    fi
     npm run codecov && npm run semantic-release
 
 tests:
