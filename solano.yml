@@ -13,6 +13,9 @@ profiles:
     nodejs:
       version: '8.9.0'
 
+tool_config:
+  git: 2.0.3
+
 environment:
   'CI': 'true'
 
@@ -42,6 +45,12 @@ hooks:
     if [[ "node_8" != "$SOLANO_PROFILE_NAME" ]]; then
       echo "Will only deploy on 'node_8' profile"
       exit
+    fi
+    git config remote.origin.tagOpt --tags
+    if [ -f .git/shallow ]; then
+      git fetch --unshallow origin
+    else
+      git fetch origin
     fi
     npm run codecov && npm run semantic-release
 
