@@ -46,6 +46,8 @@ hooks:
       echo "Will only deploy on 'node_8' profile"
       exit
     fi
+    eval `ssh-agent`
+    ssh-add ~/.ssh/ci_repo_key
     git config remote.origin.tagOpt --tags
     if [ -f .git/shallow ]; then
       git fetch --unshallow origin
