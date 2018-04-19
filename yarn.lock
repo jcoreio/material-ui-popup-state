@@ -18,6 +18,10 @@
   version "6.0.2"
   resolved "https://registry.npmjs.org/@commitlint/config-conventional/-/config-conventional-6.0.2.tgz#8ef87a6facb75b3377b2760b0e91097f8ec64db4"
 
+"@commitlint/config-conventional@^6.1.3":
+  version "6.1.3"
+  resolved "https://registry.npmjs.org/@commitlint/config-conventional/-/config-conventional-6.1.3.tgz#6c06eeae04c5ac789c3618df4d52aeda89ffb810"
+
 "@commitlint/core@^6.0.2":
   version "6.0.2"
   resolved "https://registry.npmjs.org/@commitlint/core/-/core-6.0.2.tgz#8e79e18d57ea3d30ca4bbfdf028d5f5d0cd3e422"
@@ -101,6 +105,12 @@
   resolved "https://registry.npmjs.org/@commitlint/top-level/-/top-level-6.0.2.tgz#fffc584d7275868b884439e5ab02969dee3d62f5"
   dependencies:
     find-up "^2.1.0"
+
+"@jedwards1211/commitlint-config@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@jedwards1211/commitlint-config/-/commitlint-config-1.0.0.tgz#a3e56e5cd5c78a923c7c49f08fbbdc7b02756fd7"
+  dependencies:
+    "@commitlint/config-conventional" "^6.1.3"
 
 "@jedwards1211/eslint-config-flow@^1.0.0":
   version "1.0.0"
