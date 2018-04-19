@@ -49,12 +49,8 @@ hooks:
     fi
     eval `ssh-agent`
     ssh-add ~/.ssh/ci_repo_key
-    git config remote.origin.tagOpt --tags
-    if [ -f .git/shallow ]; then
-      git fetch --unshallow origin
-    else
-      git fetch origin
-    fi
+    # fetch tags
+    git fetch origin 'refs/tags/*:refs/tags/*' -v
     npm run codecov && npm run semantic-release
 
 tests:
