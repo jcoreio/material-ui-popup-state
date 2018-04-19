@@ -14,7 +14,8 @@ profiles:
       version: '8.9.0'
 
 tool_config:
-  git: 2.0.3
+  git:
+    version: '2.0.3'
 
 environment:
   'CI': 'true'
@@ -46,6 +47,8 @@ hooks:
       echo "Will only deploy on 'node_8' profile"
       exit
     fi
+    eval `ssh-agent`
+    ssh-add ~/.ssh/ci_repo_key
     git config remote.origin.tagOpt --tags
     if [ -f .git/shallow ]; then
       git fetch --unshallow origin
