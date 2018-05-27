@@ -9,7 +9,7 @@
   "env": {
     "test": {
       "presets": [
-        ["env", {"node": "current"}]
+        ["env", {"targets": {"node": "current"}}]
       ],
       "plugins": ["istanbul"]
     },
