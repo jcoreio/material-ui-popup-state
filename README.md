@@ -19,6 +19,7 @@ npm i
 ## Tools used
 
 * babel 6
+* babel-preset-env
 * mocha
 * chai
 * istanbul

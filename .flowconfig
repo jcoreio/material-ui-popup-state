@@ -1,6 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
-<PROJECT_ROOT>/node_modules/.*/tests?/.*\.json
+<PROJECT_ROOT>/es5/.*
 
 [include]
 ./src
@@ -12,4 +12,3 @@
 module.system=node
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
-
