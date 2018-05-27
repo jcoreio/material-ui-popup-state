@@ -7,6 +7,7 @@
     "url": "https://github.com/{{ organization }}/{{ name }}.git"
   },
   "author": "{{ author }}",
+  "keywords": [],
   "bugs": {
     "url": "https://github.com/{{ organization }}/{{ name }}/issues"
   },
