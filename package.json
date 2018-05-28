@@ -3,6 +3,7 @@
   "version": "0.0.0-development",
   "description": "my personal ES2015 library project skeleton",
   "main": "lib/index.js",
+  "module": "module/index.js",
   "scripts": {
     "lint": "eslint src test --cache",
     "lint:fix": "eslint --fix src test --cache",
@@ -10,7 +11,7 @@
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore lib/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
-    "build": "rimraf lib && babel src --out-dir lib && flow-copy-source -v src/ lib && rimraf es5 && BABEL_ENV=es5 babel src --out-dir es5 && flow-copy-source -v src/ es5",
+    "build": "rimraf module && babel src --out-dir module && flow-copy-source -v src/ module && rimraf lib && BABEL_ENV=es5 babel src --out-dir lib && flow-copy-source -v src/ lib",
     "test": "NODE_ENV=production BABEL_ENV=es5 mocha $npm_package_config_mocha && NODE_ENV=production BABEL_ENV=test nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "test:watch": "mocha --watch $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
