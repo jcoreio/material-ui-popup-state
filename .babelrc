@@ -1,11 +1,12 @@
 {
   "presets": [
-    "flow"
+    "stage-1", "flow"
   ],
   "env": {
     "test": {
       "presets": [
-        ["env", {"targets": {"node": "current"}}]
+        ["env", {"targets": {"node": "current"}}],
+        "stage-1", "flow"
       ],
       "plugins": [
         "transform-runtime",
@@ -14,7 +15,8 @@
     },
     "es5": {
       "presets": [
-        ["env", {"forceAllTransforms": true}]
+        ["env", {"forceAllTransforms": true}],
+        "stage-1", "flow"
       ],
       "plugins": [
         "transform-runtime"
