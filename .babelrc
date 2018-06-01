@@ -13,6 +13,15 @@
         ["env", {"targets": {"node": "current"}}],
         "stage-1", "flow", "react"
       ],
+      "plugins": [
+        "transform-runtime"
+      ]
+    },
+    "coverage": {
+      "presets": [
+        ["env", {"targets": {"node": "current"}}],
+        "stage-1", "flow", "react"
+      ],
       "plugins": ["istanbul"]
     },
     "es5": {

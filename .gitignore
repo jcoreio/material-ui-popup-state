@@ -2,5 +2,5 @@
 coverage
 node_modules
 lib
-module
+es
 .eslintcache
