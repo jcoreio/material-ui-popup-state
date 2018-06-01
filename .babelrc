@@ -9,6 +9,15 @@
         "stage-1", "flow"
       ],
       "plugins": [
+        "transform-runtime"
+      ]
+    },
+    "coverage": {
+      "presets": [
+        ["env", {"targets": {"node": "current"}}],
+        "stage-1", "flow"
+      ],
+      "plugins": [
         "transform-runtime",
         "istanbul"
       ]

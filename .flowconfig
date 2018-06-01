@@ -1,6 +1,6 @@
 [ignore]
 <PROJECT_ROOT>/lib/.*
-<PROJECT_ROOT>/module/.*
+<PROJECT_ROOT>/es/.*
 
 [include]
 ./src
