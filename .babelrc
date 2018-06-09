@@ -1,37 +1,50 @@
 {
   "presets": [
-    "stage-1",
     "flow",
     "react"
   ],
   "plugins": [
+    "syntax-dynamic-import",
+    "transform-class-properties",
+    "transform-export-extensions",
     "flow-react-proptypes"
   ],
   "env": {
     "test": {
       "presets": [
         ["env", {"targets": {"node": "current"}}],
-        "stage-1", "flow", "react"
+        "flow", "react"
       ],
       "plugins": [
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
         "transform-runtime"
       ]
     },
     "coverage": {
       "presets": [
         ["env", {"targets": {"node": "current"}}],
-        "stage-1", "flow", "react"
+        "flow", "react"
       ],
-      "plugins": ["istanbul"]
+      "plugins": [
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-runtime",
+        "istanbul"
+      ]
     },
     "es5": {
       "presets": [
         ["env", {"forceAllTransforms": true}],
-        "stage-1", "flow", "react"
+        "flow", "react"
       ],
       "plugins": [
-        "transform-runtime",
-        "transform-react-constant-elements"
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-runtime"
       ]
     },
     "production": {
