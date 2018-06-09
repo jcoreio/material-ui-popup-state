@@ -14,9 +14,6 @@
         "flow"
       ],
       "plugins": [
-        "syntax-dynamic-import",
-        "transform-class-properties",
-        "transform-export-extensions",
         "transform-runtime"
       ]
     },
@@ -26,9 +23,6 @@
         "flow"
       ],
       "plugins": [
-        "syntax-dynamic-import",
-        "transform-class-properties",
-        "transform-export-extensions",
         "transform-runtime",
         "istanbul"
       ]
@@ -36,12 +30,9 @@
     "es5": {
       "presets": [
         ["env", {"forceAllTransforms": true}],
-        "flow"
+        "stage-1", "flow"
       ],
       "plugins": [
-        "syntax-dynamic-import",
-        "transform-class-properties",
-        "transform-export-extensions",
         "transform-runtime"
       ]
     },
