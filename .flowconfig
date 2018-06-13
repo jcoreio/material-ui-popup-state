@@ -1,6 +1,7 @@
 [ignore]
-<PROJECT_ROOT>/lib/.*
 <PROJECT_ROOT>/es/.*
+<PROJECT_ROOT>/lib/.*
+<PROJECT_ROOT>/node_modules/.*/fbjs/.*
 <PROJECT_ROOT>/node_modules/fbjs/.*
 
 [include]

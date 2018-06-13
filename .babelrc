@@ -7,6 +7,7 @@
     "syntax-dynamic-import",
     "transform-class-properties",
     "transform-export-extensions",
+    "transform-object-rest-spread",
     "flow-react-proptypes"
   ],
   "env": {
@@ -16,6 +17,11 @@
         "flow", "react"
       ],
       "plugins": [
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "flow-react-proptypes",
         "transform-runtime"
       ]
     },
@@ -25,6 +31,11 @@
         "flow", "react"
       ],
       "plugins": [
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "flow-react-proptypes",
         "transform-runtime",
         "istanbul"
       ]
@@ -40,6 +51,11 @@
     },
     "production": {
       "plugins": [
+        "syntax-dynamic-import",
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "flow-react-proptypes",
         "transform-react-constant-elements"
       ]
     }
