@@ -21,7 +21,7 @@
     "commitmsg": "commitlint -e $GIT_PARAMS",
     "precommit": "npm run lint && flow",
     "prepush": "npm test",
-    "prepublishOnly": "npm run lint && flow && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run lint && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"
