@@ -1,3 +1,5 @@
+// @flow
+
 import * as React from 'react'
 import { spy } from 'sinon'
 import { assert } from 'chai'
@@ -37,9 +39,7 @@ describe('<PopupState />', () => {
     const render = spy(popupState => (
       <React.Fragment>
         <Button
-          buttonRef={c => {
-            buttonRef = c
-          }}
+          buttonRef={c => buttonRef = c}
           {...bindTrigger(popupState)}
         >
           Open Menu
@@ -53,7 +53,7 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindTrigger/bindPopup', () => {
-      const wrapper = mount(<PopupState popupId="menu">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
       button = wrapper.find(Button)
       menu = wrapper.find(Menu)
       assert.strictEqual(render.args[0][0].isOpen, false)
@@ -92,7 +92,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)
     })
     it('open/close works', () => {
-      const wrapper = mount(<PopupState popupId="menu">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
 
       render.args[0][0].open(buttonRef)
       wrapper.update()
@@ -103,7 +103,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[2][0].isOpen, false)
     })
     it('toggle works', () => {
-      const wrapper = mount(<PopupState popupId="menu">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
 
       render.args[0][0].toggle(buttonRef)
       wrapper.update()
@@ -114,7 +114,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[2][0].isOpen, false)
     })
     it('setOpen works', () => {
-      const wrapper = mount(<PopupState popupId="menu">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
 
       render.args[0][0].setOpen(true, buttonRef)
       wrapper.update()
@@ -133,9 +133,7 @@ describe('<PopupState />', () => {
     const render = spy(popupState => (
       <React.Fragment>
         <Button
-          buttonRef={c => {
-            buttonRef = c
-          }}
+          buttonRef={c => buttonRef = c}
           {...bindToggle(popupState)}
         >
           Open Menu
@@ -147,11 +145,11 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindToggle/bindPopup', () => {
-      const wrapper = mount(<PopupState popupId="popper">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popper" popupId="popper">{render}</PopupState>)
       button = wrapper.find(Button)
       popper = wrapper.find(Popper)
       assert.strictEqual(render.args[0][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-owns'), null)
+      assert.strictEqual(button.prop('aria-describedby'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onClick'), render.args[0][0].toggle)
       assert.strictEqual(popper.prop('id'), 'popper')
@@ -164,7 +162,7 @@ describe('<PopupState />', () => {
       button = wrapper.find(Button)
       popper = wrapper.find(Popper)
       assert.strictEqual(render.args[1][0].isOpen, true)
-      assert.strictEqual(button.prop('aria-owns'), 'popper')
+      assert.strictEqual(button.prop('aria-describedby'), 'popper')
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onClick'), render.args[1][0].toggle)
       assert.strictEqual(popper.prop('id'), 'popper')
@@ -177,7 +175,7 @@ describe('<PopupState />', () => {
       button = wrapper.find(Button)
       popper = wrapper.find(Popper)
       assert.strictEqual(render.args[2][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-owns'), null)
+      assert.strictEqual(button.prop('aria-describedby'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onClick'), render.args[2][0].toggle)
       assert.strictEqual(popper.prop('id'), 'popper')
@@ -194,9 +192,7 @@ describe('<PopupState />', () => {
     const render = spy(popupState => (
       <React.Fragment>
         <Button
-          buttonRef={c => {
-            buttonRef = c
-          }}
+          buttonRef={c => buttonRef = c}
           {...bindHover(popupState)}
         >
           Open Menu
@@ -208,7 +204,7 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindHover/bindPopover', () => {
-      const wrapper = mount(<PopupState popupId="popover">{render}</PopupState>)
+      const wrapper = mount(<PopupState variant="popover" popupId="popover">{render}</PopupState>)
       button = wrapper.find(Button)
       popover = wrapper.find(Popover)
       assert.strictEqual(render.args[0][0].isOpen, false)

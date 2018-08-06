@@ -3,6 +3,8 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
+export type Variant = 'popover' | 'popper'
+
 export type InjectedProps = {
   open: (eventOrAnchorEl: Event | HTMLElement) => void,
   close: () => void,
@@ -11,6 +13,7 @@ export type InjectedProps = {
   isOpen: boolean,
   anchorEl: ?HTMLElement,
   popupId: ?string,
+  variant: Variant,
 }
 
 /**
@@ -19,13 +22,14 @@ export type InjectedProps = {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger({ isOpen, open, popupId }: InjectedProps): {
-  'aria-owns': ?string,
+export function bindTrigger({ isOpen, open, popupId, variant }: InjectedProps): {
+  'aria-owns'?: ?string,
+  'aria-describedby'?: ?string,
   'aria-haspopup': true,
   onClick: (event: Event) => void,
 } {
   return {
-    'aria-owns': isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
     'aria-haspopup': true,
     onClick: open,
   }
@@ -37,13 +41,14 @@ export function bindTrigger({ isOpen, open, popupId }: InjectedProps): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle({ isOpen, toggle, popupId }: InjectedProps): {
-  'aria-owns': ?string,
+export function bindToggle({ isOpen, toggle, popupId, variant }: InjectedProps): {
+  'aria-owns'?: ?string,
+  'aria-describedby'?: ?string,
   'aria-haspopup': true,
   onClick: (event: Event) => void,
 } {
   return {
-    'aria-owns': isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
     'aria-haspopup': true,
     onClick: toggle,
   }
@@ -55,14 +60,15 @@ export function bindToggle({ isOpen, toggle, popupId }: InjectedProps): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindHover({ isOpen, open, close, popupId }: InjectedProps): {
-  'aria-owns': ?string,
+export function bindHover({ isOpen, open, close, popupId, variant }: InjectedProps): {
+  'aria-owns'?: ?string,
+  'aria-describedby'?: ?string,
   'aria-haspopup': true,
   onMouseEnter: (event: Event) => any,
   onMouseLeave: (event: Event) => any,
 } {
   return {
-    'aria-owns': isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
     'aria-haspopup': true,
     onMouseEnter: open,
     onMouseLeave: close,
@@ -118,6 +124,7 @@ export function bindPopper({ isOpen, anchorEl, popupId }: InjectedProps): {
 export type Props = {
   popupId?: string,
   children: (props: InjectedProps) => ?React.Node,
+  variant: Variant,
 }
 
 type State = {
@@ -157,6 +164,13 @@ export default class PopupState extends React.Component<Props, State> {
      * passed to the trigger component via `bindTrigger`.
      */
     popupId: PropTypes.string,
+    /**
+     * Which type of popup you are controlling.  Use `'popover'` for `Popover`
+     * and `Menu`; use `'popper'` for `Popper`s.  Right now this only affects
+     * whether `aria-owns` or `aria-describedby` is used on the trigger
+     * component.
+     */
+    variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
   }
 
   handleToggle = (eventOrAnchorEl: Event | HTMLElement) => {
@@ -184,7 +198,7 @@ export default class PopupState extends React.Component<Props, State> {
   }
 
   render(): ?React.Node {
-    const { children, popupId } = this.props
+    const { children, popupId, variant } = this.props
     const { anchorEl } = this.state
 
     const isOpen = Boolean(anchorEl)
@@ -197,6 +211,7 @@ export default class PopupState extends React.Component<Props, State> {
       isOpen,
       anchorEl,
       popupId,
+      variant,
     })
   }
 }
