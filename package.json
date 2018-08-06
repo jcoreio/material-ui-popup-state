@@ -1,7 +1,7 @@
 {
-  "name": "react-library-skeleton",
+  "name": "material-ui-popup-state",
   "version": "0.0.0-development",
-  "description": "my personal skeleton for React library NPM packages",
+  "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
   "module": "es/index.js",
   "modules.root": "es",
@@ -46,7 +46,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jedwards1211/react-library-skeleton.git"
+    "url": "https://github.com/jcoreio/material-ui-popup-state.git"
   },
   "keywords": [
     "es2015",
@@ -56,9 +56,9 @@
   "author": "Andy Edwards",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedwards1211/react-library-skeleton/issues"
+    "url": "https://github.com/jcoreio/material-ui-popup-state/issues"
   },
-  "homepage": "https://github.com/jedwards1211/react-library-skeleton#readme",
+  "homepage": "https://github.com/jcoreio/material-ui-popup-state#readme",
   "devDependencies": {
     "@commitlint/cli": "^6.0.2",
     "@commitlint/config-conventional": "^6.0.2",
@@ -80,9 +80,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-export-extensions": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
     "babel-preset-stage-1": "^6.24.1",
     "babel-register": "^6.23.0",
     "babel-runtime": "^6.23.0",
