@@ -49,9 +49,12 @@
     "url": "https://github.com/jcoreio/material-ui-popup-state.git"
   },
   "keywords": [
-    "es2015",
-    "react",
-    "skeleton"
+    "material-ui",
+    "popup",
+    "menu",
+    "popover",
+    "boilerplate",
+    "render-props"
   ],
   "author": "Andy Edwards",
   "license": "MIT",
