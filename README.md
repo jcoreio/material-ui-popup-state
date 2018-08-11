@@ -43,7 +43,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import PopupState, { bindTrigger, bindMenu } from '@material-ui/core/PopupState'
 
 const MenuPopupState = () => (
-  <PopupState popupId="demoMenu">
+  <PopupState variant="popover" popupId="demoMenu">
     {popupState => (
       <React.Fragment>
         <Button variant="contained" {...bindTrigger(popupState)}>
@@ -79,7 +79,7 @@ const styles = theme => ({
 })
 
 const PopoverPopupState = ({ classes }) => (
-  <PopupState popupId="demoPopover">
+  <PopupState variant="popover" popupId="demoPopover">
     {popupState => (
       <div>
         <Button variant="contained" {...bindTrigger(popupState)}>
@@ -130,7 +130,7 @@ const styles = theme => ({
 })
 
 const HoverPopoverPopupState = ({ classes }) => (
-  <PopupState popupId="demoPopover">
+  <PopupState variant="popover" popupId="demoPopover">
     {popupState => (
       <div>
         <Typography {...bindHover(popupState)}>Hover with a Popover.</Typography>
@@ -184,7 +184,7 @@ const styles = theme => ({
 })
 
 const PopperPopupState = ({ classes }) => (
-  <PopupState popupId="demoPopper">
+  <PopupState variant="popper" popupId="demoPopper">
     {popupState => (
       <div>
         <Button variant="contained" {...bindToggle(popupState)}>
