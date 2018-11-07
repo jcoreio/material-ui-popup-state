@@ -1,9 +1,9 @@
 // @flow
 
-import {describe, it} from 'mocha'
+import { describe, it } from 'mocha'
 import * as React from 'react'
-import {mount} from 'enzyme'
-import {expect} from 'chai'
+import { mount } from 'enzyme'
+import { expect } from 'chai'
 
 import Hello from '../src/index'
 

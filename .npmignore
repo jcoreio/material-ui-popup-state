@@ -1,8 +1,10 @@
 .babelrc
+.eslintrc
 .eslintcache
 .eslintrc
 .idea
 .nyc_output
+.prettierrc
 .storybook
 .travis.yml
 commitlint.config.js

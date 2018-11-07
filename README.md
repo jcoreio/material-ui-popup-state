@@ -39,4 +39,3 @@ npm i
 * semantic-release
 * Travis CI
 * Coveralls
-
