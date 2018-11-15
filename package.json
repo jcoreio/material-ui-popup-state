@@ -21,14 +21,14 @@
     "test:watch": "NODE_ENV=production BABEL_ENV=test mocha --watch $npm_package_config_mocha",
     "test:debug": "NODE_ENV=production BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && flow && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && flow",
+      "pre-commit": "lint-staged && npm run lint && flow",
       "commit-msg": "commitlint -e $GIT_PARAMS",
       "pre-push": "npm test"
     }
@@ -92,6 +92,7 @@
     "codecov": "^3.1.0",
     "copy": "^0.3.2",
     "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-watch": "^4.0.2",
     "flow-bin": "^0.86.0",
@@ -106,9 +107,6 @@
     "prettier-eslint": "^8.8.2",
     "rimraf": "^2.6.0",
     "semantic-release": "^15.1.4",
-    "travis-deploy-once": "^4.3.1"
-  },
-  "dependencies": {
-    "eslint-config-prettier": "^3.3.0"
+    "travis-deploy-once": "^5.0.9"
   }
 }
