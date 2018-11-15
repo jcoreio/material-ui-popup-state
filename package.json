@@ -19,17 +19,28 @@
     "build": "npm run clean && babel src --out-dir es && flow-copy-source -v src/ es && BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ .",
     "test": "NODE_ENV=production BABEL_ENV=es5 mocha $npm_package_config_mocha && NODE_ENV=production BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "test:watch": "NODE_ENV=production BABEL_ENV=test mocha --watch $npm_package_config_mocha",
+    "test:debug": "NODE_ENV=production BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "commitmsg": "commitlint -e $GIT_PARAMS",
-    "precommit": "npm run lint && npm run prettier:check && flow",
-    "prepush": "npm test",
-    "prepublishOnly": "npm run clean && npm run lint && flow && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && flow",
+      "commit-msg": "commitlint -e $GIT_PARAMS",
+      "pre-push": "npm test"
+    }
+  },
+  "lint-staged": {
+    "*.{js,json,css,md}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
   "config": {
-    "mocha": "-r babel-register ./test/**/*.js",
+    "mocha": "-r @babel/register ./test/**/*.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -58,42 +69,46 @@
   },
   "homepage": "https://github.com/jedwards1211/es2015-library-skeleton#readme",
   "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-export-default-from": "^7.0.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.1.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "@babel/runtime": "^7.1.5",
     "@commitlint/cli": "^6.0.2",
     "@commitlint/config-conventional": "^6.0.2",
     "@jedwards1211/commitlint-config": "^1.0.0",
     "@jedwards1211/eslint-config": "^2.0.0",
     "@jedwards1211/eslint-config-flow": "^1.0.0",
-    "babel-cli": "^6.23.0",
-    "babel-core": "^6.23.1",
-    "babel-eslint": "^7.1.1",
-    "babel-plugin-istanbul": "^4.0.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-plugin-transform-class-properties": "^6.24.1",
-    "babel-plugin-transform-export-extensions": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-flow": "^6.23.0",
-    "babel-preset-stage-1": "^6.24.1",
-    "babel-register": "^6.23.0",
-    "babel-runtime": "^6.23.0",
-    "chai": "^4.1.2",
-    "codecov": "^3.0.0",
-    "copy": "^0.3.0",
-    "eslint": "^3.15.0",
-    "eslint-plugin-flowtype": "^2.30.0",
-    "eslint-watch": "^3.0.0",
-    "flow-bin": "^0.85.0",
-    "flow-copy-source": "^1.2.1",
+    "babel-eslint": "^10.0.1",
+    "babel-plugin-istanbul": "^5.1.0",
+    "chai": "^4.2.0",
+    "codecov": "^3.1.0",
+    "copy": "^0.3.2",
+    "eslint": "^5.9.0",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-watch": "^4.0.2",
+    "flow-bin": "^0.86.0",
+    "flow-copy-source": "^2.0.2",
     "flow-watch": "^1.1.0",
     "husky": "^0.14.3",
     "istanbul": "^0.4.5",
-    "mocha": "^4.1.0",
-    "nyc": "^11.4.1",
-    "prettier": "^1.15.1",
+    "lint-staged": "^8.0.4",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
     "rimraf": "^2.6.0",
     "semantic-release": "^15.1.4",
     "travis-deploy-once": "^4.3.1"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^3.3.0"
   }
 }
