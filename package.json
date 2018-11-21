@@ -80,7 +80,6 @@
     "@babel/preset-env": "^7.1.6",
     "@babel/preset-flow": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@babel/runtime": "^7.1.5",
     "@commitlint/cli": "^6.0.2",
     "@commitlint/config-conventional": "^6.0.2",
     "@jedwards1211/commitlint-config": "^1.0.0",
@@ -108,5 +107,8 @@
     "rimraf": "^2.6.0",
     "semantic-release": "^15.1.4",
     "travis-deploy-once": "^5.0.9"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.1.5"
   }
 }
