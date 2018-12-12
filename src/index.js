@@ -197,13 +197,13 @@ export default class PopupState extends React.Component<Props, State> {
     else this.handleClose()
   }
 
-  render(): ?React.Node {
+  render(): React.Node | null {
     const { children, popupId, variant } = this.props
     const { anchorEl } = this.state
 
     const isOpen = Boolean(anchorEl)
 
-    return children({
+    const result = children({
       open: this.handleOpen,
       close: this.handleClose,
       toggle: this.handleToggle,
@@ -213,5 +213,7 @@ export default class PopupState extends React.Component<Props, State> {
       popupId,
       variant,
     })
+    if (result == null) return null
+    return result
   }
 }
