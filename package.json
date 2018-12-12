@@ -107,7 +107,7 @@
     "eslint-watch": "^4.0.2",
     "flow-bin": "^0.86.0",
     "flow-copy-source": "^2.0.2",
-    "flow-watch": "^1.1.0",
+    "flow-watch": "^1.1.4",
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
     "jsdom": "^11.5.1",
