@@ -95,7 +95,7 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-watch": "^4.0.2",
-    "flow-bin": "^0.88.0",
+    "flow-bin": "^0.89.0",
     "flow-copy-source": "^2.0.2",
     "flow-watch": "^1.1.4",
     "husky": "^1.1.4",
