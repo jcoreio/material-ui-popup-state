@@ -6,10 +6,10 @@ import PropTypes from 'prop-types'
 export type Variant = 'popover' | 'popper'
 
 export type InjectedProps = {
-  open: (eventOrAnchorEl: Event | HTMLElement) => void,
+  open: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
-  toggle: (eventOrAnchorEl: Event | HTMLElement) => void,
-  setOpen: (open: boolean, eventOrAnchorEl: Event | HTMLElement) => void,
+  toggle: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
+  setOpen: (open: boolean, eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
   popupId: ?string,
@@ -26,7 +26,7 @@ export function bindTrigger({ isOpen, open, popupId, variant }: InjectedProps): 
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
-  onClick: (event: Event) => void,
+  onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
@@ -45,7 +45,7 @@ export function bindToggle({ isOpen, toggle, popupId, variant }: InjectedProps):
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
-  onClick: (event: Event) => void,
+  onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
@@ -64,8 +64,8 @@ export function bindHover({ isOpen, open, close, popupId, variant }: InjectedPro
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
-  onMouseEnter: (event: Event) => any,
-  onMouseLeave: (event: Event) => any,
+  onMouseEnter: (event: SyntheticEvent<any>) => any,
+  onMouseLeave: (event: SyntheticEvent<any>) => any,
 } {
   return {
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
@@ -173,26 +173,26 @@ export default class PopupState extends React.Component<Props, State> {
     variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
   }
 
-  handleToggle = (eventOrAnchorEl: Event | HTMLElement) => {
+  handleToggle = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
     if (this.state.anchorEl) this.handleClose()
     else this.handleOpen(eventOrAnchorEl)
   }
 
-  handleOpen = (eventOrAnchorEl: Event | HTMLElement) => {
-    if (!eventOrAnchorElWarned && !eventOrAnchorEl && !eventOrAnchorEl.target) {
+  handleOpen = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
+    if (!eventOrAnchorElWarned && !eventOrAnchorEl) {
       eventOrAnchorElWarned = true
       console.error('eventOrAnchorEl should be defined') // eslint-disable-line no-console
     }
     this.setState({
-      anchorEl: eventOrAnchorEl && eventOrAnchorEl.target
-        ? (eventOrAnchorEl.target: any)
+      anchorEl: eventOrAnchorEl && eventOrAnchorEl.currentTarget
+        ? (eventOrAnchorEl.currentTarget: any)
         : (eventOrAnchorEl: any),
     })
   }
 
   handleClose = () => this.setState({ anchorEl: null });
 
-  handleSetOpen = (open: boolean, eventOrAnchorEl: Event | HTMLElement) => {
+  handleSetOpen = (open: boolean, eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
     if (open) this.handleOpen(eventOrAnchorEl)
     else this.handleClose()
   }
