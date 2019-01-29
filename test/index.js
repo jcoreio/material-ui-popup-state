@@ -202,13 +202,16 @@ describe('<PopupState />', () => {
     let buttonRef
     let button
     let popover
+    let content
 
     const render = spy(popupState => (
       <React.Fragment>
         <Button buttonRef={c => (buttonRef = c)} {...bindHover(popupState)}>
           Open Menu
         </Button>
-        <Popover {...bindPopover(popupState)}>The popover content</Popover>
+        <Popover {...bindPopover(popupState)}>
+          <span ref={c => (content = c)}>The popover content</span>
+        </Popover>
       </React.Fragment>
     ))
 
@@ -226,7 +229,10 @@ describe('<PopupState />', () => {
       assert.strictEqual(button.prop('aria-owns'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onMouseEnter'), render.args[0][0].open)
-      assert.strictEqual(button.prop('onMouseLeave'), render.args[0][0].close)
+      assert.strictEqual(
+        button.prop('onMouseLeave'),
+        render.args[0][0].onMouseLeave
+      )
       assert.strictEqual(popover.prop('id'), 'popover')
       assert.strictEqual(popover.prop('anchorEl'), null)
       assert.strictEqual(popover.prop('open'), false)
@@ -240,13 +246,32 @@ describe('<PopupState />', () => {
       assert.strictEqual(button.prop('aria-owns'), 'popover')
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onMouseEnter'), render.args[1][0].open)
-      assert.strictEqual(button.prop('onMouseLeave'), render.args[1][0].close)
+      assert.strictEqual(
+        button.prop('onMouseLeave'),
+        render.args[1][0].onMouseLeave
+      )
       assert.strictEqual(popover.prop('id'), 'popover')
       assert.strictEqual(popover.prop('anchorEl'), buttonRef)
       assert.strictEqual(popover.prop('open'), true)
       assert.strictEqual(popover.prop('onClose'), render.args[1][0].close)
 
-      button.simulate('mouseleave')
+      button.simulate('mouseleave', { relatedTarget: content })
+      wrapper.update()
+      button = wrapper.find(Button)
+      popover = wrapper.find(Popover)
+      assert.strictEqual(button.prop('aria-owns'), 'popover')
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(button.prop('onMouseEnter'), render.args[1][0].open)
+      assert.strictEqual(
+        button.prop('onMouseLeave'),
+        render.args[1][0].onMouseLeave
+      )
+      assert.strictEqual(popover.prop('id'), 'popover')
+      assert.strictEqual(popover.prop('anchorEl'), buttonRef)
+      assert.strictEqual(popover.prop('open'), true)
+      assert.strictEqual(popover.prop('onClose'), render.args[1][0].close)
+
+      popover.simulate('mouseleave')
       wrapper.update()
       button = wrapper.find(Button)
       popover = wrapper.find(Popover)
@@ -254,7 +279,10 @@ describe('<PopupState />', () => {
       assert.strictEqual(button.prop('aria-owns'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onMouseEnter'), render.args[2][0].open)
-      assert.strictEqual(button.prop('onMouseLeave'), render.args[2][0].close)
+      assert.strictEqual(
+        button.prop('onMouseLeave'),
+        render.args[2][0].onMouseLeave
+      )
       assert.strictEqual(popover.prop('id'), 'popover')
       assert.strictEqual(popover.prop('anchorEl'), null)
       assert.strictEqual(popover.prop('open'), false)

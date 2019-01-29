@@ -8,6 +8,7 @@ export type Variant = 'popover' | 'popper'
 export type InjectedProps = {
   open: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
+  onMouseLeave: (event: SyntheticEvent<any>) => void,
   toggle: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
   setOpen: (
     open: boolean,
@@ -80,7 +81,7 @@ export function bindToggle({
 export function bindHover({
   isOpen,
   open,
-  close,
+  onMouseLeave,
   popupId,
   variant,
 }: InjectedProps): {
@@ -96,7 +97,7 @@ export function bindHover({
       : null,
     'aria-haspopup': true,
     onMouseEnter: open,
-    onMouseLeave: close,
+    onMouseLeave,
   }
 }
 
@@ -110,18 +111,21 @@ export function bindPopover({
   isOpen,
   anchorEl,
   close,
+  onMouseLeave,
   popupId,
 }: InjectedProps): {
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
   onClose: () => void,
+  onMouseLeave: (event: SyntheticEvent<any>) => void,
 } {
   return {
     id: popupId,
     anchorEl,
     open: isOpen,
     onClose: close,
+    onMouseLeave,
   }
 }
 
@@ -143,15 +147,18 @@ export function bindPopper({
   isOpen,
   anchorEl,
   popupId,
+  onMouseLeave,
 }: InjectedProps): {
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
+  onMouseLeave: (event: SyntheticEvent<any>) => void,
 } {
   return {
     id: popupId,
     anchorEl,
     open: isOpen,
+    onMouseLeave,
   }
 }
 
@@ -163,12 +170,13 @@ export type Props = {
 
 type State = {
   anchorEl: ?HTMLElement,
+  hovered: boolean,
 }
 
 let eventOrAnchorElWarned: boolean = false
 
 export default class PopupState extends React.Component<Props, State> {
-  state: State = { anchorEl: null }
+  state: State = { anchorEl: null, hovered: false }
 
   static propTypes = {
     /**
@@ -222,10 +230,28 @@ export default class PopupState extends React.Component<Props, State> {
         eventOrAnchorEl && eventOrAnchorEl.currentTarget
           ? (eventOrAnchorEl.currentTarget: any)
           : (eventOrAnchorEl: any),
+      hovered: (eventOrAnchorEl: any).type === 'mouseenter',
     })
   }
 
-  handleClose = () => this.setState({ anchorEl: null })
+  handleClose = () => this.setState({ anchorEl: null, hovered: false })
+
+  handleMouseLeave = (event: SyntheticEvent<any>) => {
+    const { popupId } = this.props
+    const { hovered, anchorEl } = this.state
+    const popup =
+      popupId && typeof document !== 'undefined'
+        ? document.getElementById(popupId) // eslint-disable-line no-undef
+        : null
+    const { relatedTarget } = (event: any)
+    if (
+      hovered &&
+      !isAncestor(popup, relatedTarget) &&
+      !isAncestor(anchorEl, relatedTarget)
+    ) {
+      this.handleClose()
+    }
+  }
 
   handleSetOpen = (
     open: boolean,
@@ -244,6 +270,7 @@ export default class PopupState extends React.Component<Props, State> {
     const result = children({
       open: this.handleOpen,
       close: this.handleClose,
+      onMouseLeave: this.handleMouseLeave,
       toggle: this.handleToggle,
       setOpen: this.handleSetOpen,
       isOpen,
@@ -254,4 +281,13 @@ export default class PopupState extends React.Component<Props, State> {
     if (result == null) return null
     return result
   }
+}
+
+function isAncestor(parent: ?Element, child: ?Element): boolean {
+  if (!parent) return false
+  while (child) {
+    if (child === parent) return true
+    child = child.parentElement
+  }
+  return false
 }
