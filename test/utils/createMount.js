@@ -13,7 +13,10 @@ export default function createMount(options1: Object = {}) {
   attachTo.setAttribute('id', 'app')
   window.document.body.insertBefore(attachTo, window.document.body.firstChild)
 
-  const mountWithContext = function mountWithContext(node: Element<any>, options2: Object = {}) {
+  const mountWithContext = function mountWithContext(
+    node: Element<any>,
+    options2: Object = {}
+  ) {
     return mount(node, {
       attachTo,
       ...other1,

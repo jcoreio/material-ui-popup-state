@@ -9,7 +9,10 @@ export type InjectedProps = {
   open: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
   toggle: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
-  setOpen: (open: boolean, eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
+  setOpen: (
+    open: boolean,
+    eventOrAnchorEl: SyntheticEvent<any> | HTMLElement
+  ) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
   popupId: ?string,
@@ -22,14 +25,21 @@ export type InjectedProps = {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger({ isOpen, open, popupId, variant }: InjectedProps): {
+export function bindTrigger({
+  isOpen,
+  open,
+  popupId,
+  variant,
+}: InjectedProps): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
     'aria-haspopup': true,
     onClick: open,
   }
@@ -41,14 +51,21 @@ export function bindTrigger({ isOpen, open, popupId, variant }: InjectedProps): 
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle({ isOpen, toggle, popupId, variant }: InjectedProps): {
+export function bindToggle({
+  isOpen,
+  toggle,
+  popupId,
+  variant,
+}: InjectedProps): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
     'aria-haspopup': true,
     onClick: toggle,
   }
@@ -60,7 +77,13 @@ export function bindToggle({ isOpen, toggle, popupId, variant }: InjectedProps):
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindHover({ isOpen, open, close, popupId, variant }: InjectedProps): {
+export function bindHover({
+  isOpen,
+  open,
+  close,
+  popupId,
+  variant,
+}: InjectedProps): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': true,
@@ -68,7 +91,9 @@ export function bindHover({ isOpen, open, close, popupId, variant }: InjectedPro
   onMouseLeave: (event: SyntheticEvent<any>) => any,
 } {
   return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen ? popupId : null,
+    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
     'aria-haspopup': true,
     onMouseEnter: open,
     onMouseLeave: close,
@@ -81,7 +106,12 @@ export function bindHover({ isOpen, open, close, popupId, variant }: InjectedPro
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindPopover({ isOpen, anchorEl, close, popupId }: InjectedProps): {
+export function bindPopover({
+  isOpen,
+  anchorEl,
+  close,
+  popupId,
+}: InjectedProps): {
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
@@ -109,7 +139,11 @@ export const bindMenu = bindPopover
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindPopper({ isOpen, anchorEl, popupId }: InjectedProps): {
+export function bindPopper({
+  isOpen,
+  anchorEl,
+  popupId,
+}: InjectedProps): {
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
@@ -134,7 +168,7 @@ type State = {
 let eventOrAnchorElWarned: boolean = false
 
 export default class PopupState extends React.Component<Props, State> {
-  state: State = { anchorEl: null };
+  state: State = { anchorEl: null }
 
   static propTypes = {
     /**
@@ -184,15 +218,19 @@ export default class PopupState extends React.Component<Props, State> {
       console.error('eventOrAnchorEl should be defined') // eslint-disable-line no-console
     }
     this.setState({
-      anchorEl: eventOrAnchorEl && eventOrAnchorEl.currentTarget
-        ? (eventOrAnchorEl.currentTarget: any)
-        : (eventOrAnchorEl: any),
+      anchorEl:
+        eventOrAnchorEl && eventOrAnchorEl.currentTarget
+          ? (eventOrAnchorEl.currentTarget: any)
+          : (eventOrAnchorEl: any),
     })
   }
 
-  handleClose = () => this.setState({ anchorEl: null });
+  handleClose = () => this.setState({ anchorEl: null })
 
-  handleSetOpen = (open: boolean, eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
+  handleSetOpen = (
+    open: boolean,
+    eventOrAnchorEl: SyntheticEvent<any> | HTMLElement
+  ) => {
     if (open) this.handleOpen(eventOrAnchorEl)
     else this.handleClose()
   }

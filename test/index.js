@@ -38,10 +38,7 @@ describe('<PopupState />', () => {
 
     const render = spy(popupState => (
       <React.Fragment>
-        <Button
-          buttonRef={c => buttonRef = c}
-          {...bindTrigger(popupState)}
-        >
+        <Button buttonRef={c => (buttonRef = c)} {...bindTrigger(popupState)}>
           Open Menu
         </Button>
         <Menu {...bindMenu(popupState)}>
@@ -53,7 +50,11 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindTrigger/bindPopup', () => {
-      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
       button = wrapper.find(Button)
       menu = wrapper.find(Menu)
       assert.strictEqual(render.args[0][0].isOpen, false)
@@ -92,7 +93,11 @@ describe('<PopupState />', () => {
       assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)
     })
     it('open/close works', () => {
-      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
 
       render.args[0][0].open(buttonRef)
       wrapper.update()
@@ -103,7 +108,11 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[2][0].isOpen, false)
     })
     it('toggle works', () => {
-      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
 
       render.args[0][0].toggle(buttonRef)
       wrapper.update()
@@ -114,7 +123,11 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[2][0].isOpen, false)
     })
     it('setOpen works', () => {
-      const wrapper = mount(<PopupState variant="popover" popupId="menu">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
 
       render.args[0][0].setOpen(true, buttonRef)
       wrapper.update()
@@ -132,10 +145,7 @@ describe('<PopupState />', () => {
 
     const render = spy(popupState => (
       <React.Fragment>
-        <Button
-          buttonRef={c => buttonRef = c}
-          {...bindToggle(popupState)}
-        >
+        <Button buttonRef={c => (buttonRef = c)} {...bindToggle(popupState)}>
           Open Menu
         </Button>
         <Popper {...bindPopper(popupState)}>The popper content</Popper>
@@ -145,7 +155,11 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindToggle/bindPopup', () => {
-      const wrapper = mount(<PopupState variant="popper" popupId="popper">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popper" popupId="popper">
+          {render}
+        </PopupState>
+      )
       button = wrapper.find(Button)
       popper = wrapper.find(Popper)
       assert.strictEqual(render.args[0][0].isOpen, false)
@@ -191,10 +205,7 @@ describe('<PopupState />', () => {
 
     const render = spy(popupState => (
       <React.Fragment>
-        <Button
-          buttonRef={c => buttonRef = c}
-          {...bindHover(popupState)}
-        >
+        <Button buttonRef={c => (buttonRef = c)} {...bindHover(popupState)}>
           Open Menu
         </Button>
         <Popover {...bindPopover(popupState)}>The popover content</Popover>
@@ -204,7 +215,11 @@ describe('<PopupState />', () => {
     beforeEach(() => render.resetHistory())
 
     it('passes correct props to bindHover/bindPopover', () => {
-      const wrapper = mount(<PopupState variant="popover" popupId="popover">{render}</PopupState>)
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="popover">
+          {render}
+        </PopupState>
+      )
       button = wrapper.find(Button)
       popover = wrapper.find(Popover)
       assert.strictEqual(render.args[0][0].isOpen, false)
