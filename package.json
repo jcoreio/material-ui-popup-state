@@ -3,7 +3,6 @@
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
-  "module": "es/index.js",
   "modules.root": "es",
   "sideEffects": false,
   "scripts": {
