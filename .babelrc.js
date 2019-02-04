@@ -1,5 +1,6 @@
 module.exports = function(api) {
   const plugins = [
+    '@babel/plugin-transform-flow-strip-types',
     '@babel/plugin-syntax-dynamic-import',
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-proposal-export-namespace-from',
