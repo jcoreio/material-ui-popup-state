@@ -7,11 +7,6 @@ scripts
 node_modules
 .babelrc
 .eslintrc
-.prettierrc
-.travis.yml
 .eslintcache
 .idea
-solano.yml
-renovate.json
-commitlint.config.js
 flow-typed
