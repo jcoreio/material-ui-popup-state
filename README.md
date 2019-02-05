@@ -11,10 +11,7 @@ This is my personal skeleton for creating a React library npm package. You are w
 ## Quick start
 
 ```sh
-npm i -g howardroark/pollinate
-pollinate https://github.com/jedwards1211/react-library-skeleton.git --keep-history --name <package name> --author <your name> --organization <github organization> --description <package description>
-cd <package name>
-npm i
+npx 0-60 clone https://github.com/jedwards1211/react-library-skeleton.git
 ```
 
 ## Tools used
