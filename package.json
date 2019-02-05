@@ -4,7 +4,6 @@
   "description": "my personal skeleton for React library NPM packages",
   "main": "index.js",
   "module": "es/index.js",
-  "modules.root": "es",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint src test --cache",
@@ -24,7 +23,6 @@
     "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
@@ -41,8 +39,18 @@
       "git add"
     ]
   },
+  "commitlint": {
+    "extends": [
+      "@jedwards1211/commitlint-config"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
   "config": {
-    "mocha": "-r @babel/register -r jsdom-global/register ./test/configure.js ./test/**.js",
+    "mocha": "-r @babel/register -r jsdom-global/register test/configure.js test/**.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -120,14 +128,31 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "rimraf": "^2.6.0",
-    "semantic-release": "^15.1.4",
-    "travis-deploy-once": "^5.0.9"
-  },
-  "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0"
+    "semantic-release": "^15.1.4"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "prop-types": "^15.0.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0"
+  },
+  "renovate": {
+    "extends": [
+      ":separateMajorReleases",
+      ":combinePatchMinorReleases",
+      ":ignoreUnstable",
+      ":prImmediately",
+      ":renovatePrefix",
+      ":updateNotScheduled",
+      ":preserveSemverRanges",
+      ":semanticPrefixFixDepsChoreOthers",
+      ":automergeDisabled",
+      "group:monorepos"
+    ],
+    "automerge": true,
+    "major": {
+      "automerge": false
+    }
   }
 }

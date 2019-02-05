@@ -4,16 +4,10 @@
 .eslintrc
 .idea
 .nyc_output
-.prettierrc
-.storybook
-.travis.yml
-commitlint.config.js
 coverage
 flow-typed
 lib
 node_modules
-renovate.json
-solano.yml
 src
 stories
 test

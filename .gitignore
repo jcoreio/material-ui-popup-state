@@ -2,5 +2,8 @@
 .nyc_output
 coverage
 es
-lib
 node_modules
+.eslintcache
+/*.js
+/*.js.flow
+!/.babelrc.js
