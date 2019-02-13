@@ -20,22 +20,23 @@ mutation functions to a child render function.
 <!-- toc -->
 
 - [Installation](#installation)
-- [Examples](#examples)
-  - [Menu](#menu)
-  - [Popover](#popover)
-  - [Mouse Over Interaction](#mouse-over-interaction)
-  - [Popper](#popper)
 - [Examples with React Hooks](#examples-with-react-hooks)
-  - [Menu](#menu-1)
-  - [Popover](#popover-1)
-  - [Popper](#popper-1)
-- [API](#api)
-  - [Bind Functions](#bind-functions)
-  - [`PopupState` Props](#popupstate-props)
+  * [Menu](#menu)
+  * [Popover](#popover)
+  * [Popper](#popper)
 - [React Hooks API](#react-hooks-api)
-  - [Bind Functions](#bind-functions-1)
-  - [`usePopupState` Props](#usepopupstate-props)
-  - [`usePopupState` return value](#usepopupstate-return-value)
+  * [Bind Functions](#bind-functions)
+  * [`usePopupState`](#usepopupstate)
+  * [`usePopupState` Props](#usepopupstate-props)
+  * [`usePopupState` return value](#usepopupstate-return-value)
+- [Examples with Render Props](#examples-with-render-props)
+  * [Menu](#menu-1)
+  * [Popover](#popover-1)
+  * [Mouse Over Interaction](#mouse-over-interaction)
+  * [Popper](#popper-1)
+- [Render Props API](#render-props-api)
+  * [Bind Functions](#bind-functions-1)
+  * [`PopupState` Props](#popupstate-props)
 
 <!-- tocstop -->
 
@@ -45,7 +46,225 @@ mutation functions to a child render function.
 npm install --save material-ui-popup-state
 ```
 
-# Examples
+# Examples with React Hooks
+
+## Menu
+
+```js
+import * as React from 'react'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import { usePopupState, bindTrigger, bindMenu } from 'material-ui-popup-state/hooks'
+
+const MenuPopupState = () => {
+  const popupState = usePopupState({variant: 'popover', popupId: 'demoMenu'})
+  return (
+    <div>
+      <Button variant="contained" {...bindTrigger(popupState)}>
+        Open Menu
+      </Button>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem onClick={popupState.close}>Cake</MenuItem>
+        <MenuItem onClick={popupState.close}>Death</MenuItem>
+      </Menu>
+    </div>
+  )
+)
+
+export default MenuPopupState
+```
+
+## Popover
+
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Popover from '@material-ui/core/Popover'
+import {
+  usePopupState,
+  bindTrigger,
+  bindPopover,
+} from 'material-ui-popup-state/hooks'
+
+const styles = theme => ({
+  typography: {
+    margin: theme.spacing.unit * 2,
+  },
+})
+
+const PopoverPopupState = ({ classes }) => {
+  const popupState = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
+  return (
+    <div>
+      <Button variant="contained" {...bindTrigger(popupState)}>
+        Open Popover
+      </Button>
+      <Popover
+        {...bindPopover(popupState)}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+      >
+        <Typography className={classes.typography}>
+          The content of the Popover.
+        </Typography>
+      </Popover>
+    </div>
+  )
+}
+
+PopoverPopupState.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(PopoverPopupState)
+```
+
+## Popper
+
+```js
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button'
+import Popper from '@material-ui/core/Popper'
+import {
+  usePopupState,
+  bindToggle,
+  bindPopper,
+} from 'material-ui-popup-state/hooks'
+import Fade from '@material-ui/core/Fade'
+import Paper from '@material-ui/core/Paper'
+
+const styles = theme => ({
+  typography: {
+    padding: theme.spacing.unit * 2,
+  },
+})
+
+const PopperPopupState = ({ classes }) => {
+  const popupState = usePopupState({ variant: 'popper', popupId: 'demoPopper' })
+  return (
+    <div>
+      <Button variant="contained" {...bindToggle(popupState)}>
+        Toggle Popper
+      </Button>
+      <Popper {...bindPopper(popupState)} transition>
+        {({ TransitionProps }) => (
+          <Fade {...TransitionProps} timeout={350}>
+            <Paper>
+              <Typography className={classes.typography}>
+                The content of the Popper.
+              </Typography>
+            </Paper>
+          </Fade>
+        )}
+      </Popper>
+    </div>
+  )
+}
+
+PopperPopupState.propTypes = {
+  classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(PopperPopupState)
+```
+
+# React Hooks API
+
+## Bind Functions
+
+`material-ui-popup-state/hooks` exports several helper functions you can use to
+connect components easily:
+
+- `bindMenu`: creates props to control a `Menu` component.
+- `bindPopover`: creates props to control a `Popover` component.
+- `bindPopper`: creates props to control a `Popper` component.
+- `bindTrigger`: creates props for a component that opens the popup when clicked.
+- `bindToggle`: creates props for a component that toggles the popup when clicked.
+
+To use one of these functions, you should call it with the object
+returned by `usePopupState` and spread the return value into the desired
+element:
+
+```js
+import * as React from 'react'
+import Button from '@material-ui/core/Button'
+import Menu from '@material-ui/core/Menu'
+import MenuItem from '@material-ui/core/MenuItem'
+import {
+  usePopupState,
+  bindTrigger,
+  bindMenu,
+} from 'material-ui-popup-state/hooks'
+
+const MenuPopupState = () => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
+  return (
+    <div>
+      <Button variant="contained" {...bindTrigger(popupState)}>
+        Open Menu
+      </Button>
+      <Menu {...bindMenu(popupState)}>
+        <MenuItem onClick={popupState.close}>Cake</MenuItem>
+        <MenuItem onClick={popupState.close}>Death</MenuItem>
+      </Menu>
+    </div>
+  )
+}
+
+export default MenuPopupState
+```
+
+## `usePopupState`
+
+This is a [Custom Hook](https://reactjs.org/docs/hooks-custom.html) that uses `useState` internally, therefore the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html) apply to `usePopupState`.
+
+## `usePopupState` Props
+
+### `variant` (`'popover'` or `'popper'`, **required**)
+
+Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
+popup is a `Popper`.
+
+Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
+an `aria-owns` prop or an `aria-describedby` prop.
+
+### `popupId` (`string`, **optional** but strongly encouraged)
+
+The `id` for the popup component. It will be passed to the child props so that
+the trigger component may declare the same id in an ARIA prop.
+
+## `usePopupState` return value
+
+An object with the following properties:
+
+- `open(eventOrAnchorEl)`: opens the popup
+- `close()`: closes the popup
+- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or
+-     closes the popup if it is open.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
+-     `eventOrAnchorEl` is required if `open` is truthy.
+- `isOpen`: `true`/`false` if the popup is open/closed
+- `anchorEl`: the current anchor element (`null` when the popup is closed)
+- `popupId`: the `popupId` prop you passed to `PopupState`
+- `variant`: the `variant` prop you passed to `PopupState`
+
+# Examples with Render Props
 
 ## Menu
 
@@ -232,145 +451,7 @@ PopperPopupState.propTypes = {
 export default withStyles(styles)(PopperPopupState)
 ```
 
-# Examples with React Hooks
-
-## Menu
-
-```js
-import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import { usePopupState, bindTrigger, bindMenu } from 'material-ui-popup-state/hooks'
-
-const MenuPopupState = () => {
-  const popupState = usePopupState({variant: 'popover', popupId: 'demoMenu'})
-  return (
-    <div>
-      <Button variant="contained" {...bindTrigger(popupState)}>
-        Open Menu
-      </Button>
-      <Menu {...bindMenu(popupState)}>
-        <MenuItem onClick={popupState.close}>Cake</MenuItem>
-        <MenuItem onClick={popupState.close}>Death</MenuItem>
-      </Menu>
-    </div>
-  )
-)
-
-export default MenuPopupState
-```
-
-## Popover
-
-```js
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
-import {
-  usePopupState,
-  bindTrigger,
-  bindPopover,
-} from 'material-ui-popup-state/hooks'
-
-const styles = theme => ({
-  typography: {
-    margin: theme.spacing.unit * 2,
-  },
-})
-
-const PopoverPopupState = ({ classes }) => {
-  const popupState = usePopupState({
-    variant: 'popover',
-    popupId: 'demoPopover',
-  })
-  return (
-    <div>
-      <Button variant="contained" {...bindTrigger(popupState)}>
-        Open Popover
-      </Button>
-      <Popover
-        {...bindPopover(popupState)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Typography className={classes.typography}>
-          The content of the Popover.
-        </Typography>
-      </Popover>
-    </div>
-  )
-}
-
-PopoverPopupState.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-export default withStyles(styles)(PopoverPopupState)
-```
-
-## Popper
-
-```js
-import React from 'react'
-import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popper from '@material-ui/core/Popper'
-import {
-  usePopupState,
-  bindToggle,
-  bindPopper,
-} from 'material-ui-popup-state/hooks'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
-
-const styles = theme => ({
-  typography: {
-    padding: theme.spacing.unit * 2,
-  },
-})
-
-const PopperPopupState = ({ classes }) => {
-  const popupState = usePopupState({ variant: 'popper', popupId: 'demoPopper' })
-  return (
-    <div>
-      <Button variant="contained" {...bindToggle(popupState)}>
-        Toggle Popper
-      </Button>
-      <Popper {...bindPopper(popupState)} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Paper>
-              <Typography className={classes.typography}>
-                The content of the Popper.
-              </Typography>
-            </Paper>
-          </Fade>
-        )}
-      </Popper>
-    </div>
-  )
-}
-
-PopperPopupState.propTypes = {
-  classes: PropTypes.object.isRequired,
-}
-
-export default withStyles(styles)(PopperPopupState)
-```
-
-# API
+# Render Props API
 
 ## Bind Functions
 
@@ -433,86 +514,6 @@ the trigger component may declare the same id in an ARIA prop.
 
 The render function. It will be called with an object containing the following
 props (exported as the `InjectedProps` type):
-
-- `open(eventOrAnchorEl)`: opens the popup
-- `close()`: closes the popup
-- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or
--     closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
--     `eventOrAnchorEl` is required if `open` is truthy.
-- `isOpen`: `true`/`false` if the popup is open/closed
-- `anchorEl`: the current anchor element (`null` when the popup is closed)
-- `popupId`: the `popupId` prop you passed to `PopupState`
-- `variant`: the `variant` prop you passed to `PopupState`
-
-# React Hooks API
-
-## Bind Functions
-
-`material-ui-popup-state/hooks` exports several helper functions you can use to
-connect components easily:
-
-- `bindMenu`: creates props to control a `Menu` component.
-- `bindPopover`: creates props to control a `Popover` component.
-- `bindPopper`: creates props to control a `Popper` component.
-- `bindTrigger`: creates props for a component that opens the popup when clicked.
-- `bindToggle`: creates props for a component that toggles the popup when clicked.
-
-To use one of these functions, you should call it with the object
-returned by `usePopupState` and spread the return value into the desired
-element:
-
-```js
-import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import {
-  usePopupState,
-  bindTrigger,
-  bindMenu,
-} from 'material-ui-popup-state/hooks'
-
-const MenuPopupState = () => {
-  const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
-  return (
-    <div>
-      <Button variant="contained" {...bindTrigger(popupState)}>
-        Open Menu
-      </Button>
-      <Menu {...bindMenu(popupState)}>
-        <MenuItem onClick={popupState.close}>Cake</MenuItem>
-        <MenuItem onClick={popupState.close}>Death</MenuItem>
-      </Menu>
-    </div>
-  )
-}
-
-export default MenuPopupState
-```
-
-## `usePopupState`
-
-This is a [Custom Hook](https://reactjs.org/docs/hooks-custom.html) that uses `useState` internally, therefore the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html) apply to `usePopupState`.
-
-## `usePopupState` Props
-
-### `variant` (`'popover'` or `'popper'`, **required**)
-
-Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
-popup is a `Popper`.
-
-Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
-an `aria-owns` prop or an `aria-describedby` prop.
-
-### `popupId` (`string`, **optional** but strongly encouraged)
-
-The `id` for the popup component. It will be passed to the child props so that
-the trigger component may declare the same id in an ARIA prop.
-
-## `usePopupState` return value
-
-An object with the following properties:
 
 - `open(eventOrAnchorEl)`: opens the popup
 - `close()`: closes the popup
