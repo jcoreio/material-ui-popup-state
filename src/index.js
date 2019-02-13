@@ -243,7 +243,15 @@ export default class PopupState extends React.Component<Props, State> {
       popupId && typeof document !== 'undefined'
         ? document.getElementById(popupId) // eslint-disable-line no-undef
         : null
-    const { relatedTarget } = (event: any)
+    let relatedTarget: any = (event: any).relatedTarget
+    if (
+      relatedTarget &&
+      typeof document !== 'undefined' &&
+      relatedTarget.parentElement === document.body // eslint-disable-line no-undef
+    ) {
+      const { childNodes } = relatedTarget
+      if (childNodes.length) relatedTarget = childNodes[childNodes.length - 1]
+    }
     if (
       hovered &&
       !isAncestor(popup, relatedTarget) &&
