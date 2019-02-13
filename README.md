@@ -21,22 +21,22 @@ mutation functions to a child render function.
 
 - [Installation](#installation)
 - [Examples with React Hooks](#examples-with-react-hooks)
-  * [Menu](#menu)
-  * [Popover](#popover)
-  * [Popper](#popper)
+  - [Menu](#menu)
+  - [Popover](#popover)
+  - [Popper](#popper)
 - [React Hooks API](#react-hooks-api)
-  * [Bind Functions](#bind-functions)
-  * [`usePopupState`](#usepopupstate)
-  * [`usePopupState` Props](#usepopupstate-props)
-  * [`usePopupState` return value](#usepopupstate-return-value)
+  - [Bind Functions](#bind-functions)
+  - [`usePopupState`](#usepopupstate)
+  - [`usePopupState` Props](#usepopupstate-props)
+  - [`usePopupState` return value](#usepopupstate-return-value)
 - [Examples with Render Props](#examples-with-render-props)
-  * [Menu](#menu-1)
-  * [Popover](#popover-1)
-  * [Mouse Over Interaction](#mouse-over-interaction)
-  * [Popper](#popper-1)
+  - [Menu](#menu-1)
+  - [Popover](#popover-1)
+  - [Mouse Over Interaction](#mouse-over-interaction)
+  - [Popper](#popper-1)
 - [Render Props API](#render-props-api)
-  * [Bind Functions](#bind-functions-1)
-  * [`PopupState` Props](#popupstate-props)
+  - [Bind Functions](#bind-functions-1)
+  - [`PopupState` Props](#popupstate-props)
 
 <!-- tocstop -->
 
@@ -255,10 +255,8 @@ An object with the following properties:
 
 - `open(eventOrAnchorEl)`: opens the popup
 - `close()`: closes the popup
-- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or
--     closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
--     `eventOrAnchorEl` is required if `open` is truthy.
+- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or closes the popup if it is open.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. `eventOrAnchorEl` is required if `open` is truthy.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element (`null` when the popup is closed)
 - `popupId`: the `popupId` prop you passed to `PopupState`
@@ -517,10 +515,8 @@ props (exported as the `InjectedProps` type):
 
 - `open(eventOrAnchorEl)`: opens the popup
 - `close()`: closes the popup
-- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or
--     closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
--     `eventOrAnchorEl` is required if `open` is truthy.
+- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or closes the popup if it is open.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. `eventOrAnchorEl` is required if `open` is truthy.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element (`null` when the popup is closed)
 - `popupId`: the `popupId` prop you passed to `PopupState`
