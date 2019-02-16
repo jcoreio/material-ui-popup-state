@@ -31,8 +31,8 @@ const CascadingHoverMenus = () => {
           <MenuItem onClick={popupState.close}>Cake</MenuItem>
           <MenuItem onClick={popupState.close}>Death</MenuItem>
           <Submenu popupId="moreChoicesMenu" title="More Choices">
-            <MenuItem onClick={popupState.close}>Cake</MenuItem>
-            <MenuItem onClick={popupState.close}>Death</MenuItem>
+            <MenuItem onClick={popupState.close}>Cheesecake</MenuItem>
+            <MenuItem onClick={popupState.close}>Cheesedeath</MenuItem>
             <Submenu popupId="evenMoreChoicesMenu" title="Even More Choices">
               <MenuItem onClick={popupState.close}>Cake (the band)</MenuItem>
               <MenuItem onClick={popupState.close}>Death Metal</MenuItem>
