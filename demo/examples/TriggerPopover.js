@@ -16,7 +16,7 @@ const styles = theme => ({
   },
 })
 
-const PopoverPopupState = ({ classes }) => {
+const TriggerPopover = ({ classes }) => {
   const popupState = usePopupState({
     variant: 'popover',
     popupId: 'demoPopover',
@@ -45,8 +45,8 @@ const PopoverPopupState = ({ classes }) => {
   )
 }
 
-PopoverPopupState.propTypes = {
+TriggerPopover.propTypes = {
   classes: PropTypes.object.isRequired,
 }
 
-export default withStyles(styles)(PopoverPopupState)
+export default withStyles(styles)(TriggerPopover)
