@@ -286,7 +286,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(popover.prop('id'), 'popover')
       assert.strictEqual(popover.prop('anchorEl'), null)
       assert.strictEqual(popover.prop('open'), false)
-      assert.strictEqual(popover.prop('onClose'), render.args[1][0].close)
+      assert.strictEqual(popover.prop('onClose'), render.args[2][0].close)
     })
   })
 })
