@@ -72,22 +72,20 @@ const Submenu = withStyles(submenuStyles)(
     })
     return (
       <ParentPopupState.Provider value={popupState}>
-        <React.Fragment>
-          <MenuItem {...bindHover(popupState)} selected={popupState.isOpen}>
-            <ListItemText className={classes.title}>{title}</ListItemText>
-            <ChevronRight className={classes.moreArrow} />
-          </MenuItem>
-          <Menu
-            {...bindMenu(popupState)}
-            className={classes.menu}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            getContentAnchorEl={null}
-            {...props}
-          >
-            {children}
-          </Menu>
-        </React.Fragment>
+        <MenuItem {...bindHover(popupState)} selected={popupState.isOpen}>
+          <ListItemText className={classes.title}>{title}</ListItemText>
+          <ChevronRight className={classes.moreArrow} />
+        </MenuItem>
+        <Menu
+          {...bindMenu(popupState)}
+          className={classes.menu}
+          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          getContentAnchorEl={null}
+          {...props}
+        >
+          {children}
+        </Menu>
       </ParentPopupState.Provider>
     )
   }
