@@ -53,7 +53,7 @@ const Demo = ({ headerId, classes, title, code, example }) => {
       <Typography variant="h4" className={classes.title} id={headerId}>
         {title}
         {headerId && (
-          <a href={`/#${headerId}`} className={classes.titleAnchor}>
+          <a href={`#${headerId}`} className={classes.titleAnchor}>
             #
           </a>
         )}
