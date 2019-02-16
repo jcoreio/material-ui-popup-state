@@ -1,9 +1,9 @@
 import * as React from 'react'
 
-import ToggleMenu from './examples/ToggleMenu'
-import ToggleMenuCode from '!!raw-loader!./examples/ToggleMenu'
-import TogglePopover from './examples/TogglePopover'
-import TogglePopoverCode from '!!raw-loader!./examples/TogglePopover'
+import TriggerMenu from './examples/TriggerMenu'
+import TriggerMenuCode from '!!raw-loader!./examples/TriggerMenu'
+import TriggerPopover from './examples/TriggerPopover'
+import TriggerPopoverCode from '!!raw-loader!./examples/TriggerPopover'
 import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverMenu from './examples/HoverMenu'
@@ -24,20 +24,33 @@ const styles = {
 const Root = ({ classes }) => (
   <div className={classes.root}>
     <Typography variant="h3">material-ui-popup-state demos</Typography>
-    <Demo title="Toggle Menu" example={<ToggleMenu />} code={ToggleMenuCode} />
     <Demo
-      title="Toggle Popover"
-      example={<TogglePopover />}
-      code={TogglePopoverCode}
+      title="Trigger Menu"
+      headerId="trigger-menu"
+      example={<TriggerMenu />}
+      code={TriggerMenuCode}
+    />
+    <Demo
+      title="Trigger Popover"
+      headerId="trigger-popover"
+      example={<TriggerPopover />}
+      code={TriggerPopoverCode}
     />
     <Demo
       title="Hover Popover"
+      headerId="hover-popover"
       example={<HoverPopover />}
       code={HoverPopoverCode}
     />
-    <Demo title="Hover Menu" example={<HoverMenu />} code={HoverMenuCode} />
+    <Demo
+      title="Hover Menu"
+      headerId="hover-menu"
+      example={<HoverMenu />}
+      code={HoverMenuCode}
+    />
     <Demo
       title="Cascading Hover Menus"
+      headerId="cascading-hover-menus"
       example={<CascadingHoverMenus />}
       code={CascadingHoverMenusCode}
     />

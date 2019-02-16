@@ -35,14 +35,28 @@ const styles = {
     justifyContent: 'center',
     padding: 40,
   },
+  titleAnchor: {
+    color: '#aaa',
+    marginLeft: 10,
+    textDecoration: 'none',
+    visibility: 'hidden',
+    '$title:hover > &': {
+      visibility: 'visible',
+    },
+  },
 }
 
-const Demo = ({ classes, title, code, example }) => {
+const Demo = ({ headerId, classes, title, code, example }) => {
   const [showSource, setShowSource] = useState(false)
   return (
     <div className={classes.root}>
-      <Typography variant="h4" className={classes.title}>
+      <Typography variant="h4" className={classes.title} id={headerId}>
         {title}
+        {headerId && (
+          <a href={`/#${headerId}`} className={classes.titleAnchor}>
+            #
+          </a>
+        )}
       </Typography>
       <div className={classes.toolbar}>
         <Tooltip title="Show Source" placement="top">
