@@ -73,7 +73,7 @@ const Submenu = withStyles(submenuStyles)(
     return (
       <ParentPopupState.Provider value={popupState}>
         <React.Fragment>
-          <MenuItem {...bindHover(popupState)}>
+          <MenuItem {...bindHover(popupState)} selected={popupState.isOpen}>
             <ListItemText className={classes.title}>{title}</ListItemText>
             <ChevronRight className={classes.moreArrow} />
           </MenuItem>
