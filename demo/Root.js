@@ -8,6 +8,8 @@ import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverMenu from './examples/HoverMenu'
 import HoverMenuCode from '!!raw-loader!./examples/HoverMenu'
+import CascadingHoverMenus from './examples/CascadingHoverMenus'
+import CascadingHoverMenusCode from '!!raw-loader!./examples/CascadingHoverMenus'
 import Demo from './Demo'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
@@ -34,6 +36,11 @@ const Root = ({ classes }) => (
       code={HoverPopoverCode}
     />
     <Demo title="Hover Menu" example={<HoverMenu />} code={HoverMenuCode} />
+    <Demo
+      title="Cascading Hover Menus"
+      example={<CascadingHoverMenus />}
+      code={CascadingHoverMenusCode}
+    />
   </div>
 )
 

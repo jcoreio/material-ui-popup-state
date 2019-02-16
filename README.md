@@ -200,6 +200,7 @@ connect components easily:
 - `bindPopper`: creates props to control a `Popper` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
+- `bindHover`: creates props for a component that opens the popup while hovered.
 
 To use one of these functions, you should call it with the object
 returned by `usePopupState` and spread the return value into the desired

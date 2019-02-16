@@ -3,164 +3,22 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 
-export type Variant = 'popover' | 'popper'
+import {
+  initCoreState,
+  createPopupState,
+  bindTrigger,
+  bindToggle,
+  bindHover,
+  bindMenu,
+  bindPopover,
+  bindPopper,
+  type Variant,
+  type CoreState,
+  type PopupState as InjectedProps,
+} from './core'
 
-export type InjectedProps = {
-  open: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
-  close: () => void,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
-  toggle: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
-  setOpen: (
-    open: boolean,
-    eventOrAnchorEl: SyntheticEvent<any> | HTMLElement
-  ) => void,
-  isOpen: boolean,
-  anchorEl: ?HTMLElement,
-  popupId: ?string,
-  variant: Variant,
-}
-
-/**
- * Creates props for a component that opens the popup when clicked.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export function bindTrigger({
-  isOpen,
-  open,
-  popupId,
-  variant,
-}: InjectedProps): {
-  'aria-owns'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': true,
-  onClick: (event: SyntheticEvent<any>) => void,
-} {
-  return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': true,
-    onClick: open,
-  }
-}
-
-/**
- * Creates props for a component that toggles the popup when clicked.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export function bindToggle({
-  isOpen,
-  toggle,
-  popupId,
-  variant,
-}: InjectedProps): {
-  'aria-owns'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': true,
-  onClick: (event: SyntheticEvent<any>) => void,
-} {
-  return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': true,
-    onClick: toggle,
-  }
-}
-
-/**
- * Creates props for a component that opens the popup while hovered.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export function bindHover({
-  isOpen,
-  open,
-  onMouseLeave,
-  popupId,
-  variant,
-}: InjectedProps): {
-  'aria-owns'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': true,
-  onMouseEnter: (event: SyntheticEvent<any>) => any,
-  onMouseLeave: (event: SyntheticEvent<any>) => any,
-} {
-  return {
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': true,
-    onMouseEnter: open,
-    onMouseLeave,
-  }
-}
-
-/**
- * Creates props for a `Popover` component.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export function bindPopover({
-  isOpen,
-  anchorEl,
-  close,
-  onMouseLeave,
-  popupId,
-}: InjectedProps): {
-  id: ?string,
-  anchorEl: ?HTMLElement,
-  open: boolean,
-  onClose: () => void,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
-} {
-  return {
-    id: popupId,
-    anchorEl,
-    open: isOpen,
-    onClose: close,
-    onMouseLeave,
-  }
-}
-
-/**
- * Creates props for a `Menu` component.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export const bindMenu = bindPopover
-
-/**
- * Creates props for a `Popper` component.
- *
- * @param {object} popupState the argument passed to the child function of
- * `PopupState`
- */
-export function bindPopper({
-  isOpen,
-  anchorEl,
-  popupId,
-  onMouseLeave,
-}: InjectedProps): {
-  id: ?string,
-  anchorEl: ?HTMLElement,
-  open: boolean,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
-} {
-  return {
-    id: popupId,
-    anchorEl,
-    open: isOpen,
-    onMouseLeave,
-  }
-}
+export { bindTrigger, bindToggle, bindHover, bindMenu, bindPopover, bindPopper }
+export type { Variant, InjectedProps }
 
 export type Props = {
   popupId?: string,
@@ -168,15 +26,8 @@ export type Props = {
   variant: Variant,
 }
 
-type State = {
-  anchorEl: ?HTMLElement,
-  hovered: boolean,
-}
-
-let eventOrAnchorElWarned: boolean = false
-
-export default class PopupState extends React.Component<Props, State> {
-  state: State = { anchorEl: null, hovered: false }
+export default class PopupState extends React.Component<Props, CoreState> {
+  state: CoreState = initCoreState
 
   static propTypes = {
     /**
@@ -215,79 +66,18 @@ export default class PopupState extends React.Component<Props, State> {
     variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
   }
 
-  handleToggle = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
-    if (this.state.anchorEl) this.handleClose()
-    else this.handleOpen(eventOrAnchorEl)
-  }
-
-  handleOpen = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
-    if (!eventOrAnchorElWarned && !eventOrAnchorEl) {
-      eventOrAnchorElWarned = true
-      console.error('eventOrAnchorEl should be defined') // eslint-disable-line no-console
-    }
-    this.setState({
-      anchorEl:
-        eventOrAnchorEl && eventOrAnchorEl.currentTarget
-          ? (eventOrAnchorEl.currentTarget: any)
-          : (eventOrAnchorEl: any),
-      hovered: (eventOrAnchorEl: any).type === 'mouseenter',
-    })
-  }
-
-  handleClose = () => this.setState({ anchorEl: null, hovered: false })
-
-  handleMouseLeave = (event: SyntheticEvent<any>) => {
-    const { popupId } = this.props
-    const { hovered, anchorEl } = this.state
-    const popup =
-      popupId && typeof document !== 'undefined'
-        ? document.getElementById(popupId) // eslint-disable-line no-undef
-        : null
-    const relatedTarget: any = (event: any).relatedTarget
-    if (
-      hovered &&
-      !isAncestor(popup, relatedTarget) &&
-      !isAncestor(anchorEl, relatedTarget)
-    ) {
-      this.handleClose()
-    }
-  }
-
-  handleSetOpen = (
-    open: boolean,
-    eventOrAnchorEl: SyntheticEvent<any> | HTMLElement
-  ) => {
-    if (open) this.handleOpen(eventOrAnchorEl)
-    else this.handleClose()
-  }
-
   render(): React.Node | null {
     const { children, popupId, variant } = this.props
-    const { anchorEl } = this.state
 
-    const isOpen = Boolean(anchorEl)
-
-    const result = children({
-      open: this.handleOpen,
-      close: this.handleClose,
-      onMouseLeave: this.handleMouseLeave,
-      toggle: this.handleToggle,
-      setOpen: this.handleSetOpen,
-      isOpen,
-      anchorEl,
+    const popupState = createPopupState({
+      state: this.state,
+      setState: state => this.setState(state),
       popupId,
       variant,
     })
+
+    const result = children(popupState)
     if (result == null) return null
     return result
   }
-}
-
-function isAncestor(parent: ?Element, child: ?Element): boolean {
-  if (!parent) return false
-  while (child) {
-    if (child === parent) return true
-    child = child.parentElement
-  }
-  return false
 }
