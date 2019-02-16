@@ -9,11 +9,10 @@
 .travis.yml
 commitlint.config.js
 coverage
+demo
 flow-typed
 lib
 node_modules
 renovate.json
-solano.yml
 src
-stories
 test

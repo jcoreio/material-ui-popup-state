@@ -24,7 +24,10 @@
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once",
-    "demos:dev": "webpack-dev-server"
+    "demo:dev": "webpack-dev-server",
+    "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
+    "predeploy": "yarn build:demo",
+    "deploy": "gh-pages -d demo"
   },
   "husky": {
     "hooks": {
@@ -113,6 +116,7 @@
     "flow-bin": "^0.91.0",
     "flow-copy-source": "^2.0.2",
     "flow-watch": "^1.1.4",
+    "gh-pages": "^2.0.1",
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
     "jsdom": "^11.5.1",
