@@ -4,3 +4,4 @@ coverage
 es
 lib
 node_modules
+/demo/bundle.js

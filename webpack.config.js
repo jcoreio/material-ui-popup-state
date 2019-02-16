@@ -2,8 +2,10 @@
 
 const path = require('path')
 
+const prod = 'production' === process.env.NODE_ENV
+
 module.exports = {
-  mode: 'development',
+  mode: prod ? 'production' : 'development',
   entry: ['@babel/polyfill', './demo/index.js'],
   output: {
     path: path.join(__dirname, 'demo'),
@@ -45,5 +47,6 @@ module.exports = {
   },
   devServer: {
     port: 3000,
+    contentBase: path.join(__dirname, 'demo'),
   },
 }
