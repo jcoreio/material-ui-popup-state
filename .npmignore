@@ -2,6 +2,7 @@
 !**/*.js
 !**/*.js.flow
 !/*.md
+!yarn.lock
 /lib
 /src
 /stories
