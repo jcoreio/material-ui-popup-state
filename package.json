@@ -109,7 +109,7 @@
     "husky": "^1.1.4",
     "istanbul": "^0.4.5",
     "lint-staged": "^8.0.4",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "nyc": "^13.1.0",
     "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
