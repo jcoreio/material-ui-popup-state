@@ -11,9 +11,12 @@ jobs:
           keys:
             - v1-yarn-packages-{{ checksum "yarn.lock" }}
 
-      - run: yarn config set registry "https://registry.npmjs.org/"
-      - run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
-      - run: echo "registry=https://registry.npmjs.org/" >> .npmrc
+      - run:
+          name: Setup NPM Token
+          command: |
+              yarn config set registry "https://registry.npmjs.org/"
+              echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
+              echo "registry=https://registry.npmjs.org/" >> .npmrc
 
       - run:
           name: Install Dependencies
