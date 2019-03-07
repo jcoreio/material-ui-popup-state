@@ -1,6 +1,6 @@
 // @flow
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 if (!useState) {
   throw new Error(
@@ -19,6 +19,7 @@ import {
   bindPopper,
   type Variant,
   type PopupState,
+  type CoreState,
 } from './core'
 
 export { bindTrigger, bindToggle, bindHover, bindMenu, bindPopover, bindPopper }
@@ -34,7 +35,16 @@ export function usePopupState({
   variant: Variant,
 }): PopupState {
   const [state, _setState] = useState(initCoreState)
-  const setState = nextState => _setState({ ...state, ...nextState })
+  const isMounted = useRef(true)
+  useEffect(
+    () => () => {
+      isMounted.current = false
+    },
+    []
+  )
+  const setState = (nextState: $Shape<CoreState>) => {
+    if (isMounted.current) _setState({ ...state, ...nextState })
+  }
 
   return createPopupState({
     state,

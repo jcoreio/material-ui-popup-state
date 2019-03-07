@@ -24,10 +24,13 @@ export type Props = {
   popupId?: string,
   children: (props: InjectedProps) => ?React.Node,
   variant: Variant,
+  parentPopupState?: ?InjectedProps,
 }
 
 export default class PopupState extends React.Component<Props, CoreState> {
   state: CoreState = initCoreState
+
+  _mounted: boolean = true
 
   static propTypes = {
     /**
@@ -64,16 +67,29 @@ export default class PopupState extends React.Component<Props, CoreState> {
      * component.
      */
     variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
+    /**
+     *
+     */
+    parentPopupState: PropTypes.object,
+  }
+
+  componentWillUnmount() {
+    this._mounted = false
+  }
+
+  _setStateIfMounted = (state: $Shape<CoreState>) => {
+    if (this._mounted) this.setState(state)
   }
 
   render(): React.Node | null {
-    const { children, popupId, variant } = this.props
+    const { children, popupId, variant, parentPopupState } = this.props
 
     const popupState = createPopupState({
       state: this.state,
-      setState: state => this.setState(state),
+      setState: this._setStateIfMounted,
       popupId,
       variant,
+      parentPopupState,
     })
 
     const result = children(popupState)
