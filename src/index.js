@@ -1,4 +1,5 @@
 // @flow
+/* eslint-env browser */
 
 import * as React from 'react'
 import PropTypes from 'prop-types'
@@ -79,6 +80,19 @@ export default class PopupState extends React.Component<Props, CoreState> {
 
   _setStateIfMounted = (state: $Shape<CoreState>) => {
     if (this._mounted) this.setState(state)
+  }
+
+  componentDidUpdate(prevProps: Props, prevState: CoreState) {
+    const { popupId } = this.props
+    if (
+      popupId !== prevProps.popupId ||
+      this.state.anchorEl !== prevState.anchorEl
+    ) {
+      if (popupId && typeof document === 'object') {
+        const popup = document.getElementById(popupId)
+        if (popup) popup.focus()
+      }
+    }
   }
 
   render(): React.Node | null {

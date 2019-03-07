@@ -1,4 +1,5 @@
 // @flow
+/* eslint-env browser */
 
 import * as React from 'react'
 
@@ -61,6 +62,9 @@ export function createPopupState({
     if (parentPopupState) {
       if (!parentPopupState.isOpen) return
       parentPopupState._setChildPopupState(popupState)
+    }
+    if (typeof document === 'object' && document.activeElement) {
+      document.activeElement.blur()
     }
     setState({
       anchorEl:

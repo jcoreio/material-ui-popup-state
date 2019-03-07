@@ -1,4 +1,5 @@
 // @flow
+/* eslint-env browser */
 
 import { useState, useRef, useEffect } from 'react'
 
@@ -41,6 +42,15 @@ export function usePopupState({
       isMounted.current = false
     },
     []
+  )
+  useEffect(
+    () => {
+      if (popupId && typeof document === 'object') {
+        const popup = document.getElementById(popupId)
+        if (popup) popup.focus()
+      }
+    },
+    [popupId, state.anchorEl]
   )
   const setState = (nextState: $Shape<CoreState>) => {
     if (isMounted.current) _setState({ ...state, ...nextState })
