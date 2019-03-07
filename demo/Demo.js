@@ -2,11 +2,12 @@ import * as React from 'react'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Code from '@material-ui/icons/Code'
 import Collapse from '@material-ui/core/Collapse'
+import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import Tooltip from '@material-ui/core/Tooltip'
 
-const { useState } = React
+const { useState, useCallback } = React
 
 const styles = {
   title: {
@@ -18,7 +19,10 @@ const styles = {
   },
   toolbar: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  toolbarSpacer: {
+    flex: '1 1 auto',
   },
   code: {
     margin: 0,
@@ -46,8 +50,19 @@ const styles = {
   },
 }
 
-const Demo = ({ headerId, classes, title, code, example }) => {
+const Demo = ({
+  headerId,
+  classes,
+  title,
+  code,
+  example,
+  hooksCode,
+  hooksExample,
+}) => {
   const [showSource, setShowSource] = useState(false)
+  const [api, setApi] = useState('hooks')
+  const setRenderProps = useCallback(() => setApi('render-props'), [])
+  const setHooks = useCallback(() => setApi('hooks'), [])
   return (
     <div className={classes.root}>
       <Typography variant="h4" className={classes.title} id={headerId}>
@@ -59,6 +74,23 @@ const Demo = ({ headerId, classes, title, code, example }) => {
         )}
       </Typography>
       <div className={classes.toolbar}>
+        {code != null && hooksCode != null && (
+          <React.Fragment>
+            <Button
+              variant={api === 'render-props' ? 'outlined' : 'text'}
+              onClick={setRenderProps}
+            >
+              Render Props
+            </Button>
+            <Button
+              variant={api === 'hooks' ? 'outlined' : 'text'}
+              onClick={setHooks}
+            >
+              Hooks
+            </Button>
+          </React.Fragment>
+        )}
+        <div className={classes.toolbarSpacer} />
         <Tooltip title="Show Source" placement="top">
           <IconButton onClick={() => setShowSource(!showSource)}>
             <Code />
@@ -66,9 +98,13 @@ const Demo = ({ headerId, classes, title, code, example }) => {
         </Tooltip>
       </div>
       <Collapse in={showSource}>
-        <pre className={classes.code}>{code}</pre>
+        <pre className={classes.code}>
+          {api === 'hooks' ? hooksCode || code : code || hooksCode}
+        </pre>
       </Collapse>
-      <div className={classes.example}>{example}</div>
+      <div className={classes.example}>
+        {api === 'hooks' ? hooksExample || example : example || hooksExample}
+      </div>
     </div>
   )
 }
