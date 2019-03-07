@@ -3,7 +3,6 @@
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
-  "modules.root": "es",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint src test --cache",
@@ -23,7 +22,6 @@
     "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once",
     "demo:dev": "webpack-dev-server",
     "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
     "predeploy": "yarn build:demo",
@@ -42,8 +40,18 @@
       "git add"
     ]
   },
+  "commitlint": {
+    "extends": [
+      "@jedwards1211/commitlint-config"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
   "config": {
-    "mocha": "-r @babel/register ./test/utils/setup.js ./test/*.js",
+    "mocha": "-r @babel/register -r jsdom-global/register test/configure.js test/**.js",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -113,7 +121,7 @@
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-react": "^7.11.1",
     "eslint-watch": "^4.0.2",
-    "flow-bin": "^0.91.0",
+    "flow-bin": "^0.92.0",
     "flow-copy-source": "^2.0.2",
     "flow-watch": "^1.1.4",
     "gh-pages": "^2.0.1",
@@ -122,7 +130,7 @@
     "jsdom": "^11.5.1",
     "jsdom-global": "^3.0.2",
     "lint-staged": "^8.0.4",
-    "mocha": "^5.2.0",
+    "mocha": "^6.0.0",
     "nyc": "^13.1.0",
     "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
@@ -132,16 +140,33 @@
     "rimraf": "^2.6.0",
     "semantic-release": "^15.1.4",
     "sinon": "^6.1.4",
-    "travis-deploy-once": "^5.0.9",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   },
-  "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0"
-  },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
     "prop-types": "^15.0.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0 || ^16.0.0"
+  },
+  "renovate": {
+    "extends": [
+      ":separateMajorReleases",
+      ":combinePatchMinorReleases",
+      ":ignoreUnstable",
+      ":prImmediately",
+      ":renovatePrefix",
+      ":updateNotScheduled",
+      ":preserveSemverRanges",
+      ":semanticPrefixFixDepsChoreOthers",
+      ":automergeDisabled",
+      "group:monorepos"
+    ],
+    "automerge": true,
+    "major": {
+      "automerge": false
+    }
   }
 }
