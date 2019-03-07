@@ -4,11 +4,7 @@ import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
-import {
-  usePopupState,
-  bindTrigger,
-  bindPopover,
-} from 'material-ui-popup-state/hooks'
+import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 const styles = theme => ({
   typography: {
@@ -16,34 +12,32 @@ const styles = theme => ({
   },
 })
 
-const TriggerPopover = ({ classes }) => {
-  const popupState = usePopupState({
-    variant: 'popover',
-    popupId: 'demoPopover',
-  })
-  return (
-    <div>
-      <Button variant="contained" {...bindTrigger(popupState)}>
-        Open Popover
-      </Button>
-      <Popover
-        {...bindPopover(popupState)}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'center',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-      >
-        <Typography className={classes.typography}>
-          The content of the Popover.
-        </Typography>
-      </Popover>
-    </div>
-  )
-}
+const TriggerPopover = ({ classes }) => (
+  <PopupState variant="popover" popupId="demoPopover">
+    {popupState => (
+      <div>
+        <Button variant="contained" {...bindTrigger(popupState)}>
+          Open Popover
+        </Button>
+        <Popover
+          {...bindPopover(popupState)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <Typography className={classes.typography}>
+            The content of the Popover.
+          </Typography>
+        </Popover>
+      </div>
+    )}
+  </PopupState>
+)
 
 TriggerPopover.propTypes = {
   classes: PropTypes.object.isRequired,
