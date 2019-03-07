@@ -70,7 +70,7 @@ const MenuPopupState = () => {
       </Menu>
     </div>
   )
-)
+}
 
 export default MenuPopupState
 ```
