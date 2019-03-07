@@ -1,3 +1,4 @@
+require('./clearConsole')
 const createDOM = require('./createDOM')
 
 createDOM()
