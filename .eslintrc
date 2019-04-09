@@ -11,5 +11,12 @@
   },
   "env": {
     "es6": true
+  },
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "detect",
+      "flowVersion": "detect"
+    }
   }
 }
