@@ -6,9 +6,9 @@ import * as React from 'react'
 export type Variant = 'popover' | 'popper'
 
 export type PopupState = {
-  open: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
+  open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
-  toggle: (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => void,
+  toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   onMouseLeave: (event: SyntheticEvent<any>) => void,
   setOpen: (
     open: boolean,
@@ -16,6 +16,8 @@ export type PopupState = {
   ) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
+  setAnchorEl: (?HTMLElement) => any,
+  setAnchorElUsed: boolean,
   popupId: ?string,
   variant: Variant,
   _childPopupState: ?PopupState,
@@ -25,20 +27,24 @@ export type PopupState = {
 let eventOrAnchorElWarned: boolean = false
 
 export type CoreState = {
+  isOpen: boolean,
+  setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
   hovered: boolean,
   _childPopupState: ?PopupState,
 }
 
 export const initCoreState: CoreState = {
+  isOpen: false,
+  setAnchorElUsed: false,
   anchorEl: null,
   hovered: false,
   _childPopupState: null,
 }
 
 export function createPopupState({
-  state: { anchorEl, hovered, _childPopupState },
-  setState,
+  state,
+  setState: _setState,
   parentPopupState,
   popupId,
   variant,
@@ -49,15 +55,34 @@ export function createPopupState({
   variant: Variant,
   parentPopupState?: ?PopupState,
 }): PopupState {
-  const toggle = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
-    if (anchorEl) close()
+  const { isOpen, setAnchorElUsed, anchorEl, hovered, _childPopupState } = state
+
+  // use lastState to workaround cases where setState is called multiple times
+  // in a single render (e.g. because of refs being called multiple times)
+  let lastState = state
+  const setState = (nextState: $Shape<CoreState>) => {
+    if (hasChanges(lastState, nextState)) {
+      _setState((lastState = { ...lastState, ...nextState }))
+    }
+  }
+
+  const setAnchorEl = (_anchorEl: ?HTMLElement) => {
+    setState({ setAnchorElUsed: true, anchorEl: _anchorEl })
+  }
+
+  const toggle = (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => {
+    if (isOpen) close()
     else open(eventOrAnchorEl)
   }
 
-  const open = (eventOrAnchorEl: SyntheticEvent<any> | HTMLElement) => {
-    if (!eventOrAnchorElWarned && !eventOrAnchorEl) {
+  const open = (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => {
+    if (!eventOrAnchorElWarned && !eventOrAnchorEl && !setAnchorElUsed) {
       eventOrAnchorElWarned = true
-      console.error('eventOrAnchorEl should be defined') // eslint-disable-line no-console
+      /* eslint-disable no-console */
+      console.error(
+        'eventOrAnchorEl should be defined if setAnchorEl is not used'
+      )
+      /* eslint-enable no-console */
     }
     if (parentPopupState) {
       if (!parentPopupState.isOpen) return
@@ -66,19 +91,27 @@ export function createPopupState({
     if (typeof document === 'object' && document.activeElement) {
       document.activeElement.blur()
     }
-    setState({
-      anchorEl:
-        eventOrAnchorEl && eventOrAnchorEl.currentTarget
-          ? (eventOrAnchorEl.currentTarget: any)
-          : (eventOrAnchorEl: any),
-      hovered: (eventOrAnchorEl: any).type === 'mouseenter',
-    })
+
+    const newState: $Shape<CoreState> = {
+      isOpen: true,
+      hovered: eventOrAnchorEl && (eventOrAnchorEl: any).type === 'mouseenter',
+    }
+
+    if (eventOrAnchorEl && eventOrAnchorEl.currentTarget) {
+      if (!setAnchorElUsed) {
+        newState.anchorEl = (eventOrAnchorEl.currentTarget: any)
+      }
+    } else if (eventOrAnchorEl) {
+      newState.anchorEl = (eventOrAnchorEl: any)
+    }
+
+    setState(newState)
   }
 
   const close = () => {
     if (_childPopupState) _childPopupState.close()
     if (parentPopupState) parentPopupState._setChildPopupState(null)
-    setState({ anchorEl: null, hovered: false })
+    setState({ isOpen: false, hovered: false })
   }
 
   const setOpen = (
@@ -86,9 +119,6 @@ export function createPopupState({
     eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement
   ) => {
     if (nextOpen) {
-      if (!eventOrAnchorEl) {
-        throw new Error('eventOrAnchorEl must be defined when opening')
-      }
       open(eventOrAnchorEl)
     } else close()
   }
@@ -104,9 +134,11 @@ export function createPopupState({
 
   const popupState = {
     anchorEl,
+    setAnchorEl,
+    setAnchorElUsed,
     popupId,
     variant,
-    isOpen: anchorEl != null,
+    isOpen,
     open,
     close,
     toggle,
@@ -117,6 +149,18 @@ export function createPopupState({
   }
 
   return popupState
+}
+
+/**
+ * Creates a ref that sets the anchorEl for the popup.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function anchorRef({ setAnchorEl }: PopupState): (?HTMLElement) => any {
+  return (el: ?HTMLElement) => {
+    if (el) setAnchorEl(el)
+  }
 }
 
 /**
@@ -133,14 +177,14 @@ export function bindTrigger({
 }: PopupState): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
-  'aria-haspopup': true,
+  'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
-    'aria-haspopup': true,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
     onClick: open,
   }
 }
@@ -159,14 +203,14 @@ export function bindToggle({
 }: PopupState): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
-  'aria-haspopup': true,
+  'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
-    'aria-haspopup': true,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
     onClick: toggle,
   }
 }
@@ -186,7 +230,7 @@ export function bindHover({
 }: PopupState): {
   'aria-owns'?: ?string,
   'aria-describedby'?: ?string,
-  'aria-haspopup': true,
+  'aria-haspopup': ?true,
   onMouseEnter: (event: SyntheticEvent<any>) => any,
   onMouseLeave: (event: SyntheticEvent<any>) => any,
 } {
@@ -194,7 +238,7 @@ export function bindHover({
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
-    'aria-haspopup': true,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
     onMouseEnter: open,
     onMouseLeave,
   }
@@ -281,6 +325,15 @@ function isAncestor(parent: ?Element, child: ?Element): boolean {
   while (child) {
     if (child === parent) return true
     child = child.parentElement
+  }
+  return false
+}
+
+function hasChanges(state: CoreState, nextState: $Shape<CoreState>): boolean {
+  for (let key in nextState) {
+    if (state.hasOwnProperty(key) && state[key] !== nextState[key]) {
+      return true
+    }
   }
   return false
 }

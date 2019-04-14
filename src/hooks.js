@@ -12,6 +12,7 @@ if (!useState) {
 import {
   initCoreState,
   createPopupState,
+  anchorRef,
   bindTrigger,
   bindToggle,
   bindHover,
@@ -20,10 +21,17 @@ import {
   bindPopper,
   type Variant,
   type PopupState,
-  type CoreState,
 } from './core'
 
-export { bindTrigger, bindToggle, bindHover, bindMenu, bindPopover, bindPopper }
+export {
+  anchorRef,
+  bindTrigger,
+  bindToggle,
+  bindHover,
+  bindMenu,
+  bindPopover,
+  bindPopper,
+}
 export type { Variant, PopupState }
 
 export function usePopupState({
@@ -35,7 +43,7 @@ export function usePopupState({
   popupId: ?string,
   variant: Variant,
 }): PopupState {
-  const [state, _setState] = useState(initCoreState)
+  const [state, setState] = useState(initCoreState)
   const isMounted = useRef(true)
   useEffect(
     () => () => {
@@ -52,9 +60,6 @@ export function usePopupState({
     },
     [popupId, state.anchorEl]
   )
-  const setState = (nextState: $Shape<CoreState>) => {
-    if (isMounted.current) _setState({ ...state, ...nextState })
-  }
 
   return createPopupState({
     state,

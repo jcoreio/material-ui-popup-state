@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import {
   initCoreState,
   createPopupState,
+  anchorRef,
   bindTrigger,
   bindToggle,
   bindHover,
@@ -18,7 +19,15 @@ import {
   type PopupState as InjectedProps,
 } from './core'
 
-export { bindTrigger, bindToggle, bindHover, bindMenu, bindPopover, bindPopper }
+export {
+  anchorRef,
+  bindTrigger,
+  bindToggle,
+  bindHover,
+  bindMenu,
+  bindPopover,
+  bindPopper,
+}
 export type { Variant, InjectedProps }
 
 export type Props = {

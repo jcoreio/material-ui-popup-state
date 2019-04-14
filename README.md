@@ -195,6 +195,9 @@ export default withStyles(styles)(PopperPopupState)
 `material-ui-popup-state/hooks` exports several helper functions you can use to
 connect components easily:
 
+- `anchorRef`: creates a `ref` function to pass to the `anchorEl`
+  (by default, the `currentTarget` of the mouse event that triggered the popup
+  is used; only use `anchorRef` if you want a different element to be the anchor).
 - `bindMenu`: creates props to control a `Menu` component.
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
@@ -258,12 +261,14 @@ the trigger component may declare the same id in an ARIA prop.
 
 An object with the following properties:
 
-- `open(eventOrAnchorEl)`: opens the popup
+- `open([eventOrAnchorEl])`: opens the popup
 - `close()`: closes the popup
-- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. `eventOrAnchorEl` is required if `open` is truthy.
+- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
 - `isOpen`: `true`/`false` if the popup is open/closed
-- `anchorEl`: the current anchor element (`null` when the popup is closed)
+- `anchorEl`: the current anchor element
+- `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
+  mouse event is used by default unless you have called `setAnchorEl`)
 - `popupId`: the `popupId` prop you passed to `PopupState`
 - `variant`: the `variant` prop you passed to `PopupState`
 
@@ -461,6 +466,9 @@ export default withStyles(styles)(PopperPopupState)
 `material-ui-popup-state` exports several helper functions you can use to
 connect components easily:
 
+- `anchorRef`: creates a `ref` function to pass to the `anchorEl`
+  (by default, the `currentTarget` of the mouse event that triggered the popup
+  is used; only use `anchorRef` if you want a different element to be the anchor).
 - `bindMenu`: creates props to control a `Menu` component.
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
@@ -518,11 +526,13 @@ the trigger component may declare the same id in an ARIA prop.
 The render function. It will be called with an object containing the following
 props (exported as the `InjectedProps` type):
 
-- `open(eventOrAnchorEl)`: opens the popup
+- `open([eventOrAnchorEl])`: opens the popup
 - `close()`: closes the popup
-- `toggle(eventOrAnchorEl)`: opens the popup if it is closed, or closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. `eventOrAnchorEl` is required if `open` is truthy.
+- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
 - `isOpen`: `true`/`false` if the popup is open/closed
-- `anchorEl`: the current anchor element (`null` when the popup is closed)
+- `anchorEl`: the current anchor element
+- `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
+  mouse event is used by default unless you have called `setAnchorEl`)
 - `popupId`: the `popupId` prop you passed to `PopupState`
 - `variant`: the `variant` prop you passed to `PopupState`
