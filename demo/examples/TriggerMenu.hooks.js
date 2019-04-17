@@ -15,7 +15,12 @@ const TriggerMenu = () => {
       <Button variant="contained" {...bindTrigger(popupState)}>
         Open Menu
       </Button>
-      <Menu {...bindMenu(popupState)}>
+      <Menu
+        {...bindMenu(popupState)}
+        getContentAnchorEl={null}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+      >
         <MenuItem onClick={popupState.close}>Cake</MenuItem>
         <MenuItem onClick={popupState.close}>Death</MenuItem>
       </Menu>
