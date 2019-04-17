@@ -16,6 +16,8 @@ import HoverMenu from './examples/HoverMenu'
 import HoverMenuCode from '!!raw-loader!./examples/HoverMenu'
 import HoverMenuHooks from './examples/HoverMenu.hooks'
 import HoverMenuHooksCode from '!!raw-loader!./examples/HoverMenu.hooks'
+import CustomAnchorHooks from './examples/CustomAnchor.hooks'
+import CustomAnchorHooksCode from '!!raw-loader!./examples/CustomAnchor.hooks'
 import CascadingHoverMenus from './examples/CascadingHoverMenus'
 import CascadingHoverMenusCode from '!!raw-loader!./examples/CascadingHoverMenus'
 import CascadingHoverMenusHooks from './examples/CascadingHoverMenus.hooks'
@@ -65,6 +67,12 @@ const Root = ({ classes }) => (
       code={HoverMenuCode}
       hooksExample={<HoverMenuHooks />}
       hooksCode={HoverMenuHooksCode}
+    />
+    <Demo
+      title="Custom Anchor"
+      headerId="custom-anchor"
+      hooksExample={<CustomAnchorHooks />}
+      hooksCode={CustomAnchorHooksCode}
     />
     <Demo
       title="Cascading Hover Menus"
