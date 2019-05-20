@@ -3,7 +3,6 @@
   "version": "0.0.0-development",
   "description": "my personal skeleton for React library NPM packages",
   "main": "index.js",
-  "module": "es/index.js",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint src test --cache",
