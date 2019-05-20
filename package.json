@@ -3,7 +3,6 @@
   "version": "0.0.0-development",
   "description": "my personal ES2015 library project skeleton",
   "main": "index.js",
-  "module": "es/index.js",
   "sideEffects": false,
   "scripts": {
     "lint": "eslint src test --cache",
