@@ -14,10 +14,12 @@ export default function hoverWorkaround(Comp) {
   const HoverWorkaround = ({
     classes: { _modalRoot, ...classes },
     ModalClasses,
+    style,
     ...props
   }) => (
     <Comp
       classes={classes}
+      style={{ pointerEvents: 'none', ...style }}
       ModalClasses={{
         ...ModalClasses,
         root:
