@@ -7,3 +7,4 @@ node_modules
 /*.js
 /*.js.flow
 !/.babelrc.js
+!/webpack.config.js
