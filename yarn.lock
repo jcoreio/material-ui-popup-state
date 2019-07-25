@@ -861,10 +861,10 @@
   dependencies:
     "@commitlint/config-conventional" "^6.1.3"
 
-"@jedwards1211/eslint-config-flow@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.2.tgz#92e7d18fd39aec3ce3bc1fbeb55b353a652ccf68"
-  integrity sha512-TL+SakNrJkA7qa5jf2Eo2qn2kZQIvO2ZeJm+0wo66u3OcGePURFVlrWoCUg1rzw7QIGW2ZoSmWnLz2xlI9Bqhw==
+"@jedwards1211/eslint-config-flow@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@jedwards1211/eslint-config-flow/-/eslint-config-flow-1.0.4.tgz#0e416c5bb20c6c1144a0b00a0f0c76695594636d"
+  integrity sha512-3e9NfW4mRaZLItMwvMNUe8A/M5IZthhMt2/poIfJQrSJThObYVijJ9XkE8c7gEMuL6pwZGQwErTKu7r8A2kW4w==
 
 "@jedwards1211/eslint-config@^2.0.0":
   version "2.0.0"
