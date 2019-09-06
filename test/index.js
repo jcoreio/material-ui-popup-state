@@ -143,9 +143,9 @@ describe('<PopupState />', () => {
       lastPopupState = (null: any)
     })
 
-    const MenuTest = () => (
+    const MenuTest = (): React.Node => (
       <PopupState variant="popover" popupId="menu">
-        {(popupState: InjectedProps) => {
+        {(popupState: InjectedProps): React.Node => {
           popupStates.push(popupState)
           lastPopupState = popupState
           return (

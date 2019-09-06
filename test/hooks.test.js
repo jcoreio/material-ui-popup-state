@@ -31,7 +31,7 @@ describe('usePopupState', () => {
 
     beforeEach(() => (popupStates.length = 0))
 
-    const MenuTest = () => {
+    const MenuTest = (): React.Node => {
       const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
       popupStates.push(popupState)
       return (
@@ -130,7 +130,7 @@ describe('usePopupState', () => {
       lastPopupState = (null: any)
     })
 
-    const MenuTest = () => {
+    const MenuTest = (): React.Node => {
       const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
       popupStates.push(popupState)
       lastPopupState = popupState
@@ -231,7 +231,7 @@ describe('usePopupState', () => {
 
     beforeEach(() => (popupStates.length = 0))
 
-    const PopperTest = () => {
+    const PopperTest = (): React.Node => {
       const popupState = usePopupState({ popupId: 'popper', variant: 'popper' })
       popupStates.push(popupState)
       return (
