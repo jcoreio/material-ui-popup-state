@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { assert } from 'chai'
-import createMount from './utils/createMount'
+import { mount } from 'enzyme'
 import Button from '@material-ui/core/Button'
 import Popper from '@material-ui/core/Popper'
 import Menu from '@material-ui/core/Menu'
@@ -22,16 +22,6 @@ import { after, before, beforeEach, describe, it } from 'mocha'
 /* eslint-disable react/jsx-handler-names */
 
 describe('usePopupState', () => {
-  let mount
-
-  before(() => {
-    mount = createMount()
-  })
-
-  after(() => {
-    mount.cleanUp()
-  })
-
   describe('bindMenu/bindTrigger', () => {
     let buttonRef
     let button
