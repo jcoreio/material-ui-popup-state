@@ -11,24 +11,25 @@ const styles = {
 }
 
 export default function hoverWorkaround(Comp) {
-  const HoverWorkaround = ({
-    classes: { _modalRoot, ...classes },
-    ModalClasses,
-    style,
-    ...props
-  }) => (
-    <Comp
-      classes={classes}
-      style={{ pointerEvents: 'none', ...style }}
-      ModalClasses={{
-        ...ModalClasses,
-        root:
-          ModalClasses && ModalClasses.root
-            ? `${ModalClasses.root} ${_modalRoot}`
-            : _modalRoot,
-      }}
-      {...props}
-    />
+  const HoverWorkaround = React.forwardRef(
+    (
+      { classes: { _modalRoot, ...classes }, ModalClasses, style, ...props },
+      ref
+    ) => (
+      <Comp
+        ref={ref}
+        classes={classes}
+        style={{ pointerEvents: 'none', ...style }}
+        ModalClasses={{
+          ...ModalClasses,
+          root:
+            ModalClasses && ModalClasses.root
+              ? `${ModalClasses.root} ${_modalRoot}`
+              : _modalRoot,
+        }}
+        {...props}
+      />
+    )
   )
 
   return withStyles(styles)(HoverWorkaround)
