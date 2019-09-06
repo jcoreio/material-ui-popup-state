@@ -17,7 +17,7 @@ import {
   type PopupState,
 } from '../src/hooks'
 
-import { after, before, beforeEach, describe, it } from 'mocha'
+import { beforeEach, describe, it } from 'mocha'
 
 /* eslint-disable react/jsx-handler-names */
 
