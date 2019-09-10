@@ -63,7 +63,9 @@ const submenuStyles = theme => ({
 })
 
 const Submenu = withStyles(submenuStyles)(
-  ({ classes, title, popupId, children, ...props }) => {
+  // Unfortunately, MUI <Menu> injects refs into its children, which causes a
+  // warning in some cases unless we use forwardRef here.
+  React.forwardRef(({ classes, title, popupId, children, ...props }, ref) => {
     const parentPopupState = React.useContext(ParentPopupState)
     const popupState = usePopupState({
       popupId,
@@ -72,7 +74,11 @@ const Submenu = withStyles(submenuStyles)(
     })
     return (
       <ParentPopupState.Provider value={popupState}>
-        <MenuItem {...bindHover(popupState)} selected={popupState.isOpen}>
+        <MenuItem
+          {...bindHover(popupState)}
+          selected={popupState.isOpen}
+          ref={ref}
+        >
           <ListItemText className={classes.title}>{title}</ListItemText>
           <ChevronRight className={classes.moreArrow} />
         </MenuItem>
@@ -88,5 +94,5 @@ const Submenu = withStyles(submenuStyles)(
         </Menu>
       </ParentPopupState.Provider>
     )
-  }
+  })
 )
