@@ -8,8 +8,8 @@
     "lint": "eslint src test --cache",
     "lint:fix": "eslint --fix src test --cache",
     "lint:watch": "esw --watch src test --cache",
-    "prettier": "prettier --write *.json *.md *.js src/**.js test/**.js",
-    "prettier:check": "prettier --list-different *.json *.md *.js src/**.js test/**.js",
+    "prettier": "prettier --write *.json *.md *.js '{src,test}/**/*.js'",
+    "prettier:check": "prettier --list-different *.json *.md *.js '{src,test}/**/*.js'",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore es/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
@@ -47,7 +47,7 @@
     "trailingComma": "es5"
   },
   "config": {
-    "mocha": "-r @babel/register test/configure.js test/**.js",
+    "mocha": "-r @babel/register test/configure.js 'test/**/*.js'",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
