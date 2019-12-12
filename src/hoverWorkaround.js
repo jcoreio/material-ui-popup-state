@@ -19,18 +19,11 @@ export default function hoverWorkaround(Comp) {
       <Comp
         ref={ref}
         classes={classes}
+        className={_modalRoot}
         style={{ pointerEvents: 'none', ...style }}
-        ModalClasses={{
-          ...ModalClasses,
-          root:
-            ModalClasses && ModalClasses.root
-              ? `${ModalClasses.root} ${_modalRoot}`
-              : _modalRoot,
-        }}
         {...props}
       />
     )
   )
-
   return withStyles(styles)(HoverWorkaround)
 }
