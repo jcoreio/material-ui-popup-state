@@ -1,6 +1,7 @@
 **
 !**/*.js
 !**/*.js.flow
+!**/*.d.ts
 !/*.md
 !yarn.lock
 /demo

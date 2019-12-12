@@ -19,7 +19,7 @@
     "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch $npm_package_config_mocha",
     "test:debug": "cross-env NODE_ENV=test BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "demo:dev": "webpack-dev-server",
@@ -29,7 +29,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run lint && flow",
+      "pre-commit": "lint-staged && npm run lint && flow && tsc",
       "commit-msg": "commitlint -e $GIT_PARAMS",
       "pre-push": "npm test"
     }
@@ -107,6 +107,8 @@
     "@jedwards1211/eslint-config-react": "^4.0.0",
     "@material-ui/core": "^4.0.2",
     "@material-ui/icons": "^4.0.1",
+    "@types/classnames": "^2.2.9",
+    "@types/prop-types": "^15.7.3",
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.5",
     "babel-plugin-istanbul": "^5.1.0",
@@ -140,12 +142,14 @@
     "rimraf": "^2.6.0",
     "semantic-release": "^15.13.3",
     "sinon": "^6.1.4",
+    "typescript": "^3.7.3",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
+    "@material-ui/types": "^4.1.1",
     "classnames": "^2.2.6",
     "prop-types": "^15.0.0"
   },
