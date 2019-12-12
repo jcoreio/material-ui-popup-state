@@ -51,15 +51,12 @@ export function usePopupState({
     },
     []
   )
-  useEffect(
-    () => {
-      if (popupId && typeof document === 'object') {
-        const popup = document.getElementById(popupId)
-        if (popup) popup.focus()
-      }
-    },
-    [popupId, state.anchorEl]
-  )
+  useEffect(() => {
+    if (popupId && typeof document === 'object') {
+      const popup = document.getElementById(popupId)
+      if (popup) popup.focus()
+    }
+  }, [popupId, state.anchorEl])
 
   return createPopupState({
     state,
