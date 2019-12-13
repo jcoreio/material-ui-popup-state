@@ -1,5 +1,5 @@
-// flow-typed signature: f58bffa67453f8927660cb5f142b2c7f
-// flow-typed version: 03669c2773/mocha_v5.x.x/flow_>=v0.28.x
+// flow-typed signature: 1e70f2517706f4422ab71c33c7858219
+// flow-typed version: c6154227d1/mocha_v5.x.x/flow_>=v0.104.x
 
 declare interface $npm$mocha$SetupOptions {
   slow?: number;
@@ -53,11 +53,12 @@ declare interface $npm$mocha$Runner {}
 
 declare class $npm$mocha$BaseReporter {
   stats: {
-    suites: number;
-    tests: number;
-    passes: number;
-    pending: number;
-    failures: number;
+    suites: number,
+    tests: number,
+    passes: number,
+    pending: number,
+    failures: number,
+    ...
   };
 
   constructor(runner: $npm$mocha$Runner): $npm$mocha$BaseReporter;
@@ -77,10 +78,11 @@ declare class $npm$mocha$MinReporter extends $npm$mocha$BaseReporter {}
 declare class $npm$mocha$NyanReporter extends $npm$mocha$BaseReporter {}
 declare class $npm$mocha$ProgressReporter extends $npm$mocha$BaseReporter {
   constructor(runner: $npm$mocha$Runner, options?: {
-    open?: string;
-    complete?: string;
-    incomplete?: string;
-    close?: string;
+    open?: string,
+    complete?: string,
+    incomplete?: string,
+    close?: string,
+    ...
   }): $npm$mocha$ProgressReporter;
 }
 declare class $npm$mocha$SpecReporter extends $npm$mocha$BaseReporter {}
@@ -92,13 +94,14 @@ declare class $npm$mocha$XUnitReporter extends $npm$mocha$BaseReporter {
 declare class $npm$mocha$Mocha {
   currentTest: $npm$mocha$TestDefinition;
   constructor(options?: {
-    grep?: RegExp;
-    ui?: string;
-    reporter?: string;
-    timeout?: number;
-    reporterOptions?: any;
-    slow?: number;
-    bail?: boolean;
+    grep?: RegExp,
+    ui?: string,
+    reporter?: string,
+    timeout?: number,
+    reporterOptions?: any,
+    slow?: number,
+    bail?: boolean,
+    ...
   }): $npm$mocha$Mocha;
   setup(options: $npm$mocha$SetupOptions): this;
   bail(value?: boolean): this;
@@ -138,6 +141,7 @@ declare class $npm$mocha$Mocha {
     Min: $npm$mocha$MinReporter,
     Nyan: $npm$mocha$NyanReporter,
     Progress: $npm$mocha$ProgressReporter,
+    ...
   };
 }
 
@@ -160,6 +164,7 @@ declare interface $npm$mocha$Test extends $npm$mocha$Runnable {
   pending: boolean;
   state: 'failed' | 'passed' | void;
   fullTitle(): string;
+  timeout(ms: number): void;
 }
 
 // declare interface $npm$mocha$BeforeAndAfterContext extends $npm$mocha$HookCallbackContext {

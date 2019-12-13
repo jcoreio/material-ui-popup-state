@@ -181,6 +181,7 @@ export function bindTrigger({
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
+    // $FlowFixMe
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
@@ -207,6 +208,7 @@ export function bindToggle({
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
+    // $FlowFixMe
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
@@ -235,6 +237,7 @@ export function bindHover({
   onMouseLeave: (event: SyntheticEvent<any>) => any,
 } {
   return {
+    // $FlowFixMe
     [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
       ? popupId
       : null,
