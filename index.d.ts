@@ -36,4 +36,5 @@ export type Props = {
   parentPopupState?: InjectedProps | null | undefined
 }
 
-export default class PopupState extends React.Component<Props, CoreState> {}
+declare const PopupState: React.ComponentType<Props>
+export default PopupState

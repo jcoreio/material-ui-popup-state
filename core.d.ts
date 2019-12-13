@@ -3,30 +3,30 @@ import { SyntheticEvent } from 'react'
 export type Variant = 'popover' | 'popper'
 
 export type PopupState = {
-  open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void
+  open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
   close: () => void
-  toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void
+  toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
   onMouseLeave: (event: SyntheticEvent<any>) => void
   setOpen: (
     open: boolean,
     eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement
   ) => void
   isOpen: boolean
-  anchorEl: HTMLElement | null | undefined
+  anchorEl: HTMLElement | undefined
   setAnchorEl: (anchorEl: HTMLElement) => any
   setAnchorElUsed: boolean
-  popupId: string | null | undefined
+  popupId: string | undefined
   variant: Variant
-  _childPopupState: PopupState | null | undefined
+  _childPopupState: PopupState | undefined
   _setChildPopupState: (popupState: PopupState | null | undefined) => void
 }
 
 export type CoreState = {
   isOpen: boolean
   setAnchorElUsed: boolean
-  anchorEl: HTMLElement | null | undefined
+  anchorEl: HTMLElement | undefined
   hovered: boolean
-  _childPopupState: PopupState | null | undefined
+  _childPopupState: PopupState | undefined
 }
 
 export const initCoreState: CoreState
@@ -34,9 +34,9 @@ export const initCoreState: CoreState
 export function createPopupState(options: {
   state: CoreState
   setState: (state: Partial<CoreState>) => any
-  popupId: string | null | undefined
+  popupId: string | undefined
   variant: Variant
-  parentPopupState?: PopupState | null | undefined
+  parentPopupState?: PopupState | null
 }): PopupState
 
 /**
@@ -47,7 +47,7 @@ export function createPopupState(options: {
  */
 export function anchorRef(
   popupState: PopupState
-): (popupState: HTMLElement | null | undefined) => any
+): (popupState: HTMLElement | undefined) => any
 
 /**
  * Creates props for a component that opens the popup when clicked.
@@ -58,9 +58,9 @@ export function anchorRef(
 export function bindTrigger(
   popupState: PopupState
 ): {
-  'aria-owns'?: string | null | undefined
-  'aria-describedby'?: string | null | undefined
-  'aria-haspopup': true | null | undefined
+  'aria-owns'?: string | undefined
+  'aria-describedby'?: string | undefined
+  'aria-haspopup': true | undefined
   onClick: (event: SyntheticEvent<any>) => void
 }
 
@@ -73,9 +73,9 @@ export function bindTrigger(
 export function bindToggle(
   popupState: PopupState
 ): {
-  'aria-owns'?: string | null | undefined
-  'aria-describedby'?: string | null | undefined
-  'aria-haspopup': true | null | undefined
+  'aria-owns'?: string
+  'aria-describedby'?: string
+  'aria-haspopup': true | undefined
   onClick: (event: SyntheticEvent<any>) => void
 }
 
@@ -88,9 +88,9 @@ export function bindToggle(
 export function bindHover(
   popupState: PopupState
 ): {
-  'aria-owns'?: string | null | undefined
-  'aria-describedby'?: string | null | undefined
-  'aria-haspopup': true | null | undefined
+  'aria-owns'?: string
+  'aria-describedby'?: string
+  'aria-haspopup': true | undefined
   onMouseEnter: (event: SyntheticEvent<any>) => any
   onMouseLeave: (event: SyntheticEvent<any>) => any
 }
@@ -104,8 +104,8 @@ export function bindHover(
 export function bindPopover(
   popupState: PopupState
 ): {
-  id: string | null | undefined
-  anchorEl: HTMLElement | null | undefined
+  id: string | undefined
+  anchorEl: HTMLElement | undefined
   open: boolean
   onClose: () => void
   onMouseLeave: (event: SyntheticEvent<any>) => void
@@ -120,8 +120,8 @@ export function bindPopover(
 export function bindMenu(
   popupState: PopupState
 ): {
-  id: string | null | undefined
-  anchorEl: HTMLElement | null | undefined
+  id: string | undefined
+  anchorEl: HTMLElement | undefined
   open: boolean
   onClose: () => void
   onMouseLeave: (event: SyntheticEvent<any>) => void
@@ -136,7 +136,7 @@ export function bindMenu(
 export function bindPopper(
   popupState: PopupState
 ): {
-  id: string | null | undefined
-  anchorEl: HTMLElement | null | undefined
+  id: string | undefined
+  anchorEl: HTMLElement | undefined
   open: boolean
 }
