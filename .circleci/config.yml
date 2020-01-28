@@ -18,6 +18,11 @@ jobs:
               echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > .npmrc
               echo "registry=https://registry.npmjs.org/" >> .npmrc
 
+      # https://github.com/atlassian/react-beautiful-dnd/issues/1007#issuecomment-446415426
+      - run:
+	  name: Workaround for Flow crashing
+	  command: echo "server.max_workers=1" >> .flowconfig
+
       - run:
           name: Install Dependencies
           command: yarn install --frozen-lockfile
