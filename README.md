@@ -250,7 +250,7 @@ Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
 popup is a `Popper`.
 
 Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
-an `aria-owns` prop or an `aria-describedby` prop.
+an `aria-controls` prop or an `aria-describedby` prop.
 
 ### `popupId` (`string`, **optional** but strongly encouraged)
 
@@ -514,7 +514,7 @@ Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
 popup is a `Popper`.
 
 Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
-an `aria-owns` prop or an `aria-describedby` prop.
+an `aria-controls` prop or an `aria-describedby` prop.
 
 ### `popupId` (`string`, **optional** but strongly encouraged)
 

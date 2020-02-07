@@ -58,7 +58,7 @@ export function anchorRef(
 export function bindTrigger(
   popupState: PopupState
 ): {
-  'aria-owns'?: string | undefined
+  'aria-controls'?: string | undefined
   'aria-describedby'?: string | undefined
   'aria-haspopup': true | undefined
   onClick: (event: SyntheticEvent<any>) => void
@@ -73,7 +73,7 @@ export function bindTrigger(
 export function bindToggle(
   popupState: PopupState
 ): {
-  'aria-owns'?: string
+  'aria-controls'?: string
   'aria-describedby'?: string
   'aria-haspopup': true | undefined
   onClick: (event: SyntheticEvent<any>) => void
@@ -88,7 +88,7 @@ export function bindToggle(
 export function bindHover(
   popupState: PopupState
 ): {
-  'aria-owns'?: string
+  'aria-controls'?: string
   'aria-describedby'?: string
   'aria-haspopup': true | undefined
   onMouseEnter: (event: SyntheticEvent<any>) => any

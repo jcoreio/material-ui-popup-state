@@ -66,14 +66,14 @@ export default class PopupState extends React.Component<Props, CoreState> {
     children: PropTypes.func.isRequired,
     /**
      * The `id` property to use for the popup.  Will be passed to the render
-     * function as `bindPopup.id`, and also used for the `aria-owns` property
+     * function as `bindPopup.id`, and also used for the `aria-controls` property
      * passed to the trigger component via `bindTrigger`.
      */
     popupId: PropTypes.string,
     /**
      * Which type of popup you are controlling.  Use `'popover'` for `Popover`
      * and `Menu`; use `'popper'` for `Popper`s.  Right now this only affects
-     * whether `aria-owns` or `aria-describedby` is used on the trigger
+     * whether `aria-controls` or `aria-describedby` is used on the trigger
      * component.
      */
     variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
