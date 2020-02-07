@@ -175,14 +175,14 @@ export function bindTrigger({
   popupId,
   variant,
 }: PopupState): {
-  'aria-owns'?: ?string,
+  'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     // $FlowFixMe
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
       ? popupId
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
@@ -202,14 +202,14 @@ export function bindToggle({
   popupId,
   variant,
 }: PopupState): {
-  'aria-owns'?: ?string,
+  'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
 } {
   return {
     // $FlowFixMe
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
       ? popupId
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
@@ -230,7 +230,7 @@ export function bindHover({
   popupId,
   variant,
 }: PopupState): {
-  'aria-owns'?: ?string,
+  'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onMouseEnter: (event: SyntheticEvent<any>) => any,
@@ -238,7 +238,7 @@ export function bindHover({
 } {
   return {
     // $FlowFixMe
-    [variant === 'popover' ? 'aria-owns' : 'aria-describedby']: isOpen
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
       ? popupId
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,

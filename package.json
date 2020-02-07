@@ -22,7 +22,7 @@
     "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
-    "demo:dev": "webpack-dev-server",
+    "start": "webpack-dev-server",
     "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
     "predeploy": "yarn build:demo",
     "deploy": "gh-pages -d demo"
