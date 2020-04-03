@@ -45,9 +45,9 @@ export function createPopupState(options: {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function anchorRef(
+export function anchorRef<T = HTMLElement>(
   popupState: PopupState
-): (popupState: HTMLElement | undefined) => any
+): (popupState: T | undefined) => void
 
 /**
  * Creates props for a component that opens the popup when clicked.
