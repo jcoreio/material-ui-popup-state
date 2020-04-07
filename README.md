@@ -261,10 +261,10 @@ the trigger component may declare the same id in an ARIA prop.
 
 An object with the following properties:
 
-- `open([eventOrAnchorEl])`: opens the popup
+- `open([eventOrAnchorEl])`: opens the popup. You must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
 - `close()`: closes the popup
-- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
+- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open. If the popup is currently closed, you must pass an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. If `open` is truthy, you must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element
 - `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
