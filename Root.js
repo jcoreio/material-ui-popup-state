@@ -12,6 +12,10 @@ import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverPopoverHooks from './examples/HoverPopover.hooks'
 import HoverPopoverHooksCode from '!!raw-loader!./examples/HoverPopover.hooks'
+import FocusPopover from './examples/FocusPopover'
+import FocusPopoverCode from '!!raw-loader!./examples/FocusPopover'
+import FocusPopoverHooks from './examples/FocusPopover.hooks'
+import FocusPopoverHooksCode from '!!raw-loader!./examples/FocusPopover.hooks'
 import HoverMenu from './examples/HoverMenu'
 import HoverMenuCode from '!!raw-loader!./examples/HoverMenu'
 import HoverMenuHooks from './examples/HoverMenu.hooks'
@@ -59,6 +63,14 @@ const Root = ({ classes }) => (
       code={HoverPopoverCode}
       hooksExample={<HoverPopoverHooks />}
       hooksCode={HoverPopoverHooksCode}
+    />
+    <Demo
+      title="Focus Popover"
+      headerId="focus-popover"
+      example={<FocusPopover />}
+      code={FocusPopoverCode}
+      hooksExample={<FocusPopoverHooks />}
+      hooksCode={FocusPopoverHooksCode}
     />
     <Demo
       title="Hover Menu"
