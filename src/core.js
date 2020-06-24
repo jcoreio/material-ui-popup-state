@@ -20,6 +20,7 @@ export type PopupState = {
   setAnchorElUsed: boolean,
   popupId: ?string,
   variant: Variant,
+  disableAutoFocus: boolean,
   _childPopupState: ?PopupState,
   _setChildPopupState: (?PopupState) => void,
 }
@@ -48,12 +49,14 @@ export function createPopupState({
   parentPopupState,
   popupId,
   variant,
+  disableAutoFocus,
 }: {
   state: CoreState,
   setState: ($Shape<CoreState>) => any,
   popupId: ?string,
   variant: Variant,
   parentPopupState?: ?PopupState,
+  disableAutoFocus?: ?boolean,
 }): PopupState {
   const { isOpen, setAnchorElUsed, anchorEl, hovered, _childPopupState } = state
 
@@ -88,7 +91,11 @@ export function createPopupState({
       if (!parentPopupState.isOpen) return
       parentPopupState._setChildPopupState(popupState)
     }
-    if (typeof document === 'object' && document.activeElement) {
+    if (
+      !disableAutoFocus &&
+      typeof document === 'object' &&
+      document.activeElement
+    ) {
       document.activeElement.blur()
     }
 
@@ -144,6 +151,7 @@ export function createPopupState({
     toggle,
     setOpen,
     onMouseLeave,
+    disableAutoFocus: Boolean(disableAutoFocus),
     _childPopupState,
     _setChildPopupState,
   }
@@ -233,8 +241,8 @@ export function bindHover({
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
-  onMouseEnter: (event: SyntheticEvent<any>) => any,
-  onMouseLeave: (event: SyntheticEvent<any>) => any,
+  onMouseEnter: (event: SyntheticMouseEvent<any>) => any,
+  onMouseLeave: (event: SyntheticMouseEvent<any>) => any,
 } {
   return {
     // $FlowFixMe
@@ -244,6 +252,36 @@ export function bindHover({
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onMouseEnter: open,
     onMouseLeave,
+  }
+}
+
+/**
+ * Creates props for a component that opens the popup while focused.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindFocus({
+  isOpen,
+  open,
+  close,
+  popupId,
+  variant,
+}: PopupState): {
+  'aria-controls'?: ?string,
+  'aria-describedby'?: ?string,
+  'aria-haspopup': ?true,
+  onFocus: (event: SyntheticEvent<any>) => any,
+  onBlur: (event: SyntheticEvent<any>) => any,
+} {
+  return {
+    // $FlowFixMe
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
+    onFocus: open,
+    onBlur: close,
   }
 }
 
@@ -259,6 +297,7 @@ export function bindPopover({
   close,
   popupId,
   onMouseLeave,
+  disableAutoFocus,
 }: PopupState): {
   id: ?string,
   anchorEl: ?HTMLElement,
@@ -272,6 +311,9 @@ export function bindPopover({
     open: isOpen,
     onClose: close,
     onMouseLeave,
+    disableAutoFocus,
+    disableEnforceFocus: disableAutoFocus,
+    disableRestoreFocus: disableAutoFocus,
   }
 }
 

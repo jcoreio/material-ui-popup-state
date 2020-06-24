@@ -15,6 +15,7 @@ export type PopupState = {
   anchorEl: HTMLElement | undefined
   setAnchorEl: (anchorEl: HTMLElement) => any
   setAnchorElUsed: boolean
+  disableAutoFocus: boolean
   popupId: string | undefined
   variant: Variant
   _childPopupState: PopupState | undefined
@@ -37,6 +38,7 @@ export function createPopupState(options: {
   popupId: string | undefined
   variant: Variant
   parentPopupState?: PopupState | null
+  disableAutoFocus?: boolean | null
 }): PopupState
 
 /**
@@ -93,6 +95,22 @@ export function bindHover(
   'aria-haspopup': true | undefined
   onMouseEnter: (event: SyntheticEvent<any>) => any
   onMouseLeave: (event: SyntheticEvent<any>) => any
+}
+
+/**
+ * Creates props for a component that opens the popup while focused.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindFocus(
+  popupState: PopupState
+): {
+  'aria-controls'?: string
+  'aria-describedby'?: string
+  'aria-haspopup': true | undefined
+  onFocus: (event: SyntheticEvent<any>) => any
+  onBlur: (event: SyntheticEvent<any>) => any
 }
 
 /**

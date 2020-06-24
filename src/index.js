@@ -11,6 +11,7 @@ import {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -24,6 +25,7 @@ export {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -35,6 +37,7 @@ export type Props = {
   children: (props: InjectedProps) => ?React.Node,
   variant: Variant,
   parentPopupState?: ?InjectedProps,
+  disableAutoFocus?: ?boolean,
 }
 
 export default class PopupState extends React.Component<Props, CoreState> {
@@ -78,9 +81,13 @@ export default class PopupState extends React.Component<Props, CoreState> {
      */
     variant: PropTypes.oneOf(['popover', 'popper']).isRequired,
     /**
-     *
+     * The popupState of the parent menu (for cascading menus)
      */
     parentPopupState: PropTypes.object,
+    /**
+     * Will focus the popup when it opens unless disableAutoFocus is explicitly false.
+     */
+    disableAutoFocus: PropTypes.bool,
   }
 
   componentWillUnmount() {
@@ -92,20 +99,27 @@ export default class PopupState extends React.Component<Props, CoreState> {
   }
 
   componentDidUpdate(prevProps: Props, prevState: CoreState) {
-    const { popupId } = this.props
+    const { popupId, disableAutoFocus } = this.props
     if (
-      popupId !== prevProps.popupId ||
-      this.state.anchorEl !== prevState.anchorEl
+      !disableAutoFocus &&
+      typeof document === 'object' &&
+      popupId &&
+      (popupId !== prevProps.popupId ||
+        this.state.anchorEl !== prevState.anchorEl)
     ) {
-      if (popupId && typeof document === 'object') {
-        const popup = document.getElementById(popupId)
-        if (popup) popup.focus()
-      }
+      const popup = document.getElementById(popupId)
+      if (popup) popup.focus()
     }
   }
 
   render(): React.Node | null {
-    const { children, popupId, variant, parentPopupState } = this.props
+    const {
+      children,
+      popupId,
+      variant,
+      parentPopupState,
+      disableAutoFocus,
+    } = this.props
 
     const popupState = createPopupState({
       state: this.state,
@@ -113,6 +127,7 @@ export default class PopupState extends React.Component<Props, CoreState> {
       popupId,
       variant,
       parentPopupState,
+      disableAutoFocus,
     })
 
     const result = children(popupState)

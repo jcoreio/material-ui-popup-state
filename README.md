@@ -204,6 +204,7 @@ connect components easily:
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
+- `bindFocus`: creates props for a component that opens the popup while hovered.
 
 To use one of these functions, you should call it with the object
 returned by `usePopupState` and spread the return value into the desired
@@ -256,6 +257,10 @@ an `aria-controls` prop or an `aria-describedby` prop.
 
 The `id` for the popup component. It will be passed to the child props so that
 the trigger component may declare the same id in an ARIA prop.
+
+### `disableAutoFocus` (`boolean`, **optional**)
+
+If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
 ## `usePopupState` return value
 
@@ -475,6 +480,7 @@ connect components easily:
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
+- `bindFocus`: creates props for a component that opens the popup while hovered.
 
 To use one of these functions, you should call it with the props `PopupState`
 passed to your child function, and spread the return value into the desired
@@ -520,6 +526,10 @@ an `aria-controls` prop or an `aria-describedby` prop.
 
 The `id` for the popup component. It will be passed to the child props so that
 the trigger component may declare the same id in an ARIA prop.
+
+### `disableAutoFocus` (`boolean`, **optional**)
+
+If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
 ### `children` (`(popupState: InjectedProps) => ?React.Node`, **required**)
 
