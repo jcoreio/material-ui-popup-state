@@ -1,7 +1,7 @@
 // @flow
 /* eslint-env browser */
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 if (!useState) {
   throw new Error(
@@ -16,6 +16,7 @@ import {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -28,6 +29,7 @@ export {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -38,21 +40,16 @@ export function usePopupState({
   parentPopupState,
   popupId,
   variant,
+  disableAutoFocus,
 }: {
   parentPopupState?: ?PopupState,
   popupId: ?string,
   variant: Variant,
+  disableAutoFocus?: ?boolean,
 }): PopupState {
   const [state, setState] = useState(initCoreState)
-  const isMounted = useRef(true)
-  useEffect(
-    () => () => {
-      isMounted.current = false
-    },
-    []
-  )
   useEffect(() => {
-    if (popupId && typeof document === 'object') {
+    if (!disableAutoFocus && popupId && typeof document === 'object') {
       const popup = document.getElementById(popupId)
       if (popup) popup.focus()
     }
@@ -64,5 +61,6 @@ export function usePopupState({
     parentPopupState,
     popupId,
     variant,
+    disableAutoFocus,
   })
 }

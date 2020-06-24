@@ -9,6 +9,7 @@ import {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -22,6 +23,7 @@ export {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -34,6 +36,7 @@ export type Props = {
   children: (props: InjectedProps) => React.ReactNode | null | undefined
   variant: Variant
   parentPopupState?: InjectedProps | null | undefined
+  disableAutoFocus?: boolean | null
 }
 
 declare const PopupState: React.ComponentType<Props>

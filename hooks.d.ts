@@ -7,6 +7,7 @@ import {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -19,6 +20,7 @@ export {
   bindTrigger,
   bindToggle,
   bindHover,
+  bindFocus,
   bindMenu,
   bindPopover,
   bindPopper,
@@ -30,4 +32,5 @@ export function usePopupState(options: {
   parentPopupState?: PopupState | null | undefined
   popupId: string | null | undefined
   variant: Variant
+  disableAutoFocus?: boolean | null
 }): PopupState
