@@ -49,7 +49,7 @@ export default CascadingHoverMenus
 
 const submenuStyles = theme => ({
   menu: {
-    top: theme.spacing(-1),
+    marginTop: theme.spacing(-1),
   },
   title: {
     flexGrow: 1,
@@ -77,12 +77,12 @@ const Submenu = withStyles(submenuStyles)(
                 selected={popupState.isOpen}
                 ref={ref}
               >
-                <ListItemText className={classes.title}>{title}</ListItemText>
+                <span className={classes.title}>{title}</span>
                 <ChevronRight className={classes.moreArrow} />
               </MenuItem>
               <Menu
                 {...bindMenu(popupState)}
-                className={classes.menu}
+                classes={{ paper: classes.menu }}
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'left' }}
                 getContentAnchorEl={null}
