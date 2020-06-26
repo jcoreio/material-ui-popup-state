@@ -1,5 +1,4 @@
 import * as React from 'react'
-import classNames from 'classnames'
 
 export default function hoverWorkaround(Comp) {
   /* eslint-disable react/display-name */
