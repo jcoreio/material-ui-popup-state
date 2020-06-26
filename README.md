@@ -37,6 +37,7 @@ mutation functions to a child render function.
 - [Render Props API](#render-props-api)
   - [Bind Functions](#bind-functions-1)
   - [`PopupState` Props](#popupstate-props)
+- [Using `Popover` and `Menu` with `bindHover`](#using-popover-and-menu-with-bindhover)
 
 <!-- tocstop -->
 
@@ -204,6 +205,7 @@ connect components easily:
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
+  **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
 - `bindFocus`: creates props for a component that opens the popup while hovered.
 
 To use one of these functions, you should call it with the object
@@ -480,6 +482,7 @@ connect components easily:
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
+  **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
 - `bindFocus`: creates props for a component that opens the popup while hovered.
 
 To use one of these functions, you should call it with the props `PopupState`
@@ -546,3 +549,16 @@ props (exported as the `InjectedProps` type):
   mouse event is used by default unless you have called `setAnchorEl`)
 - `popupId`: the `popupId` prop you passed to `PopupState`
 - `variant`: the `variant` prop you passed to `PopupState`
+
+# Using `Popover` and `Menu` with `bindHover`
+
+Material-UI's `Modal` (used by `Popover` and `Menu`) blocks pointer events to all other components, interfering with `bindHover`
+(the popover or menu will open when the mouse enters the `bindHover` element, but won't close when the mouse leaves). You can
+use the following components to work around this:
+
+```js
+import Menu from 'material-ui-popup-state/HoverMenu'
+import Popover from 'material-ui-popup-state/HoverPopover'
+```
+
+These are just wrapper components that pass inline styles to prevent `Modal` from blocking pointer events.
