@@ -7,12 +7,10 @@
   "scripts": {
     "lint": "eslint src test --cache",
     "lint:fix": "eslint --fix src test --cache",
-    "lint:watch": "esw --watch src test --cache",
     "prettier": "prettier --write *.json *.md *.js '{src,test}/**/*.js'",
     "prettier:check": "prettier --list-different *.json *.md *.js '{src,test}/**/*.js'",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "flow:watch": "flow-watch -e js,js.flow,flowconfig --ignore es/ --ignore node_modules/ --watch .flowconfig --watch src/ --watch test/",
     "clean": "rimraf es lib $(cd src; ls) *.js.flow",
     "build": "npm run clean && cross-env BABEL_ENV=production babel src --out-dir es && flow-copy-source -v src/ es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ .",
     "test": "cross-env NODE_ENV=test BABEL_ENV=es5 mocha $npm_package_config_mocha && cross-env NODE_ENV=test BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
@@ -28,14 +26,13 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged && npm run lint && flow",
-      "commit-msg": "commitlint -e $GIT_PARAMS",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm test"
     }
   },
   "lint-staged": {
     "*.{js,json,css,md}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "commitlint": {
@@ -80,7 +77,7 @@
   },
   "homepage": "https://github.com/jedwards1211/react-library-skeleton#readme",
   "devDependencies": {
-    "@babel/cli": "^7.1.5",
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.1.6",
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-export-default-from": "^7.0.0",
@@ -92,9 +89,9 @@
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.0.0",
-    "@commitlint/cli": "^6.0.2",
-    "@commitlint/config-conventional": "^6.0.2",
-    "@jedwards1211/commitlint-config": "^1.0.0",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@jedwards1211/commitlint-config": "^1.0.1",
     "@jedwards1211/eslint-config": "^2.0.0",
     "@jedwards1211/eslint-config-flow": "^2.0.0",
     "@jedwards1211/eslint-config-react": "^4.0.0",
@@ -102,7 +99,7 @@
     "babel-plugin-flow-react-proptypes": "^24.1.2",
     "babel-plugin-istanbul": "^5.1.0",
     "chai": "^4.2.0",
-    "codecov": "^3.1.0",
+    "codecov": "^3.8.0",
     "copy": "^0.3.2",
     "cross-env": "^5.2.0",
     "enzyme": "^3.8.0",
@@ -111,11 +108,9 @@
     "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-flowtype": "^3.2.0",
     "eslint-plugin-react": "^7.11.1",
-    "eslint-watch": "^4.0.2",
     "flow-bin": "^0.92.0",
-    "flow-copy-source": "^2.0.2",
-    "flow-watch": "^1.1.4",
-    "husky": "^1.1.4",
+    "flow-copy-source": "https://github.com/jedwards1211/flow-copy-source#no-watch",
+    "husky": "^4.3.0",
     "istanbul": "^0.4.5",
     "jsdom": "^11.5.1",
     "jsdom-global": "^3.0.2",
@@ -127,7 +122,7 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "rimraf": "^2.6.0",
-    "semantic-release": "^15.1.4"
+    "semantic-release": "^17.1.2"
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
