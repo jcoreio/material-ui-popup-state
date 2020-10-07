@@ -203,6 +203,7 @@ connect components easily:
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
+- `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
@@ -480,6 +481,7 @@ connect components easily:
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
+- `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.

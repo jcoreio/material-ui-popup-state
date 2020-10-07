@@ -82,6 +82,21 @@ export function bindToggle(
 }
 
 /**
+ * Creates props for a component that opens the popup on its contextmenu event (right click).
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindContextMenu(
+  popupState: PopupState
+): {
+  'aria-controls'?: string | undefined
+  'aria-describedby'?: string | undefined
+  'aria-haspopup': true | undefined
+  onContextMenu: (event: SyntheticEvent<any>) => void
+}
+
+/**
  * Creates props for a component that opens the popup while hovered.
  *
  * @param {object} popupState the argument passed to the child function of

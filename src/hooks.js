@@ -1,7 +1,7 @@
 // @flow
 /* eslint-env browser */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 
 if (!useState) {
   throw new Error(
@@ -14,6 +14,7 @@ import {
   createPopupState,
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,
@@ -27,6 +28,7 @@ import {
 export {
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,
@@ -55,12 +57,16 @@ export function usePopupState({
     }
   }, [popupId, state.anchorEl])
 
-  return createPopupState({
-    state,
-    setState,
-    parentPopupState,
-    popupId,
-    variant,
-    disableAutoFocus,
-  })
+  return useMemo(
+    () =>
+      createPopupState({
+        state,
+        setState,
+        parentPopupState,
+        popupId,
+        variant,
+        disableAutoFocus,
+      }),
+    [state, setState, parentPopupState, popupId, variant, disableAutoFocus]
+  )
 }

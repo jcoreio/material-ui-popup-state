@@ -4,16 +4,16 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import {
   usePopupState,
-  bindTrigger,
+  bindContextMenu,
   bindMenu,
 } from 'material-ui-popup-state/hooks'
 
-const Triggernu = () => {
+const ContextMenu = () => {
   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
   return (
     <div>
-      <Button variant="contained" {...bindTrigger(popupState)}>
-        Open Menu
+      <Button variant="contained" {...bindContextMenu(popupState)}>
+        Right Click to Open Menu
       </Button>
       <Menu
         {...bindMenu(popupState)}
@@ -28,4 +28,4 @@ const Triggernu = () => {
   )
 }
 
-export default Triggernu
+export default ContextMenu

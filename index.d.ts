@@ -3,10 +3,9 @@
 import * as React from 'react'
 
 import {
-  initCoreState,
-  createPopupState,
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,
@@ -14,13 +13,13 @@ import {
   bindPopover,
   bindPopper,
   Variant,
-  CoreState,
   PopupState as InjectedProps,
 } from './core'
 
 export {
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,

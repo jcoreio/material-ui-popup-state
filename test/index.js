@@ -20,6 +20,7 @@ import PopupState, {
   bindHover,
   bindFocus,
   type InjectedProps,
+  bindContextMenu,
 } from '../src'
 
 import { beforeEach, describe, it } from 'mocha'
@@ -82,6 +83,111 @@ describe('<PopupState />', () => {
       assert.strictEqual(button.prop('aria-controls'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(button.prop('onClick'), render.args[2][0].open)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('open'), false)
+      assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)
+    })
+    it('open/close works', () => {
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
+
+      render.args[0][0].open(buttonRef)
+      wrapper.update()
+      assert.strictEqual(render.args[1][0].isOpen, true)
+
+      render.args[1][0].close()
+      wrapper.update()
+      assert.strictEqual(render.args[2][0].isOpen, false)
+    })
+    it('toggle works', () => {
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
+
+      render.args[0][0].toggle(buttonRef)
+      wrapper.update()
+      assert.strictEqual(render.args[1][0].isOpen, true)
+
+      render.args[1][0].toggle(buttonRef)
+      wrapper.update()
+      assert.strictEqual(render.args[2][0].isOpen, false)
+    })
+    it('setOpen works', () => {
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
+
+      render.args[0][0].setOpen(true, buttonRef)
+      wrapper.update()
+      assert.strictEqual(render.args[1][0].isOpen, true)
+
+      render.args[1][0].setOpen(false)
+      wrapper.update()
+      assert.strictEqual(render.args[2][0].isOpen, false)
+    })
+  })
+  describe('bindMenu/bindContextMenu', () => {
+    let buttonRef
+    let button
+    let menu
+
+    const render = spy(popupState => (
+      <React.Fragment>
+        <Button
+          {...bindContextMenu(popupState)}
+          buttonRef={c => (buttonRef = c)}
+        >
+          Open Menu
+        </Button>
+        <Menu {...bindMenu(popupState)}>
+          <MenuItem onClick={popupState.close}>Test</MenuItem>
+        </Menu>
+      </React.Fragment>
+    ))
+
+    beforeEach(() => render.resetHistory())
+
+    it('passes correct props to bindContextMenu/bindPopup', () => {
+      const wrapper = mount(
+        <PopupState variant="popover" popupId="menu">
+          {render}
+        </PopupState>
+      )
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(render.args[0][0].isOpen, false)
+      assert.strictEqual(button.prop('aria-controls'), null)
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('open'), false)
+      assert.strictEqual(menu.prop('onClose'), render.args[0][0].close)
+
+      button.simulate('contextmenu')
+      wrapper.update()
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(render.args[1][0].isOpen, true)
+      assert.strictEqual(button.prop('aria-controls'), 'menu')
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('anchorEl'), buttonRef)
+      assert.strictEqual(menu.prop('open'), true)
+      assert.strictEqual(menu.prop('onClose'), render.args[1][0].close)
+
+      wrapper.find(MenuItem).simulate('click')
+      wrapper.update()
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(render.args[2][0].isOpen, false)
+      assert.strictEqual(button.prop('aria-controls'), null)
+      assert.strictEqual(button.prop('aria-haspopup'), true)
       assert.strictEqual(menu.prop('id'), 'menu')
       assert.strictEqual(menu.prop('open'), false)
       assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)

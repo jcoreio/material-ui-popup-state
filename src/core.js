@@ -3,6 +3,14 @@
 
 import * as React from 'react'
 
+const printedWarnings: { [string]: boolean } = {}
+
+function warn(key: string, message: string) {
+  if (printedWarnings[key]) return
+  printedWarnings[key] = true
+  console.error('[material-ui-popup-state] WARNING', message) // eslint-disable-line no-console
+}
+
 export type Variant = 'popover' | 'popper'
 
 export type PopupState = {
@@ -24,8 +32,6 @@ export type PopupState = {
   _childPopupState: ?PopupState,
   _setChildPopupState: (?PopupState) => void,
 }
-
-let eventOrAnchorElWarned: boolean = false
 
 export type CoreState = {
   isOpen: boolean,
@@ -79,13 +85,11 @@ export function createPopupState({
   }
 
   const open = (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => {
-    if (!eventOrAnchorElWarned && !eventOrAnchorEl && !setAnchorElUsed) {
-      eventOrAnchorElWarned = true
-      /* eslint-disable no-console */
-      console.error(
+    if (!eventOrAnchorEl && !setAnchorElUsed) {
+      warn(
+        'missingEventOrAnchorEl',
         'eventOrAnchorEl should be defined if setAnchorEl is not used'
       )
-      /* eslint-enable no-console */
     }
     if (parentPopupState) {
       if (!parentPopupState.isOpen) return
@@ -195,6 +199,36 @@ export function bindTrigger({
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onClick: open,
+  }
+}
+
+/**
+ * Creates props for a component that opens the popup on its contextmenu event (right click).
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindContextMenu({
+  isOpen,
+  open,
+  popupId,
+  variant,
+}: PopupState): {
+  'aria-controls'?: ?string,
+  'aria-describedby'?: ?string,
+  'aria-haspopup': ?true,
+  onContextMenu: (event: SyntheticEvent<any>) => void,
+} {
+  return {
+    // $FlowFixMe
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
+    onContextMenu: (e: SyntheticMouseEvent<any>) => {
+      e.preventDefault()
+      open(e)
+    },
   }
 }
 

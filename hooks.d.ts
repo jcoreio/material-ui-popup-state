@@ -5,6 +5,7 @@ import {
   createPopupState,
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,
@@ -18,6 +19,7 @@ import {
 export {
   anchorRef,
   bindTrigger,
+  bindContextMenu,
   bindToggle,
   bindHover,
   bindFocus,

@@ -19,6 +19,7 @@ import {
   bindToggle,
   bindFocus,
   type PopupState,
+  bindContextMenu,
 } from '../src/hooks'
 
 import { beforeEach, describe, it } from 'mocha'
@@ -87,6 +88,103 @@ describe('usePopupState', () => {
       assert.strictEqual(menu.prop('open'), false)
       assert.strictEqual(menu.prop('onClose'), popupStates[2].close)
     })
+
+    it('open/close works', () => {
+      const wrapper = mount(<MenuTest />)
+
+      popupStates[0].open(buttonRef)
+      wrapper.update()
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].close()
+      wrapper.update()
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+    it('toggle works', () => {
+      const wrapper = mount(<MenuTest />)
+
+      popupStates[0].toggle(buttonRef)
+      wrapper.update()
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].toggle(buttonRef)
+      wrapper.update()
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+    it('setOpen works', () => {
+      const wrapper = mount(<MenuTest variant="popover" popupId="menu" />)
+
+      popupStates[0].setOpen(true, buttonRef)
+      wrapper.update()
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].setOpen(false)
+      wrapper.update()
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+  })
+  describe('bindMenu/bindContextMenu', () => {
+    let buttonRef
+    let button
+    let menu
+
+    const popupStates = []
+
+    beforeEach(() => (popupStates.length = 0))
+
+    const MenuTest = (): React.Node => {
+      const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
+      popupStates.push(popupState)
+      return (
+        <React.Fragment>
+          <Button
+            {...bindContextMenu(popupState)}
+            buttonRef={c => (buttonRef = c)}
+          >
+            Open Menu
+          </Button>
+          <Menu {...bindMenu(popupState)}>
+            <MenuItem onClick={popupState.close}>Test</MenuItem>
+          </Menu>
+        </React.Fragment>
+      )
+    }
+
+    it('passes correct props to bindContextMenu/bindMenu', () => {
+      const wrapper = mount(<MenuTest />)
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(popupStates[0].isOpen, false)
+      assert.strictEqual(button.prop('aria-controls'), null)
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('open'), false)
+      assert.strictEqual(menu.prop('onClose'), popupStates[0].close)
+
+      button.simulate('contextmenu')
+      wrapper.update()
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(popupStates[1].isOpen, true)
+      assert.strictEqual(button.prop('aria-controls'), 'menu')
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('anchorEl'), buttonRef)
+      assert.strictEqual(menu.prop('open'), true)
+      assert.strictEqual(menu.prop('onClose'), popupStates[1].close)
+
+      wrapper.find(MenuItem).simulate('click')
+      wrapper.update()
+      button = wrapper.find(Button)
+      menu = wrapper.find(Menu)
+      assert.strictEqual(popupStates[2].isOpen, false)
+      assert.strictEqual(button.prop('aria-controls'), null)
+      assert.strictEqual(button.prop('aria-haspopup'), true)
+      assert.strictEqual(menu.prop('id'), 'menu')
+      assert.strictEqual(menu.prop('open'), false)
+      assert.strictEqual(menu.prop('onClose'), popupStates[2].close)
+    })
+
     it('open/close works', () => {
       const wrapper = mount(<MenuTest />)
 
