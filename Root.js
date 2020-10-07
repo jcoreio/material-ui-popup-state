@@ -8,6 +8,10 @@ import TriggerPopover from './examples/TriggerPopover'
 import TriggerPopoverCode from '!!raw-loader!./examples/TriggerPopover'
 import TriggerPopoverHooks from './examples/TriggerPopover.hooks'
 import TriggerPopoverHooksCode from '!!raw-loader!./examples/TriggerPopover.hooks'
+import ContextMenu from './examples/ContextMenu'
+import ContextMenuCode from '!!raw-loader!./examples/ContextMenu'
+import ContextMenuHooks from './examples/ContextMenu.hooks'
+import ContextMenuHooksCode from '!!raw-loader!./examples/ContextMenu.hooks'
 import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverPopoverHooks from './examples/HoverPopover.hooks'
@@ -41,7 +45,7 @@ const Root = ({ classes }) => (
   <div className={classes.root}>
     <Typography variant="h3">material-ui-popup-state demos</Typography>
     <Demo
-      title="Trigger Menu"
+      title="Left Click to open Menu"
       headerId="trigger-menu"
       example={<TriggerMenu />}
       code={TriggerMenuCode}
@@ -49,12 +53,20 @@ const Root = ({ classes }) => (
       hooksCode={TriggerMenuHooksCode}
     />
     <Demo
-      title="Trigger Popover"
+      title="Left Click to open Popover"
       headerId="trigger-popover"
       example={<TriggerPopover />}
       code={TriggerPopoverCode}
       hooksExample={<TriggerPopoverHooks />}
       hooksCode={TriggerPopoverHooksCode}
+    />
+    <Demo
+      title="Context Menu"
+      headerId="trigger-menu"
+      example={<ContextMenu />}
+      code={ContextMenuCode}
+      hooksExample={<ContextMenuHooks />}
+      hooksCode={ContextMenuHooksCode}
     />
     <Demo
       title="Hover Popover"
