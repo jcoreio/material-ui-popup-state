@@ -507,7 +507,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[0][0].isOpen, false)
       assert.strictEqual(button.prop('aria-controls'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseEnter'), render.args[0][0].open)
+      assert.strictEqual(button.prop('onMouseOver'), render.args[0][0].open)
       assert.strictEqual(
         button.prop('onMouseLeave'),
         render.args[0][0].onMouseLeave
@@ -516,14 +516,14 @@ describe('<PopupState />', () => {
       assert.strictEqual(popover.prop('open'), false)
       assert.strictEqual(popover.prop('onClose'), render.args[0][0].close)
 
-      button.simulate('mouseenter')
+      button.simulate('mouseover')
       wrapper.update()
       button = wrapper.find(Button)
       popover = wrapper.find(Popover)
       assert.strictEqual(render.args[1][0].isOpen, true)
       assert.strictEqual(button.prop('aria-controls'), 'popover')
       assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseEnter'), render.args[1][0].open)
+      assert.strictEqual(button.prop('onMouseOver'), render.args[1][0].open)
       assert.strictEqual(
         button.prop('onMouseLeave'),
         render.args[1][0].onMouseLeave
@@ -539,7 +539,7 @@ describe('<PopupState />', () => {
       popover = wrapper.find(Popover)
       assert.strictEqual(button.prop('aria-controls'), 'popover')
       assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseEnter'), render.args[1][0].open)
+      assert.strictEqual(button.prop('onMouseOver'), render.args[1][0].open)
       assert.strictEqual(
         button.prop('onMouseLeave'),
         render.args[1][0].onMouseLeave
@@ -556,7 +556,7 @@ describe('<PopupState />', () => {
       assert.strictEqual(render.args[2][0].isOpen, false)
       assert.strictEqual(button.prop('aria-controls'), null)
       assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseEnter'), render.args[2][0].open)
+      assert.strictEqual(button.prop('onMouseOver'), render.args[2][0].open)
       assert.strictEqual(
         button.prop('onMouseLeave'),
         render.args[2][0].onMouseLeave

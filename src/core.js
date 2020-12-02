@@ -91,6 +91,7 @@ export function createPopupState({
         'eventOrAnchorEl should be defined if setAnchorEl is not used'
       )
     }
+
     if (parentPopupState) {
       if (!parentPopupState.isOpen) return
       parentPopupState._setChildPopupState(popupState)
@@ -105,7 +106,7 @@ export function createPopupState({
 
     const newState: $Shape<CoreState> = {
       isOpen: true,
-      hovered: eventOrAnchorEl && (eventOrAnchorEl: any).type === 'mouseenter',
+      hovered: eventOrAnchorEl && (eventOrAnchorEl: any).type === 'mouseover',
     }
 
     if (eventOrAnchorEl && eventOrAnchorEl.currentTarget) {
@@ -275,7 +276,7 @@ export function bindHover({
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
-  onMouseEnter: (event: SyntheticMouseEvent<any>) => any,
+  onMouseOver: (event: SyntheticMouseEvent<any>) => any,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => any,
 } {
   return {
@@ -284,7 +285,7 @@ export function bindHover({
       ? popupId
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
-    onMouseEnter: open,
+    onMouseOver: open,
     onMouseLeave,
   }
 }
