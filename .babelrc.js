@@ -1,4 +1,4 @@
-module.exports = function(api) {
+module.exports = function (api) {
   const plugins = [
     '@babel/plugin-transform-flow-strip-types',
     '@babel/plugin-syntax-dynamic-import',
