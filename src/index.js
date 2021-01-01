@@ -2,6 +2,6 @@
 
 import * as React from 'react'
 
-const Hello = () => <div>Hello world!</div>
+const Hello = (): React.Node => <div>Hello world!</div>
 
 export default Hello
