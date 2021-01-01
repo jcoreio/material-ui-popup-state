@@ -98,7 +98,7 @@
     "eslint": "^7.15.0",
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-flowtype": "^5.2.0",
-    "flow-bin": "^0.140.0",
+    "flow-bin": "^0.141.0",
     "flow-copy-source": "https://github.com/jedwards1211/flow-copy-source#no-watch",
     "husky": "^4.3.6",
     "istanbul": "^0.4.5",
