@@ -1,7 +1,7 @@
 // flow-typed signature: 055d97c4302b7989c7221251421dca7c
 // flow-typed version: 673c7738c2/chai_v4.x.x/flow_>=v0.104.x
 
-declare module 'chai' {
+declare module "chai" {
   declare type ExpectChain<T> = {
     and: ExpectChain<T>,
     at: ExpectChain<T>,
@@ -23,14 +23,10 @@ declare module 'chai' {
     own: ExpectChain<T>,
     a: ExpectChain<T> & ((type: string, message?: string) => ExpectChain<T>),
     an: ExpectChain<T> & ((type: string, message?: string) => ExpectChain<T>),
-    include: ExpectChain<T> &
-      ((value: mixed, message?: string) => ExpectChain<T>),
-    includes: ExpectChain<T> &
-      ((value: mixed, message?: string) => ExpectChain<T>),
-    contain: ExpectChain<T> &
-      ((value: mixed, message?: string) => ExpectChain<T>),
-    contains: ExpectChain<T> &
-      ((value: mixed, message?: string) => ExpectChain<T>),
+    include: ExpectChain<T> & ((value: mixed, message?: string) => ExpectChain<T>),
+    includes: ExpectChain<T> & ((value: mixed, message?: string) => ExpectChain<T>),
+    contain: ExpectChain<T> & ((value: mixed, message?: string) => ExpectChain<T>),
+    contains: ExpectChain<T> & ((value: mixed, message?: string) => ExpectChain<T>),
     eq: (value: T, message?: string) => ExpectChain<T>,
     eql: (value: T, message?: string) => ExpectChain<T>,
     equal: (value: T, message?: string) => ExpectChain<T>,
@@ -43,11 +39,7 @@ declare module 'chai' {
     lessThan: (value: T & number, message?: string) => ExpectChain<T>,
     lt: (value: T & number, message?: string) => ExpectChain<T>,
     most: (value: T & number, message?: string) => ExpectChain<T>,
-    within: (
-      start: T & number,
-      finish: T & number,
-      message?: string
-    ) => ExpectChain<T>,
+    within: (start: T & number, finish: T & number, message?: string) => ExpectChain<T>,
     instanceof: (constructor: mixed, message?: string) => ExpectChain<T>,
     instanceOf: (constructor: mixed, message?: string) => ExpectChain<T>,
     nested: ExpectChain<T>,
@@ -56,8 +48,7 @@ declare module 'chai' {
       value?: P,
       message?: string
     ) => ExpectChain<P> & ((name: string) => ExpectChain<mixed>),
-    length: ExpectChain<number> &
-      ((value: number, message?: string) => ExpectChain<T>),
+    length: ExpectChain<number> & ((value: number, message?: string) => ExpectChain<T>),
     lengthOf: (value: number, message?: string) => ExpectChain<T>,
     match: (regex: RegExp, message?: string) => ExpectChain<T>,
     matches: (regex: RegExp, message?: string) => ExpectChain<T>,
@@ -74,15 +65,8 @@ declare module 'chai' {
     ) => ExpectChain<T>,
     respondTo: (method: string, message?: string) => ExpectChain<T>,
     itself: ExpectChain<T>,
-    satisfy: (
-      method: (value: T) => boolean,
-      message?: string
-    ) => ExpectChain<T>,
-    closeTo: (
-      expected: T & number,
-      delta: number,
-      message?: string
-    ) => ExpectChain<T>,
+    satisfy: (method: (value: T) => boolean, message?: string) => ExpectChain<T>,
+    closeTo: (expected: T & number, delta: number, message?: string) => ExpectChain<T>,
     members: (set: mixed, message?: string) => ExpectChain<T>,
     oneOf: (list: Array<T>, message?: string) => ExpectChain<T>,
     change: (obj: mixed, key: string, message?: string) => ExpectChain<T>,
@@ -134,10 +118,10 @@ declare module 'chai' {
     notify: (callback: () => mixed) => ExpectChain<T>,
     fulfilled: () => Promise<mixed> & ExpectChain<T>,
     // chai-subset
-    containSubset: (obj: { ... } | Array<{ ... }>) => ExpectChain<T>,
+    containSubset: (obj: {...} | Array< {...} >) => ExpectChain<T>,
     // chai-redux-mock-store
     dispatchedActions: (
-      actions: Array<{ ... } | ((action: { ... }) => any)>
+      actions: Array<{...} | ((action: {...}) => any)>
     ) => ExpectChain<T>,
     dispatchedTypes: (actions: Array<string>) => ExpectChain<T>,
     // chai-enzyme
@@ -151,21 +135,16 @@ declare module 'chai' {
     // chai-karma-snapshot
     matchSnapshot: (lang?: any, update?: boolean, msg?: any) => ExpectChain<T>,
     ...
-  }
+  };
+
 
   declare var expect: {
     <T>(actual: T, message?: string): ExpectChain<T>,
-    fail: ((message?: string) => void) &
-      ((
-        actual: any,
-        expected: any,
-        message?: string,
-        operator?: string
-      ) => void),
+    fail: ((message?: string) => void) & ((actual: any, expected: any, message?: string, operator?: string) => void),
     ...
-  }
+  };
 
-  declare function use(plugin: (chai: Object, utils: Object) => void): void
+  declare function use(plugin: (chai: Object, utils: Object) => void): void;
 
   declare class assert {
     static (expression: mixed, message?: string): void;
@@ -211,8 +190,8 @@ declare module 'chai' {
     static isAbove(val: number, abv: number, msg?: string): void;
     static isBelow(val: number, blw: number, msg?: string): void;
 
-    static exists(val: mixed, msg?: string): void;
-    static notExists(val: mixed, msg?: string): void;
+    static exists(val : mixed, msg? : string) : void;
+    static notExists(val : mixed, msg? : string) : void;
 
     static isAtMost(val: number, atmst: number, msg?: string): void;
     static isAtLeast(val: number, atlst: number, msg?: string): void;
@@ -238,8 +217,8 @@ declare module 'chai' {
     static typeOf(val: mixed, type: string, msg?: string): void;
     static notTypeOf(val: mixed, type: string, msg?: string): void;
 
-    static instanceOf(val: mixed, constructor: Class<*>, msg?: string): void;
-    static notInstanceOf(val: mixed, constructor: Class<*>, msg?: string): void;
+    static instanceOf(val: mixed, constructor: Class< * >, msg?: string): void;
+    static notInstanceOf(val: mixed, constructor: Class< * >, msg?: string): void;
 
     static include(exp: string, inc: mixed, msg?: string): void;
     static include<T>(exp: Array<T>, inc: T, msg?: string): void;
@@ -247,16 +226,8 @@ declare module 'chai' {
     static notInclude(exp: string, inc: mixed, msg?: string): void;
     static notInclude<T>(exp: Array<T>, inc: T, msg?: string): void;
 
-    static deepInclude<T>(
-      haystack: T[] | string,
-      needle: $Shape<T>,
-      msg?: string
-    ): void;
-    static notDeepInclude<T>(
-      haystack: T[] | string,
-      needle: $Shape<T>,
-      msg?: string
-    ): void;
+    static deepInclude<T>(haystack : T[] | string, needle : $Shape<T>, msg?: string) : void;
+    static notDeepInclude<T>(haystack : T[] | string, needle : $Shape<T>, msg?: string) : void;
 
     static match(exp: mixed, re: RegExp, msg?: string): void;
     static notMatch(exp: mixed, re: RegExp, msg?: string): void;
@@ -329,5 +300,5 @@ declare module 'chai' {
     showDiff: boolean,
     truncateThreshold: number,
     ...
-  }
+  };
 }

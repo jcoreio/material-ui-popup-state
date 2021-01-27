@@ -1,8 +1,8 @@
 **
 !**/*.js
 !**/*.js.flow
+!**/*.d.ts
 !/*.md
-!yarn.lock
 /lib
 /src
 /stories
@@ -11,4 +11,3 @@
 /flow-typed
 __tests__
 /.*
-!/.flowconfig
