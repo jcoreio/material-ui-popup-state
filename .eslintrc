@@ -2,12 +2,11 @@
   "extends": [
     "@jedwards1211/eslint-config","@jedwards1211/eslint-config-flow", "eslint-config-prettier"
   ],
-  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2019,
     "sourceType": "module"
   },
   "env": {
-    "es6": true
+    "es2017": true
   }
 }

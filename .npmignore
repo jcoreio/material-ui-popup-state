@@ -1,12 +1,11 @@
 **
 !**/*.js
 !**/*.js.flow
+!**/*.d.ts
 !/*.md
-!yarn.lock
 /src
 /test
 /coverage
 /flow-typed
 __tests__
 /.*
-!/.flowconfig

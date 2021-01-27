@@ -13,8 +13,3 @@
 [libs]
 
 [options]
-module.system=node
-esproposal.class_static_fields=enable
-esproposal.class_instance_fields=enable
-well_formed_exports=true
-types_first=true
