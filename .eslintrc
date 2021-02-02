@@ -1,6 +1,10 @@
 {
   "extends": [
-    "@jedwards1211/eslint-config","@jedwards1211/eslint-config-flow", "eslint-config-prettier"
+    "@jedwards1211/eslint-config",
+    "@jedwards1211/eslint-config-flow",
+    "prettier",
+    "prettier/babel",
+    "prettier/flowtype"
   ],
   "parserOptions": {
     "ecmaVersion": 2019,
