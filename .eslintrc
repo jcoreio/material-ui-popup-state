@@ -6,10 +6,7 @@
     "prettier/babel",
     "prettier/flowtype"
   ],
-  "parserOptions": {
-    "ecmaVersion": 2019,
-    "sourceType": "module"
-  },
+  "parser": "@babel/eslint-parser",
   "env": {
     "es2017": true
   }
