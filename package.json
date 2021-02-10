@@ -5,19 +5,19 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint src test --cache",
-    "lint:fix": "eslint --fix src test --cache",
-    "prettier": "prettier --write *.json *.md *.js '{src,test}/**/*.js'",
-    "prettier:check": "prettier --list-different *.json *.md *.js '{src,test}/**/*.js'",
+    "lint": "eslint $npm_package_config_eslint",
+    "lint:fix": "eslint --fix $npm_package_config_eslint",
+    "prettier": "prettier --write $npm_package_config_prettier",
+    "prettier:check": "prettier --list-different $npm_package_config_prettier",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "clean": "rimraf es lib $(cd src; ls) *.js.flow",
-    "build": "npm run clean && cross-env BABEL_ENV=production babel src --out-dir es && flow-copy-source -v src/ es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ .",
+    "clean": "rimraf es lib $(cd src; ls) *.js.flow *.d.ts",
+    "build": "npm run clean && babel src --out-dir es && flow-copy-source -v src/ es && copy src/**/*.d.ts es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ . && copy src/**/*.d.ts .",
     "test": "cross-env NODE_ENV=test BABEL_ENV=es5 mocha $npm_package_config_mocha && cross-env NODE_ENV=test BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch $npm_package_config_mocha",
     "test:debug": "cross-env NODE_ENV=test BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "storybook": "start-storybook -p 6006",
@@ -25,13 +25,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run lint && flow",
+      "pre-commit": "lint-staged && npm run lint && flow && tsc",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm test"
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md}": [
+    "*.{js,json,css,md,ts}": [
       "prettier --write"
     ]
   },
@@ -47,6 +47,8 @@
   },
   "config": {
     "mocha": "-r @babel/register -r jsdom-global/register test/configure.js 'test/**/*.js'",
+    "eslint": "src test --cache",
+    "prettier": "*.{json,md,js} {src,test}/**/*.{js,ts}",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
@@ -79,6 +81,7 @@
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.13",
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-export-default-from": "^7.12.1",
     "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
@@ -122,7 +125,8 @@
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.3.7"
+    "semantic-release": "^17.3.7",
+    "typescript": "^4.1.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",

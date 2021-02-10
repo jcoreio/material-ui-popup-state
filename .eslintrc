@@ -7,7 +7,7 @@
     "prettier/flowtype",
     "prettier/react"
   ],
-  "parser": "babel-eslint",
+  "parser": "@babel/eslint-parser",
   "env": {
     "es2017": true
   },

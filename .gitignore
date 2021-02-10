@@ -6,7 +6,9 @@ node_modules
 .eslintcache
 *.js
 *.js.flow
+*.ts
 !/src/**/*.js
+!/src/**/*.ts
 !/test/**/*.js
 !/.babelrc.js
 !/webpack.config.js
