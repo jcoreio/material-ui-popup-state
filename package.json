@@ -5,10 +5,10 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "lint": "eslint src test --cache",
-    "lint:fix": "eslint --fix src test --cache",
-    "prettier": "prettier --write *.json *.md *.js '{src,test}/**/*.js'",
-    "prettier:check": "prettier --list-different *.json *.md *.js '{src,test}/**/*.js'",
+    "lint": "eslint $npm_package_config_eslint",
+    "lint:fix": "eslint --fix $npm_package_config_eslint",
+    "prettier": "prettier --write $npm_package_config_prettier",
+    "prettier:check": "prettier --list-different $npm_package_config_prettier",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
     "clean": "rimraf es lib $(cd src; ls) *.js.flow *.d.ts",
@@ -45,7 +45,8 @@
   },
   "config": {
     "mocha": "-r @babel/register test/configure.js 'test/**/*.js'",
-    "prettier": "*.{json,md,js} '{src,test}/**/*.{js,ts}'",
+    "eslint": "src test --cache",
+    "prettier": "*.{json,md,js} {src,test}/**/*.{js,ts}",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
