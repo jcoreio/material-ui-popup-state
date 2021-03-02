@@ -5,6 +5,7 @@ function consoleError() {
   console.error = (...args) => {
     // Can't use log as karma is not displaying them.
     console.info(...args)
+    if (/ExperimentalWarning/.test(args[0])) return
     throw new Error(...args)
   }
 }

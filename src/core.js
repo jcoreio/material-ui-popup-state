@@ -142,7 +142,8 @@ export function createPopupState({
     }
   }
 
-  const _setChildPopupState = _childPopupState => setState({ _childPopupState })
+  const _setChildPopupState = (_childPopupState) =>
+    setState({ _childPopupState })
 
   const popupState = {
     anchorEl,
@@ -411,7 +412,10 @@ function isAncestor(parent: ?Element, child: ?Element): boolean {
 
 function hasChanges(state: CoreState, nextState: $Shape<CoreState>): boolean {
   for (let key in nextState) {
-    if (state.hasOwnProperty(key) && state[key] !== nextState[key]) {
+    if (
+      Object.prototype.hasOwnProperty.call(state, key) &&
+      state[key] !== nextState[key]
+    ) {
       return true
     }
   }

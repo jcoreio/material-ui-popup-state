@@ -33,9 +33,9 @@ describe('<PopupState />', () => {
     let button
     let menu
 
-    const render = spy(popupState => (
+    const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindTrigger(popupState)} buttonRef={c => (buttonRef = c)}>
+        <Button {...bindTrigger(popupState)} buttonRef={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Menu {...bindMenu(popupState)}>
@@ -138,11 +138,11 @@ describe('<PopupState />', () => {
     let button
     let menu
 
-    const render = spy(popupState => (
+    const render = spy((popupState) => (
       <React.Fragment>
         <Button
           {...bindContextMenu(popupState)}
-          buttonRef={c => (buttonRef = c)}
+          buttonRef={(c) => (buttonRef = c)}
         >
           Open Menu
         </Button>
@@ -255,7 +255,7 @@ describe('<PopupState />', () => {
             <React.Fragment>
               <Input
                 {...bindFocus(popupState)}
-                inputRef={c => (inputRef = c)}
+                inputRef={(c) => (inputRef = c)}
               />
               <Popover {...bindPopover(popupState)}>Info</Popover>
             </React.Fragment>
@@ -424,9 +424,9 @@ describe('<PopupState />', () => {
     let button
     let popper
 
-    const render = spy(popupState => (
+    const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindToggle(popupState)} buttonRef={c => (buttonRef = c)}>
+        <Button {...bindToggle(popupState)} buttonRef={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Popper {...bindPopper(popupState)}>The popper content</Popper>
@@ -483,13 +483,13 @@ describe('<PopupState />', () => {
     let popover
     let content
 
-    const render = spy(popupState => (
+    const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindHover(popupState)} buttonRef={c => (buttonRef = c)}>
+        <Button {...bindHover(popupState)} buttonRef={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Popover {...bindPopover(popupState)}>
-          <span ref={c => (content = c)}>The popover content</span>
+          <span ref={(c) => (content = c)}>The popover content</span>
         </Popover>
       </React.Fragment>
     ))

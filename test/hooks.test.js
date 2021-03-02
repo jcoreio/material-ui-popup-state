@@ -41,7 +41,10 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Button {...bindTrigger(popupState)} buttonRef={c => (buttonRef = c)}>
+          <Button
+            {...bindTrigger(popupState)}
+            buttonRef={(c) => (buttonRef = c)}
+          >
             Open Menu
           </Button>
           <Menu {...bindMenu(popupState)}>
@@ -139,7 +142,7 @@ describe('usePopupState', () => {
         <React.Fragment>
           <Button
             {...bindContextMenu(popupState)}
-            buttonRef={c => (buttonRef = c)}
+            buttonRef={(c) => (buttonRef = c)}
           >
             Open Menu
           </Button>
@@ -237,7 +240,7 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Input {...bindFocus(popupState)} inputRef={c => (inputRef = c)} />
+          <Input {...bindFocus(popupState)} inputRef={(c) => (inputRef = c)} />
           <Popover {...bindPopover(popupState)}>Info</Popover>
         </React.Fragment>
       )
@@ -409,7 +412,10 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Button {...bindToggle(popupState)} buttonRef={c => (buttonRef = c)}>
+          <Button
+            {...bindToggle(popupState)}
+            buttonRef={(c) => (buttonRef = c)}
+          >
             Open Menu
           </Button>
           <Popper {...bindPopper(popupState)}>The popper content</Popper>

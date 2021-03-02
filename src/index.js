@@ -96,7 +96,9 @@ export default class PopupState extends React.Component<Props, CoreState> {
     this._mounted = false
   }
 
-  _setStateIfMounted = (state: $Shape<CoreState>) => {
+  _setStateIfMounted: (state: $Shape<CoreState>) => void = (
+    state: $Shape<CoreState>
+  ) => {
     if (this._mounted) this.setState(state)
   }
 

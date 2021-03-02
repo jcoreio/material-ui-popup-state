@@ -95,7 +95,7 @@ import {
   bindPopover,
 } from 'material-ui-popup-state/hooks'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     margin: theme.spacing.unit * 2,
   },
@@ -154,7 +154,7 @@ import {
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     padding: theme.spacing.unit * 2,
   },
@@ -293,7 +293,7 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindTrigger(popupState)}>
           Open Menu
@@ -322,7 +322,7 @@ import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     margin: theme.spacing.unit * 2,
   },
@@ -330,7 +330,7 @@ const styles = theme => ({
 
 const PopoverPopupState = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindTrigger(popupState)}>
           Open Popover
@@ -372,7 +372,7 @@ import Typography from '@material-ui/core/Typography'
 import Popover from '@material-ui/core/Popover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
-const styles = theme => ({
+const styles = (theme) => ({
   popover: {
     pointerEvents: 'none',
   },
@@ -383,7 +383,7 @@ const styles = theme => ({
 
 const HoverPopoverPopupState = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Typography {...bindHover(popupState)}>
           Hover with a Popover.
@@ -431,7 +431,7 @@ import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state'
 import Fade from '@material-ui/core/Fade'
 import Paper from '@material-ui/core/Paper'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     padding: theme.spacing.unit * 2,
   },
@@ -439,7 +439,7 @@ const styles = theme => ({
 
 const PopperPopupState = ({ classes }) => (
   <PopupState variant="popper" popupId="demoPopper">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindToggle(popupState)}>
           Toggle Popper
@@ -500,7 +500,7 @@ import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindTrigger(popupState)}>
           Open Menu
