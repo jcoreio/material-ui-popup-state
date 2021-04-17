@@ -419,15 +419,18 @@ export function bindPopper({
   isOpen,
   anchorEl,
   popupId,
+  onMouseLeave,
 }: PopupState): {
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
+  onMouseLeave: (event: SyntheticEvent<any>) => void,
 } {
   return {
     id: popupId,
     anchorEl,
     open: isOpen,
+    onMouseLeave,
   }
 }
 

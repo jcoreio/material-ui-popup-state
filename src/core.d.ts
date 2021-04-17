@@ -174,4 +174,5 @@ export function bindPopper(
   id: string | undefined
   anchorEl: HTMLElement | undefined
   open: boolean
+  onMouseLeave: (event: SyntheticEvent<any>) => void
 }

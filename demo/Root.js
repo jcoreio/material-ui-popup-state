@@ -16,6 +16,8 @@ import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverPopoverHooks from './examples/HoverPopover.hooks'
 import HoverPopoverHooksCode from '!!raw-loader!./examples/HoverPopover.hooks'
+import HoverPopperHooks from './examples/HoverPopper.hooks'
+import HoverPopperHooksCode from '!!raw-loader!./examples/HoverPopper.hooks'
 import FocusPopover from './examples/FocusPopover'
 import FocusPopoverCode from '!!raw-loader!./examples/FocusPopover'
 import FocusPopoverHooks from './examples/FocusPopover.hooks'
@@ -24,8 +26,6 @@ import HoverMenu from './examples/HoverMenu'
 import HoverMenuCode from '!!raw-loader!./examples/HoverMenu'
 import HoverMenuHooks from './examples/HoverMenu.hooks'
 import HoverMenuHooksCode from '!!raw-loader!./examples/HoverMenu.hooks'
-import HoverMenusHooks from './examples/HoverMenus.hooks'
-import HoverMenusHooksCode from '!!raw-loader!./examples/HoverMenus.hooks'
 import CustomAnchorHooks from './examples/CustomAnchor.hooks'
 import CustomAnchorHooksCode from '!!raw-loader!./examples/CustomAnchor.hooks'
 import CascadingHoverMenus from './examples/CascadingHoverMenus'
@@ -79,6 +79,12 @@ const Root = ({ classes }) => (
       hooksCode={HoverPopoverHooksCode}
     />
     <Demo
+      title="Hover Popper"
+      headerId="hover-popper"
+      hooksExample={<HoverPopperHooks />}
+      hooksCode={HoverPopperHooksCode}
+    />
+    <Demo
       title="Focus Popover"
       headerId="focus-popover"
       example={<FocusPopover />}
@@ -93,12 +99,6 @@ const Root = ({ classes }) => (
       code={HoverMenuCode}
       hooksExample={<HoverMenuHooks />}
       hooksCode={HoverMenuHooksCode}
-    />
-    <Demo
-      title="Hover Menus"
-      headerId="hover-menus"
-      hooksExample={<HoverMenusHooks />}
-      hooksCode={HoverMenusHooksCode}
     />
     <Demo
       title="Custom Anchor"

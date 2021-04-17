@@ -1,7 +1,6 @@
 /coverage
 /.nyc_output
 node_modules
-/demo/bundle.js
 /lib
 /es
 .eslintcache
@@ -11,5 +10,7 @@ node_modules
 !/src/**/*.js
 !/src/**/*.ts
 !/test/**/*.js
+!/demo/**/*.js
 !/.babelrc.js
 !/webpack.config.js
+/demo/bundle.js
