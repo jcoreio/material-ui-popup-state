@@ -13,7 +13,11 @@ import {
 const ParentPopupState = React.createContext(null)
 
 const CascadingHoverMenus = () => {
-  const popupState = usePopupState({ popupId: 'demoMenu', variant: 'popover' })
+  const popupState = usePopupState({
+    popupId: 'demoMenu',
+    variant: 'popover',
+    deferOpenClose: true,
+  })
   return (
     <div style={{ height: 600 }}>
       <Button variant="contained" {...bindHover(popupState)}>
@@ -49,7 +53,7 @@ const CascadingHoverMenus = () => {
 
 export default CascadingHoverMenus
 
-const submenuStyles = theme => ({
+const submenuStyles = (theme) => ({
   menu: {
     marginTop: theme.spacing(-1),
   },
@@ -70,6 +74,7 @@ const Submenu = withStyles(submenuStyles)(
       popupId,
       variant: 'popover',
       parentPopupState,
+      deferOpenClose: true,
     })
     return (
       <ParentPopupState.Provider value={popupState}>

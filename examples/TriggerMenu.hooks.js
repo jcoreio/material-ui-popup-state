@@ -8,7 +8,7 @@ import {
   bindMenu,
 } from 'material-ui-popup-state/hooks'
 
-const Triggernu = () => {
+const TriggerMenu = () => {
   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })
   return (
     <div>
@@ -28,4 +28,4 @@ const Triggernu = () => {
   )
 }
 
-export default Triggernu
+export default TriggerMenu

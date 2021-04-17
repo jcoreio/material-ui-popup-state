@@ -16,6 +16,8 @@ import HoverPopover from './examples/HoverPopover'
 import HoverPopoverCode from '!!raw-loader!./examples/HoverPopover'
 import HoverPopoverHooks from './examples/HoverPopover.hooks'
 import HoverPopoverHooksCode from '!!raw-loader!./examples/HoverPopover.hooks'
+import HoverPopperHooks from './examples/HoverPopper.hooks'
+import HoverPopperHooksCode from '!!raw-loader!./examples/HoverPopper.hooks'
 import FocusPopover from './examples/FocusPopover'
 import FocusPopoverCode from '!!raw-loader!./examples/FocusPopover'
 import FocusPopoverHooks from './examples/FocusPopover.hooks'
@@ -75,6 +77,12 @@ const Root = ({ classes }) => (
       code={HoverPopoverCode}
       hooksExample={<HoverPopoverHooks />}
       hooksCode={HoverPopoverHooksCode}
+    />
+    <Demo
+      title="Hover Popper"
+      headerId="hover-popper"
+      hooksExample={<HoverPopperHooks />}
+      hooksCode={HoverPopperHooksCode}
     />
     <Demo
       title="Focus Popover"
