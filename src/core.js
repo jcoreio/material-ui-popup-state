@@ -39,6 +39,8 @@ export type CoreState = {
   anchorEl: ?HTMLElement,
   hovered: boolean,
   _childPopupState: ?PopupState,
+  _deferNextOpen: boolean,
+  _deferNextClose: boolean,
 }
 
 export const initCoreState: CoreState = {
@@ -47,6 +49,8 @@ export const initCoreState: CoreState = {
   anchorEl: null,
   hovered: false,
   _childPopupState: null,
+  _deferNextOpen: false,
+  _deferNextClose: false,
 }
 
 export function createPopupState({
@@ -64,7 +68,15 @@ export function createPopupState({
   parentPopupState?: ?PopupState,
   disableAutoFocus?: ?boolean,
 }): PopupState {
-  const { isOpen, setAnchorElUsed, anchorEl, hovered, _childPopupState } = state
+  const {
+    isOpen,
+    setAnchorElUsed,
+    anchorEl,
+    hovered,
+    _childPopupState,
+    _deferNextOpen,
+    _deferNextClose,
+  } = state
 
   // use lastState to workaround cases where setState is called multiple times
   // in a single render (e.g. because of refs being called multiple times)
@@ -80,50 +92,80 @@ export function createPopupState({
   }
 
   const toggle = (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => {
-    if (isOpen) close()
+    if (isOpen) close(eventOrAnchorEl)
     else open(eventOrAnchorEl)
   }
 
   const open = (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => {
-    if (!eventOrAnchorEl && !setAnchorElUsed) {
-      warn(
-        'missingEventOrAnchorEl',
-        'eventOrAnchorEl should be defined if setAnchorEl is not used'
-      )
+    const eventType = eventOrAnchorEl && (eventOrAnchorEl: any).type
+    const currentTarget =
+      eventOrAnchorEl && (eventOrAnchorEl: any).currentTarget
+
+    if (eventType === 'touchstart') {
+      setState({ _deferNextOpen: true })
+      return
     }
 
-    if (parentPopupState) {
-      if (!parentPopupState.isOpen) return
-      parentPopupState._setChildPopupState(popupState)
-    }
-    if (
-      !disableAutoFocus &&
-      typeof document === 'object' &&
-      document.activeElement
-    ) {
-      document.activeElement.blur()
-    }
-
-    const newState: $Shape<CoreState> = {
-      isOpen: true,
-      hovered: eventOrAnchorEl && (eventOrAnchorEl: any).type === 'mouseover',
-    }
-
-    if (eventOrAnchorEl && eventOrAnchorEl.currentTarget) {
-      if (!setAnchorElUsed) {
-        newState.anchorEl = (eventOrAnchorEl.currentTarget: any)
+    const doOpen = () => {
+      if (!eventOrAnchorEl && !setAnchorElUsed) {
+        warn(
+          'missingEventOrAnchorEl',
+          'eventOrAnchorEl should be defined if setAnchorEl is not used'
+        )
       }
-    } else if (eventOrAnchorEl) {
-      newState.anchorEl = (eventOrAnchorEl: any)
-    }
 
-    setState(newState)
+      if (parentPopupState) {
+        if (!parentPopupState.isOpen) return
+        parentPopupState._setChildPopupState(popupState)
+      }
+      if (
+        !disableAutoFocus &&
+        typeof document === 'object' &&
+        document.activeElement
+      ) {
+        document.activeElement.blur()
+      }
+
+      const newState: $Shape<CoreState> = {
+        isOpen: true,
+        hovered: eventType === 'mouseover',
+      }
+
+      if (currentTarget) {
+        if (!setAnchorElUsed) {
+          newState.anchorEl = (currentTarget: any)
+        }
+      } else if (eventOrAnchorEl) {
+        newState.anchorEl = (eventOrAnchorEl: any)
+      }
+
+      setState(newState)
+    }
+    if (_deferNextOpen) {
+      setState({ _deferNextOpen: false })
+      setTimeout(doOpen, 0)
+    } else {
+      doOpen()
+    }
   }
 
-  const close = () => {
-    if (_childPopupState) _childPopupState.close()
-    if (parentPopupState) parentPopupState._setChildPopupState(null)
-    setState({ isOpen: false, hovered: false })
+  const close = (arg?: SyntheticEvent<any> | HTMLElement) => {
+    const eventType = arg && (arg: any).type
+    if (eventType === 'touchstart') {
+      setState({ _deferNextClose: true })
+      return
+    }
+    const doClose = () => {
+      if (_childPopupState) _childPopupState.close()
+      if (parentPopupState) parentPopupState._setChildPopupState(null)
+      setState({ isOpen: false, hovered: false })
+    }
+    if (_deferNextClose) {
+      setState({ _deferNextClose: false })
+      setTimeout(doClose, 0)
+    } else {
+      doClose()
+    }
   }
 
   const setOpen = (
@@ -132,13 +174,13 @@ export function createPopupState({
   ) => {
     if (nextOpen) {
       open(eventOrAnchorEl)
-    } else close()
+    } else close(eventOrAnchorEl)
   }
 
   const onMouseLeave = (event: SyntheticEvent<any>) => {
     const relatedTarget: any = (event: any).relatedTarget
     if (hovered && !isElementInPopup(relatedTarget, popupState)) {
-      close()
+      close(event)
     }
   }
 
@@ -193,6 +235,7 @@ export function bindTrigger({
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
+  onTouchStart: (event: SyntheticEvent<any>) => void,
 } {
   return {
     // $FlowFixMe
@@ -201,6 +244,7 @@ export function bindTrigger({
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onClick: open,
+    onTouchStart: open,
   }
 }
 
@@ -250,6 +294,7 @@ export function bindToggle({
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
+  onTouchStart: (event: SyntheticEvent<any>) => void,
 } {
   return {
     // $FlowFixMe
@@ -258,6 +303,7 @@ export function bindToggle({
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onClick: toggle,
+    onTouchStart: toggle,
   }
 }
 
@@ -277,6 +323,7 @@ export function bindHover({
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
+  onTouchStart: (event: SyntheticMouseEvent<any>) => any,
   onMouseOver: (event: SyntheticMouseEvent<any>) => any,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => any,
 } {
@@ -286,6 +333,7 @@ export function bindHover({
       ? popupId
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
+    onTouchStart: open,
     onMouseOver: open,
     onMouseLeave,
   }

@@ -28,6 +28,8 @@ export type CoreState = {
   anchorEl: HTMLElement | undefined
   hovered: boolean
   _childPopupState: PopupState | undefined
+  _deferNextOpen: boolean
+  _deferNextClose: boolean
 }
 
 export const initCoreState: CoreState
