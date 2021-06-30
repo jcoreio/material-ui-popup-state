@@ -118,13 +118,6 @@ export function createPopupState({
         if (!parentPopupState.isOpen) return
         parentPopupState._setChildPopupState(popupState)
       }
-      if (
-        !disableAutoFocus &&
-        typeof document === 'object' &&
-        document.activeElement
-      ) {
-        document.activeElement.blur()
-      }
 
       const newState: $Shape<CoreState> = {
         isOpen: true,
