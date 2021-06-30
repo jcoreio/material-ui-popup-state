@@ -6,7 +6,7 @@ import PopupState, { bindContextMenu, bindMenu } from 'material-ui-popup-state'
 
 const ContextMenu = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindContextMenu(popupState)}>
           Right Click to Open Menu

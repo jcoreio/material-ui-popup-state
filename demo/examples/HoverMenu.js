@@ -6,7 +6,7 @@ import PopupState, { bindHover, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Menu

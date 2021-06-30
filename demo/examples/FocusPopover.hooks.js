@@ -1,7 +1,6 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
 import Popover from '@material-ui/core/Popover'
-import Button from '@material-ui/core/Button'
 import Input from '@material-ui/core/Input'
 import {
   usePopupState,

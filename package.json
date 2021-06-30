@@ -11,7 +11,7 @@
     "prettier:check": "prettier --list-different $npm_package_config_prettier",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "clean": "rimraf es lib $(cd src; ls) *.js.flow *.d.ts",
+    "clean": "rimraf demo-dist es lib $(cd src; ls) *.js.flow *.d.ts",
     "build": "npm run clean && babel src --out-dir es && flow-copy-source -v src/ es && copy src/**/*.d.ts es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ . && copy src/**/*.d.ts .",
     "test": "cross-env NODE_ENV=test BABEL_ENV=es5 mocha $npm_package_config_mocha && cross-env NODE_ENV=test BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
     "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch $npm_package_config_mocha",
@@ -21,9 +21,9 @@
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
     "start": "webpack-dev-server",
-    "build:demo": "cross-env NODE_ENV=production BABEL_ENV=es5 webpack",
+    "build:demo": "rimraf demo-dist && cross-env NODE_ENV=production BABEL_ENV=es5 webpack && (cd demo; copy index.html ../demo-dist/)",
     "predeploy": "yarn build:demo",
-    "deploy": "gh-pages -d demo"
+    "deploy": "gh-pages -d demo-dist"
   },
   "husky": {
     "hooks": {
@@ -49,8 +49,8 @@
   },
   "config": {
     "mocha": "-r @babel/register -r jsdom-global/register test/configure.js 'test/**/*.js'",
-    "eslint": "src test --cache",
-    "prettier": "*.{json,md,js} {src,test}/**/*.{js,ts}",
+    "eslint": "src test demo --cache",
+    "prettier": "*.{json,md,js} {src,test,demo}/**/*.{js,ts}",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }

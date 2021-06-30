@@ -10,7 +10,7 @@ import {
   bindPopover,
 } from 'material-ui-popup-state/hooks'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     margin: theme.spacing(2),
   },

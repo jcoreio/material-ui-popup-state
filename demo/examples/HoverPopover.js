@@ -6,7 +6,7 @@ import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
 const HoverPopoverPopupState = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Popover

@@ -10,7 +10,7 @@ const ParentPopupState = React.createContext(null)
 
 const CascadingHoverMenus = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <div style={{ height: 600 }}>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Menu
@@ -46,7 +46,7 @@ const CascadingHoverMenus = () => (
 
 export default CascadingHoverMenus
 
-const submenuStyles = theme => ({
+const submenuStyles = (theme) => ({
   menu: {
     marginTop: theme.spacing(-1),
   },
@@ -61,38 +61,43 @@ const submenuStyles = theme => ({
 const Submenu = withStyles(submenuStyles)(
   // Unfortunately, MUI <Menu> injects refs into its children, which causes a
   // warning in some cases unless we use forwardRef here.
-  React.forwardRef(({ classes, title, popupId, children, ...props }, ref) => (
-    <ParentPopupState.Consumer>
-      {parentPopupState => (
-        <PopupState
-          variant="popover"
-          popupId={popupId}
-          parentPopupState={parentPopupState}
-        >
-          {popupState => (
-            <ParentPopupState.Provider value={popupState}>
-              <MenuItem
-                {...bindHover(popupState)}
-                selected={popupState.isOpen}
-                ref={ref}
-              >
-                <span className={classes.title}>{title}</span>
-                <ChevronRight className={classes.moreArrow} />
-              </MenuItem>
-              <Menu
-                {...bindMenu(popupState)}
-                classes={{ paper: classes.menu }}
-                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-                transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                getContentAnchorEl={null}
-                {...props}
-              >
-                {children}
-              </Menu>
-            </ParentPopupState.Provider>
-          )}
-        </PopupState>
-      )}
-    </ParentPopupState.Consumer>
-  ))
+  React.forwardRef(function Submenu(
+    { classes, title, popupId, children, ...props },
+    ref
+  ) {
+    return (
+      <ParentPopupState.Consumer>
+        {(parentPopupState) => (
+          <PopupState
+            variant="popover"
+            popupId={popupId}
+            parentPopupState={parentPopupState}
+          >
+            {(popupState) => (
+              <ParentPopupState.Provider value={popupState}>
+                <MenuItem
+                  {...bindHover(popupState)}
+                  selected={popupState.isOpen}
+                  ref={ref}
+                >
+                  <span className={classes.title}>{title}</span>
+                  <ChevronRight className={classes.moreArrow} />
+                </MenuItem>
+                <Menu
+                  {...bindMenu(popupState)}
+                  classes={{ paper: classes.menu }}
+                  anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                  transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+                  getContentAnchorEl={null}
+                  {...props}
+                >
+                  {children}
+                </Menu>
+              </ParentPopupState.Provider>
+            )}
+          </PopupState>
+        )}
+      </ParentPopupState.Consumer>
+    )
+  })
 )

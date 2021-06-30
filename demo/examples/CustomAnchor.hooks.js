@@ -17,7 +17,7 @@ import PopupState, {
 
 const CustomAnchor = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Typography variant="h6">
           In this example the menu gets anchored to the <code>ListItem</code>{' '}

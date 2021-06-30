@@ -8,7 +8,7 @@ module.exports = {
   mode: prod ? 'production' : 'development',
   entry: ['@babel/polyfill', './demo/index.js'],
   output: {
-    path: path.join(__dirname, 'demo'),
+    path: path.join(__dirname, 'demo-dist'),
     filename: 'bundle.js',
   },
   resolve: {

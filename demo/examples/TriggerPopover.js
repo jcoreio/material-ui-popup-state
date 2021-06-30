@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button'
 import Popover from '@material-ui/core/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
-const styles = theme => ({
+const styles = (theme) => ({
   typography: {
     margin: theme.spacing(2),
   },
@@ -14,7 +14,7 @@ const styles = theme => ({
 
 const TriggerPopover = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindTrigger(popupState)}>
           Open Popover

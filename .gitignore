@@ -13,4 +13,4 @@ node_modules
 !/demo/**/*.js
 !/.babelrc.js
 !/webpack.config.js
-/demo/bundle.js
+/demo-dist
