@@ -218,12 +218,7 @@ export function anchorRef({ setAnchorEl }: PopupState): (?HTMLElement) => any {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger({
-  isOpen,
-  open,
-  popupId,
-  variant,
-}: PopupState): {
+export function bindTrigger({ isOpen, open, popupId, variant }: PopupState): {
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
@@ -277,12 +272,7 @@ export function bindContextMenu({
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle({
-  isOpen,
-  toggle,
-  popupId,
-  variant,
-}: PopupState): {
+export function bindToggle({ isOpen, toggle, popupId, variant }: PopupState): {
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,

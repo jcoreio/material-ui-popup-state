@@ -34,7 +34,11 @@ import CascadingHoverMenusHooks from './examples/CascadingHoverMenus.hooks'
 import CascadingHoverMenusHooksCode from '!!raw-loader!./examples/CascadingHoverMenus.hooks'
 import Demo from './Demo'
 import Typography from '@material-ui/core/Typography'
-import withStyles from '@material-ui/core/styles/withStyles'
+import { withStyles } from '@material-ui/styles'
+import { StyledEngineProvider } from '@material-ui/core/styles'
+import { createTheme, ThemeProvider } from '@material-ui/core/styles'
+
+const theme = createTheme()
 
 const styles = {
   root: {
@@ -44,77 +48,81 @@ const styles = {
 }
 
 const Root = ({ classes }) => (
-  <div className={classes.root}>
-    <Typography variant="h3">material-ui-popup-state demos</Typography>
-    <Demo
-      title="Left Click to open Menu"
-      headerId="trigger-menu"
-      example={<TriggerMenu />}
-      code={TriggerMenuCode}
-      hooksExample={<TriggerMenuHooks />}
-      hooksCode={TriggerMenuHooksCode}
-    />
-    <Demo
-      title="Left Click to open Popover"
-      headerId="trigger-popover"
-      example={<TriggerPopover />}
-      code={TriggerPopoverCode}
-      hooksExample={<TriggerPopoverHooks />}
-      hooksCode={TriggerPopoverHooksCode}
-    />
-    <Demo
-      title="Context Menu"
-      headerId="trigger-menu"
-      example={<ContextMenu />}
-      code={ContextMenuCode}
-      hooksExample={<ContextMenuHooks />}
-      hooksCode={ContextMenuHooksCode}
-    />
-    <Demo
-      title="Hover Popover"
-      headerId="hover-popover"
-      example={<HoverPopover />}
-      code={HoverPopoverCode}
-      hooksExample={<HoverPopoverHooks />}
-      hooksCode={HoverPopoverHooksCode}
-    />
-    <Demo
-      title="Hover Popper"
-      headerId="hover-popper"
-      hooksExample={<HoverPopperHooks />}
-      hooksCode={HoverPopperHooksCode}
-    />
-    <Demo
-      title="Focus Popover"
-      headerId="focus-popover"
-      example={<FocusPopover />}
-      code={FocusPopoverCode}
-      hooksExample={<FocusPopoverHooks />}
-      hooksCode={FocusPopoverHooksCode}
-    />
-    <Demo
-      title="Hover Menu"
-      headerId="hover-menu"
-      example={<HoverMenu />}
-      code={HoverMenuCode}
-      hooksExample={<HoverMenuHooks />}
-      hooksCode={HoverMenuHooksCode}
-    />
-    <Demo
-      title="Custom Anchor"
-      headerId="custom-anchor"
-      hooksExample={<CustomAnchorHooks />}
-      hooksCode={CustomAnchorHooksCode}
-    />
-    <Demo
-      title="Cascading Hover Menus"
-      headerId="cascading-hover-menus"
-      example={<CascadingHoverMenus />}
-      code={CascadingHoverMenusCode}
-      hooksExample={<CascadingHoverMenusHooks />}
-      hooksCode={CascadingHoverMenusHooksCode}
-    />
-  </div>
+  <StyledEngineProvider>
+    <ThemeProvider theme={theme}>
+      <div className={classes.root}>
+        <Typography variant="h3">material-ui-popup-state demos</Typography>
+        <Demo
+          title="Left Click to open Menu"
+          headerId="trigger-menu"
+          example={<TriggerMenu />}
+          code={TriggerMenuCode}
+          hooksExample={<TriggerMenuHooks />}
+          hooksCode={TriggerMenuHooksCode}
+        />
+        <Demo
+          title="Left Click to open Popover"
+          headerId="trigger-popover"
+          example={<TriggerPopover />}
+          code={TriggerPopoverCode}
+          hooksExample={<TriggerPopoverHooks />}
+          hooksCode={TriggerPopoverHooksCode}
+        />
+        <Demo
+          title="Context Menu"
+          headerId="trigger-menu"
+          example={<ContextMenu />}
+          code={ContextMenuCode}
+          hooksExample={<ContextMenuHooks />}
+          hooksCode={ContextMenuHooksCode}
+        />
+        <Demo
+          title="Hover Popover"
+          headerId="hover-popover"
+          example={<HoverPopover />}
+          code={HoverPopoverCode}
+          hooksExample={<HoverPopoverHooks />}
+          hooksCode={HoverPopoverHooksCode}
+        />
+        <Demo
+          title="Hover Popper"
+          headerId="hover-popper"
+          hooksExample={<HoverPopperHooks />}
+          hooksCode={HoverPopperHooksCode}
+        />
+        <Demo
+          title="Focus Popover"
+          headerId="focus-popover"
+          example={<FocusPopover />}
+          code={FocusPopoverCode}
+          hooksExample={<FocusPopoverHooks />}
+          hooksCode={FocusPopoverHooksCode}
+        />
+        <Demo
+          title="Hover Menu"
+          headerId="hover-menu"
+          example={<HoverMenu />}
+          code={HoverMenuCode}
+          hooksExample={<HoverMenuHooks />}
+          hooksCode={HoverMenuHooksCode}
+        />
+        <Demo
+          title="Custom Anchor"
+          headerId="custom-anchor"
+          hooksExample={<CustomAnchorHooks />}
+          hooksCode={CustomAnchorHooksCode}
+        />
+        <Demo
+          title="Cascading Hover Menus"
+          headerId="cascading-hover-menus"
+          example={<CascadingHoverMenus />}
+          code={CascadingHoverMenusCode}
+          hooksExample={<CascadingHoverMenusHooks />}
+          hooksCode={CascadingHoverMenusHooksCode}
+        />
+      </div>
+    </ThemeProvider>
+  </StyledEngineProvider>
 )
 
 export default withStyles(styles)(Root)

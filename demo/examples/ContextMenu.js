@@ -13,7 +13,6 @@ const ContextMenu = () => (
         </Button>
         <Menu
           {...bindMenu(popupState)}
-          getContentAnchorEl={null}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         >

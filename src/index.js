@@ -117,13 +117,8 @@ export default class PopupState extends React.Component<Props, CoreState> {
   }
 
   render(): React.Node | null {
-    const {
-      children,
-      popupId,
-      variant,
-      parentPopupState,
-      disableAutoFocus,
-    } = this.props
+    const { children, popupId, variant, parentPopupState, disableAutoFocus } =
+      this.props
 
     const popupState = createPopupState({
       state: this.state,

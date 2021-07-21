@@ -35,7 +35,7 @@ describe('<PopupState />', () => {
 
     const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindTrigger(popupState)} buttonRef={(c) => (buttonRef = c)}>
+        <Button {...bindTrigger(popupState)} ref={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Menu {...bindMenu(popupState)}>
@@ -140,10 +140,7 @@ describe('<PopupState />', () => {
 
     const render = spy((popupState) => (
       <React.Fragment>
-        <Button
-          {...bindContextMenu(popupState)}
-          buttonRef={(c) => (buttonRef = c)}
-        >
+        <Button {...bindContextMenu(popupState)} ref={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Menu {...bindMenu(popupState)}>
@@ -426,7 +423,7 @@ describe('<PopupState />', () => {
 
     const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindToggle(popupState)} buttonRef={(c) => (buttonRef = c)}>
+        <Button {...bindToggle(popupState)} ref={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Popper {...bindPopper(popupState)}>The popper content</Popper>
@@ -485,7 +482,7 @@ describe('<PopupState />', () => {
 
     const render = spy((popupState) => (
       <React.Fragment>
-        <Button {...bindHover(popupState)} buttonRef={(c) => (buttonRef = c)}>
+        <Button {...bindHover(popupState)} ref={(c) => (buttonRef = c)}>
           Open Menu
         </Button>
         <Popover {...bindPopover(popupState)}>

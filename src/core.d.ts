@@ -59,9 +59,7 @@ export function anchorRef<T = HTMLElement>(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger(
-  popupState: PopupState
-): {
+export function bindTrigger(popupState: PopupState): {
   'aria-controls'?: string | undefined
   'aria-describedby'?: string | undefined
   'aria-haspopup': true | undefined
@@ -74,9 +72,7 @@ export function bindTrigger(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle(
-  popupState: PopupState
-): {
+export function bindToggle(popupState: PopupState): {
   'aria-controls'?: string
   'aria-describedby'?: string
   'aria-haspopup': true | undefined
@@ -89,9 +85,7 @@ export function bindToggle(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindContextMenu(
-  popupState: PopupState
-): {
+export function bindContextMenu(popupState: PopupState): {
   'aria-controls'?: string | undefined
   'aria-describedby'?: string | undefined
   'aria-haspopup': true | undefined
@@ -104,9 +98,7 @@ export function bindContextMenu(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindHover(
-  popupState: PopupState
-): {
+export function bindHover(popupState: PopupState): {
   'aria-controls'?: string
   'aria-describedby'?: string
   'aria-haspopup': true | undefined
@@ -120,9 +112,7 @@ export function bindHover(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindFocus(
-  popupState: PopupState
-): {
+export function bindFocus(popupState: PopupState): {
   'aria-controls'?: string
   'aria-describedby'?: string
   'aria-haspopup': true | undefined
@@ -136,9 +126,7 @@ export function bindFocus(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindPopover(
-  popupState: PopupState
-): {
+export function bindPopover(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
   open: boolean
@@ -152,9 +140,7 @@ export function bindPopover(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindMenu(
-  popupState: PopupState
-): {
+export function bindMenu(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
   open: boolean
@@ -168,9 +154,7 @@ export function bindMenu(
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindPopper(
-  popupState: PopupState
-): {
+export function bindPopper(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
   open: boolean

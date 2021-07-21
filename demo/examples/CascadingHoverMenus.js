@@ -1,5 +1,5 @@
 import * as React from 'react'
-import withStyles from '@material-ui/core/styles/withStyles'
+import { withStyles } from '@material-ui/styles'
 import Menu from 'material-ui-popup-state/HoverMenu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ChevronRight from '@material-ui/icons/ChevronRight'
@@ -20,7 +20,6 @@ const CascadingHoverMenus = () => (
             {...bindMenu(popupState)}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-            getContentAnchorEl={null}
           >
             <MenuItem onClick={popupState.close}>Tea</MenuItem>
             <MenuItem onClick={popupState.close}>Cake</MenuItem>
@@ -88,7 +87,6 @@ const Submenu = withStyles(submenuStyles)(
                   classes={{ paper: classes.menu }}
                   anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                   transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-                  getContentAnchorEl={null}
                   {...props}
                 >
                   {children}

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import withStyles from '@material-ui/core/styles/withStyles'
+import { withStyles } from '@material-ui/styles'
 import Code from '@material-ui/icons/Code'
 import Collapse from '@material-ui/core/Collapse'
 import Button from '@material-ui/core/Button'

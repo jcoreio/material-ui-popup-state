@@ -28,7 +28,7 @@ import { beforeEach, describe, it } from 'mocha'
 
 describe('usePopupState', () => {
   describe('bindMenu/bindTrigger', () => {
-    let buttonRef
+    let buttonRef: any
     let button
     let menu
 
@@ -41,10 +41,7 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Button
-            {...bindTrigger(popupState)}
-            buttonRef={(c) => (buttonRef = c)}
-          >
+          <Button {...bindTrigger(popupState)} ref={(c) => (buttonRef = c)}>
             Open Menu
           </Button>
           <Menu {...bindMenu(popupState)}>
@@ -127,7 +124,7 @@ describe('usePopupState', () => {
     })
   })
   describe('bindMenu/bindContextMenu', () => {
-    let buttonRef
+    let buttonRef: any
     let button
     let menu
 
@@ -140,10 +137,7 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Button
-            {...bindContextMenu(popupState)}
-            buttonRef={(c) => (buttonRef = c)}
-          >
+          <Button {...bindContextMenu(popupState)} ref={(c) => (buttonRef = c)}>
             Open Menu
           </Button>
           <Menu {...bindMenu(popupState)}>
@@ -412,10 +406,7 @@ describe('usePopupState', () => {
       popupStates.push(popupState)
       return (
         <React.Fragment>
-          <Button
-            {...bindToggle(popupState)}
-            buttonRef={(c) => (buttonRef = c)}
-          >
+          <Button {...bindToggle(popupState)} ref={(c) => (buttonRef = c)}>
             Open Menu
           </Button>
           <Popper {...bindPopper(popupState)}>The popper content</Popper>

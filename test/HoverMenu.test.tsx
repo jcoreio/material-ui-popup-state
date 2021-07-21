@@ -6,14 +6,13 @@ import PopupState, { bindHover, bindMenu } from '../'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Menu
         </Button>
         <Menu
           {...bindMenu(popupState)}
-          getContentAnchorEl={null}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
           transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         >
