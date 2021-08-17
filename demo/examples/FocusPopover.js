@@ -5,7 +5,7 @@ import Input from '@material-ui/core/Input'
 import PopupState, { bindFocus, bindPopover } from 'material-ui-popup-state'
 
 const FocusPopoverPopupState = ({ classes }) => (
-  <PopupState variant="popover" popupId="demoPopover" disableAutoFocus>
+  <PopupState variant="popover" popupId="demoPopover">
     {(popupState) => (
       <div>
         <Input {...bindFocus(popupState)} placeholder="Focus to open Popover" />

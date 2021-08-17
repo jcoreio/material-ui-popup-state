@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button'
 import {
   usePopupState,
   bindHover,
+  bindFocus,
   bindMenu,
 } from 'material-ui-popup-state/hooks'
 
@@ -48,11 +49,10 @@ function CascadingSubmenu({ title, popupId, ...props }) {
     popupId,
     variant: 'popover',
     parentPopupState,
-    disableAutoFocus: true,
   })
   return (
     <React.Fragment>
-      <MenuItem {...bindHover(popupState)}>
+      <MenuItem {...bindHover(popupState)} {...bindFocus(popupState)}>
         <span className={classes.title}>{title}</span>
         <ChevronRight className={classes.moreArrow} />
       </MenuItem>
@@ -88,11 +88,14 @@ const CascadingHoverMenus = () => {
   const popupState = usePopupState({
     popupId: 'demoMenu',
     variant: 'popover',
-    disableAutoFocus: true,
   })
   return (
     <div style={{ height: 600 }}>
-      <Button variant="contained" {...bindHover(popupState)}>
+      <Button
+        variant="contained"
+        {...bindHover(popupState)}
+        {...bindFocus(popupState)}
+      >
         Hover to open Menu
       </Button>
       <CascadingMenu

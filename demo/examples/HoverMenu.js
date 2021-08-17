@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button'
 import PopupState, { bindHover, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
-  <PopupState variant="popover" popupId="demoMenu" disableAutoFocus>
+  <PopupState variant="popover" popupId="demoMenu">
     {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindHover(popupState)}>

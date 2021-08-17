@@ -12,7 +12,6 @@ const MenuPopupState = () => {
   const popupState = usePopupState({
     variant: 'popover',
     popupId: 'demoMenu',
-    disableAutoFocus: true,
   })
   return (
     <React.Fragment>

@@ -38,6 +38,7 @@ export type CoreState = {
   setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
   hovered: boolean,
+  focused: boolean,
   _childPopupState: ?PopupState,
   _deferNextOpen: boolean,
   _deferNextClose: boolean,
@@ -48,6 +49,7 @@ export const initCoreState: CoreState = {
   setAnchorElUsed: false,
   anchorEl: null,
   hovered: false,
+  focused: false,
   _childPopupState: null,
   _deferNextOpen: false,
   _deferNextClose: false,
@@ -73,6 +75,7 @@ export function createPopupState({
     setAnchorElUsed,
     anchorEl,
     hovered,
+    focused,
     _childPopupState,
     _deferNextOpen,
     _deferNextClose,
@@ -122,6 +125,7 @@ export function createPopupState({
       const newState: $Shape<CoreState> = {
         isOpen: true,
         hovered: eventType === 'mouseover',
+        focused: eventType === 'focus',
       }
 
       if (currentTarget) {
@@ -144,14 +148,18 @@ export function createPopupState({
 
   const close = (arg?: SyntheticEvent<any> | HTMLElement) => {
     const eventType = arg && (arg: any).type
-    if (eventType === 'touchstart') {
-      setState({ _deferNextClose: true })
-      return
+    switch (eventType) {
+      case 'touchstart':
+        setState({ _deferNextClose: true })
+        return
+      case 'blur':
+        if (isElementInPopup((arg: any)?.relatedTarget, popupState)) return
+        break
     }
     const doClose = () => {
       if (_childPopupState) _childPopupState.close()
       if (parentPopupState) parentPopupState._setChildPopupState(null)
-      setState({ isOpen: false, hovered: false })
+      setState({ isOpen: false, hovered: false, focused: false })
     }
     if (_deferNextClose) {
       setState({ _deferNextClose: false })
@@ -192,7 +200,7 @@ export function createPopupState({
     toggle,
     setOpen,
     onMouseLeave,
-    disableAutoFocus: Boolean(disableAutoFocus),
+    disableAutoFocus: disableAutoFocus ?? Boolean(hovered || focused),
     _childPopupState,
     _setChildPopupState,
   }

@@ -12,7 +12,6 @@ const FocusPopoverPopupState = ({ classes }) => {
   const popupState = usePopupState({
     variant: 'popover',
     popupId: 'demoPopover',
-    disableAutoFocus: true,
   })
   return (
     <div>

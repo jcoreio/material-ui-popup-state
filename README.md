@@ -274,8 +274,7 @@ the trigger component may declare the same id in an ARIA prop.
 
 If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
-You should use this option if you are doing `bindHover`. Otherwise the document may scroll back to the previous focused
-element when you move the pointer out of the hovered menu or popover.
+Defaults to `true` when the popup is opened by the `bindHover` or `bindFocus` element.
 
 ## `usePopupState` return value
 
@@ -394,7 +393,7 @@ const styles = (theme) => ({
 })
 
 const HoverPopoverPopupState = ({ classes }) => (
-  <PopupState variant="popover" popupId="demoPopover" disableAutoFocus>
+  <PopupState variant="popover" popupId="demoPopover">
     {(popupState) => (
       <div>
         <Typography {...bindHover(popupState)}>
@@ -547,7 +546,7 @@ the trigger component may declare the same id in an ARIA prop.
 
 If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
-You should use this option if you are doing `bindHover`. Otherwise the document may scroll back to the previous focused
+Defaults to `true` when the popup is opened by the `bindHover` or `bindFocus` element.
 
 ### `children` (`(popupState: InjectedProps) => ?React.Node`, **required**)
 
