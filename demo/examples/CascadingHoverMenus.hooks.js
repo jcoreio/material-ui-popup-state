@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { withStyles } from '@material-ui/styles'
-import Menu from 'material-ui-popup-state/HoverMenu'
+import { makeStyles } from '@material-ui/styles'
+import HoverMenu from 'material-ui-popup-state/HoverMenu'
 import MenuItem from '@material-ui/core/MenuItem'
 import ChevronRight from '@material-ui/icons/ChevronRight'
 import Button from '@material-ui/core/Button'
@@ -10,50 +10,8 @@ import {
   bindMenu,
 } from 'material-ui-popup-state/hooks'
 
-const ParentPopupState = React.createContext(null)
-
-const CascadingHoverMenus = () => {
-  const popupState = usePopupState({
-    popupId: 'demoMenu',
-    variant: 'popover',
-    deferOpenClose: true,
-  })
-  return (
-    <div style={{ height: 600 }}>
-      <Button variant="contained" {...bindHover(popupState)}>
-        Hover to open Menu
-      </Button>
-      <ParentPopupState.Provider value={popupState}>
-        <Menu
-          {...bindMenu(popupState)}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        >
-          <MenuItem onClick={popupState.close}>Tea</MenuItem>
-          <MenuItem onClick={popupState.close}>Cake</MenuItem>
-          <MenuItem onClick={popupState.close}>Death</MenuItem>
-          <Submenu popupId="moreChoicesMenu" title="More Choices">
-            <MenuItem onClick={popupState.close}>Cheesecake</MenuItem>
-            <MenuItem onClick={popupState.close}>Cheesedeath</MenuItem>
-            <Submenu popupId="evenMoreChoicesMenu" title="Even More Choices">
-              <MenuItem onClick={popupState.close}>Cake (the band)</MenuItem>
-              <MenuItem onClick={popupState.close}>Death Metal</MenuItem>
-            </Submenu>
-            <Submenu popupId="moreBenignChoices" title="More Benign Choices">
-              <MenuItem onClick={popupState.close}>Salad</MenuItem>
-              <MenuItem onClick={popupState.close}>Lobotomy</MenuItem>
-            </Submenu>
-          </Submenu>
-        </Menu>
-      </ParentPopupState.Provider>
-    </div>
-  )
-}
-
-export default CascadingHoverMenus
-
-const submenuStyles = (theme) => ({
-  menu: {
+const useCascadingMenuStyles = makeStyles((theme) => ({
+  submenu: {
     marginTop: theme.spacing(-1),
   },
   title: {
@@ -62,39 +20,113 @@ const submenuStyles = (theme) => ({
   moreArrow: {
     marginRight: theme.spacing(-1),
   },
+}))
+
+const CascadingContext = React.createContext({
+  parentPopupState: null,
+  rootPopupState: null,
 })
 
-const Submenu = withStyles(submenuStyles)(
-  // Unfortunately, MUI <Menu> injects refs into its children, which causes a
-  // warning in some cases unless we use forwardRef here.
-  React.forwardRef(({ classes, title, popupId, children, ...props }, ref) => {
-    const parentPopupState = React.useContext(ParentPopupState)
-    const popupState = usePopupState({
-      popupId,
-      variant: 'popover',
-      parentPopupState,
-      deferOpenClose: true,
-    })
-    return (
-      <ParentPopupState.Provider value={popupState}>
-        <MenuItem
-          {...bindHover(popupState)}
-          selected={popupState.isOpen}
-          ref={ref}
-        >
-          <span className={classes.title}>{title}</span>
-          <ChevronRight className={classes.moreArrow} />
-        </MenuItem>
-        <Menu
-          {...bindMenu(popupState)}
-          classes={{ paper: classes.menu }}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-          {...props}
-        >
-          {children}
-        </Menu>
-      </ParentPopupState.Provider>
-    )
+function CascadingMenuItem({ onClick, ...props }) {
+  const { rootPopupState } = React.useContext(CascadingContext)
+  if (!rootPopupState) throw new Error('must be used inside a CascadingMenu')
+  const handleClick = React.useCallback(
+    (event) => {
+      rootPopupState.close(event)
+      if (onClick) onClick(event)
+    },
+    [rootPopupState, onClick]
+  )
+
+  return <MenuItem {...props} onClick={handleClick} />
+}
+
+function CascadingSubmenu({ title, popupId, ...props }) {
+  const classes = useCascadingMenuStyles()
+  const { parentPopupState } = React.useContext(CascadingContext)
+  const popupState = usePopupState({
+    popupId,
+    variant: 'popover',
+    parentPopupState,
+    disableAutoFocus: true,
   })
-)
+  return (
+    <React.Fragment>
+      <MenuItem {...bindHover(popupState)}>
+        <span className={classes.title}>{title}</span>
+        <ChevronRight className={classes.moreArrow} />
+      </MenuItem>
+      <CascadingMenu
+        {...props}
+        classes={{ ...props.classes, paper: classes.submenu }}
+        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+        popupState={popupState}
+      />
+    </React.Fragment>
+  )
+}
+
+function CascadingMenu({ popupState, ...props }) {
+  const { rootPopupState } = React.useContext(CascadingContext)
+  const context = React.useMemo(
+    () => ({
+      rootPopupState: rootPopupState || popupState,
+      parentPopupState: popupState,
+    }),
+    [rootPopupState, popupState]
+  )
+
+  return (
+    <CascadingContext.Provider value={context}>
+      <HoverMenu {...props} {...bindMenu(popupState)} />
+    </CascadingContext.Provider>
+  )
+}
+
+const CascadingHoverMenus = () => {
+  const popupState = usePopupState({
+    popupId: 'demoMenu',
+    variant: 'popover',
+    disableAutoFocus: true,
+  })
+  return (
+    <div style={{ height: 600 }}>
+      <Button variant="contained" {...bindHover(popupState)}>
+        Hover to open Menu
+      </Button>
+      <CascadingMenu
+        popupState={popupState}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+      >
+        <CascadingMenuItem>Tea</CascadingMenuItem>
+        <CascadingMenuItem>Cake</CascadingMenuItem>
+        <CascadingMenuItem>Death</CascadingMenuItem>
+        <CascadingSubmenu
+          popupId="moreChoicesCascadingMenu"
+          title="More Choices"
+        >
+          <CascadingMenuItem>Cheesecake</CascadingMenuItem>
+          <CascadingMenuItem>Cheesedeath</CascadingMenuItem>
+          <CascadingSubmenu
+            popupId="evenMoreChoicesCascadingMenu"
+            title="Even More Choices"
+          >
+            <CascadingMenuItem>Cake (the band)</CascadingMenuItem>
+            <CascadingMenuItem>Death Metal</CascadingMenuItem>
+          </CascadingSubmenu>
+          <CascadingSubmenu
+            popupId="moreBenignChoices"
+            title="More Benign Choices"
+          >
+            <CascadingMenuItem>Salad</CascadingMenuItem>
+            <CascadingMenuItem>Lobotomy</CascadingMenuItem>
+          </CascadingSubmenu>
+        </CascadingSubmenu>
+      </CascadingMenu>
+    </div>
+  )
+}
+
+export default CascadingHoverMenus

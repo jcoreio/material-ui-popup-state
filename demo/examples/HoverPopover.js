@@ -1,17 +1,17 @@
 import React from 'react'
 import Typography from '@material-ui/core/Typography'
-import Popover from 'material-ui-popup-state/HoverPopover'
+import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import Button from '@material-ui/core/Button'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
 const HoverPopoverPopupState = ({ classes }) => (
-  <PopupState variant="popover" popupId="demoPopover">
+  <PopupState variant="popover" popupId="demoPopover" disableAutoFocus>
     {(popupState) => (
       <div>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Popover
         </Button>
-        <Popover
+        <HoverPopover
           {...bindPopover(popupState)}
           anchorOrigin={{
             vertical: 'bottom',
@@ -21,12 +21,11 @@ const HoverPopoverPopupState = ({ classes }) => (
             vertical: 'top',
             horizontal: 'center',
           }}
-          disableRestoreFocus
         >
           <Typography style={{ margin: 10 }}>
             The content of the Popover.
           </Typography>
-        </Popover>
+        </HoverPopover>
       </div>
     )}
   </PopupState>

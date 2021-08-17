@@ -371,6 +371,9 @@ export function bindPopover({
   open: boolean,
   onClose: () => void,
   onMouseLeave: (event: SyntheticEvent<any>) => void,
+  disableAutoFocus?: boolean,
+  disableEnforceFocus?: boolean,
+  disableRestoreFocus?: boolean,
 } {
   return {
     id: popupId,
@@ -378,9 +381,11 @@ export function bindPopover({
     open: isOpen,
     onClose: close,
     onMouseLeave,
-    disableAutoFocus,
-    disableEnforceFocus: disableAutoFocus,
-    disableRestoreFocus: disableAutoFocus,
+    ...(disableAutoFocus && {
+      disableAutoFocus: true,
+      disableEnforceFocus: true,
+      disableRestoreFocus: true,
+    }),
   }
 }
 
@@ -390,8 +395,47 @@ export function bindPopover({
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export const bindMenu = bindPopover
 
+/**
+ * Creates props for a `Popover` component.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindMenu({
+  isOpen,
+  anchorEl,
+  close,
+  popupId,
+  onMouseLeave,
+  disableAutoFocus,
+}: PopupState): {
+  id: ?string,
+  anchorEl: ?HTMLElement,
+  open: boolean,
+  onClose: () => void,
+  onMouseLeave: (event: SyntheticEvent<any>) => void,
+  autoFocus?: boolean,
+  disableAutoFocusItem?: boolean,
+  disableAutoFocus?: boolean,
+  disableEnforceFocus?: boolean,
+  disableRestoreFocus?: boolean,
+} {
+  return {
+    id: popupId,
+    anchorEl,
+    open: isOpen,
+    onClose: close,
+    onMouseLeave,
+    ...(disableAutoFocus && {
+      autoFocus: false,
+      disableAutoFocusItem: true,
+      disableAutoFocus: true,
+      disableEnforceFocus: true,
+      disableRestoreFocus: true,
+    }),
+  }
+}
 /**
  * Creates props for a `Popper` component.
  *

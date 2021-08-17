@@ -19,6 +19,8 @@ mutation functions to a child render function.
 
 <!-- toc -->
 
+- [material-ui-popup-state](#material-ui-popup-state)
+- [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Examples with React Hooks](#examples-with-react-hooks)
   - [Menu](#menu)
@@ -28,6 +30,9 @@ mutation functions to a child render function.
   - [Bind Functions](#bind-functions)
   - [`usePopupState`](#usepopupstate)
   - [`usePopupState` Props](#usepopupstate-props)
+    - [`variant` (`'popover'` or `'popper'`, **required**)](#variant-popover-or-popper-required)
+    - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged)
+    - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional)
   - [`usePopupState` return value](#usepopupstate-return-value)
 - [Examples with Render Props](#examples-with-render-props)
   - [Menu](#menu-1)
@@ -37,6 +42,10 @@ mutation functions to a child render function.
 - [Render Props API](#render-props-api)
   - [Bind Functions](#bind-functions-1)
   - [`PopupState` Props](#popupstate-props)
+    - [`variant` (`'popover'` or `'popper'`, **required**)](#variant-popover-or-popper-required-1)
+    - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged-1)
+    - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional-1)
+    - [`children` (`(popupState: InjectedProps) => ?React.Node`, **required**)](#children-popupstate-injectedprops--reactnode-required)
 - [Using `Popover` and `Menu` with `bindHover`](#using-popover-and-menu-with-bindhover)
 
 <!-- tocstop -->
@@ -265,6 +274,9 @@ the trigger component may declare the same id in an ARIA prop.
 
 If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
+You should use this option if you are doing `bindHover`. Otherwise the document may scroll back to the previous focused
+element when you move the pointer out of the hovered menu or popover.
+
 ## `usePopupState` return value
 
 An object with the following properties:
@@ -369,7 +381,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
-import Popover from '@material-ui/core/Popover'
+import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
 const styles = (theme) => ({
@@ -382,13 +394,13 @@ const styles = (theme) => ({
 })
 
 const HoverPopoverPopupState = ({ classes }) => (
-  <PopupState variant="popover" popupId="demoPopover">
+  <PopupState variant="popover" popupId="demoPopover" disableAutoFocus>
     {(popupState) => (
       <div>
         <Typography {...bindHover(popupState)}>
           Hover with a Popover.
         </Typography>
-        <Popover
+        <HoverPopover
           {...bindPopover(popupState)}
           className={classes.popover}
           classes={{
@@ -402,10 +414,9 @@ const HoverPopoverPopupState = ({ classes }) => (
             vertical: 'top',
             horizontal: 'center',
           }}
-          disableRestoreFocus
         >
           <Typography>The content of the Popover.</Typography>
-        </Popover>
+        </HoverPopover>
       </div>
     )}
   </PopupState>
@@ -536,6 +547,8 @@ the trigger component may declare the same id in an ARIA prop.
 
 If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
+You should use this option if you are doing `bindHover`. Otherwise the document may scroll back to the previous focused
+
 ### `children` (`(popupState: InjectedProps) => ?React.Node`, **required**)
 
 The render function. It will be called with an object containing the following
@@ -559,8 +572,8 @@ Material-UI's `Modal` (used by `Popover` and `Menu`) blocks pointer events to al
 use the following components to work around this:
 
 ```js
-import Menu from 'material-ui-popup-state/HoverMenu'
-import Popover from 'material-ui-popup-state/HoverPopover'
+import HoverMenu from 'material-ui-popup-state/HoverMenu'
+import HoverPopover from 'material-ui-popup-state/HoverPopover'
 ```
 
 These are just wrapper components that pass inline styles to prevent `Modal` from blocking pointer events.

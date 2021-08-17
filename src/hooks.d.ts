@@ -1,8 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
-
 import {
-  initCoreState,
-  createPopupState,
   anchorRef,
   bindTrigger,
   bindContextMenu,

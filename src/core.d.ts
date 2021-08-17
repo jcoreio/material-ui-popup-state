@@ -132,6 +132,9 @@ export function bindPopover(popupState: PopupState): {
   open: boolean
   onClose: () => void
   onMouseLeave: (event: SyntheticEvent<any>) => void
+  disableAutoFocus?: boolean
+  disableEnforceFocus?: boolean
+  disableRestoreFocus?: boolean
 }
 
 /**
@@ -146,6 +149,11 @@ export function bindMenu(popupState: PopupState): {
   open: boolean
   onClose: () => void
   onMouseLeave: (event: SyntheticEvent<any>) => void
+  autoFocus?: boolean
+  disableAutoFocusItem?: boolean
+  disableAutoFocus?: boolean
+  disableEnforceFocus?: boolean
+  disableRestoreFocus?: boolean
 }
 
 /**
