@@ -43,12 +43,12 @@ export function usePopupState({
   popupId,
   variant,
   disableAutoFocus,
-}: {
+}: {|
   parentPopupState?: ?PopupState,
   popupId: ?string,
   variant: Variant,
   disableAutoFocus?: ?boolean,
-}): PopupState {
+|}): PopupState {
   const [state, setState] = useState(initCoreState)
   useEffect(() => {
     if (!disableAutoFocus && popupId && typeof document === 'object') {

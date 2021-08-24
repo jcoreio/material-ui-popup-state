@@ -13,7 +13,7 @@ function warn(key: string, message: string) {
 
 export type Variant = 'popover' | 'popper'
 
-export type PopupState = {
+export type PopupState = {|
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
   toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
@@ -31,9 +31,9 @@ export type PopupState = {
   disableAutoFocus: boolean,
   _childPopupState: ?PopupState,
   _setChildPopupState: (?PopupState) => void,
-}
+|}
 
-export type CoreState = {
+export type CoreState = {|
   isOpen: boolean,
   setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
@@ -42,7 +42,7 @@ export type CoreState = {
   _childPopupState: ?PopupState,
   _deferNextOpen: boolean,
   _deferNextClose: boolean,
-}
+|}
 
 export const initCoreState: CoreState = {
   isOpen: false,
@@ -62,14 +62,14 @@ export function createPopupState({
   popupId,
   variant,
   disableAutoFocus,
-}: {
+}: {|
   state: CoreState,
   setState: ($Shape<CoreState>) => any,
   popupId: ?string,
   variant: Variant,
   parentPopupState?: ?PopupState,
   disableAutoFocus?: ?boolean,
-}): PopupState {
+|}): PopupState {
   const {
     isOpen,
     setAnchorElUsed,
@@ -226,13 +226,13 @@ export function anchorRef({ setAnchorEl }: PopupState): (?HTMLElement) => any {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger({ isOpen, open, popupId, variant }: PopupState): {
+export function bindTrigger({ isOpen, open, popupId, variant }: PopupState): {|
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
   onTouchStart: (event: SyntheticEvent<any>) => void,
-} {
+|} {
   return {
     // $FlowFixMe
     [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
@@ -255,12 +255,12 @@ export function bindContextMenu({
   open,
   popupId,
   variant,
-}: PopupState): {
+}: PopupState): {|
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onContextMenu: (event: SyntheticEvent<any>) => void,
-} {
+|} {
   return {
     // $FlowFixMe
     [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
@@ -280,13 +280,13 @@ export function bindContextMenu({
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle({ isOpen, toggle, popupId, variant }: PopupState): {
+export function bindToggle({ isOpen, toggle, popupId, variant }: PopupState): {|
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onClick: (event: SyntheticEvent<any>) => void,
   onTouchStart: (event: SyntheticEvent<any>) => void,
-} {
+|} {
   return {
     // $FlowFixMe
     [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
@@ -310,14 +310,14 @@ export function bindHover({
   onMouseLeave,
   popupId,
   variant,
-}: PopupState): {
+}: PopupState): {|
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onTouchStart: (event: SyntheticMouseEvent<any>) => any,
   onMouseOver: (event: SyntheticMouseEvent<any>) => any,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => any,
-} {
+|} {
   return {
     // $FlowFixMe
     [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
@@ -342,13 +342,13 @@ export function bindFocus({
   close,
   popupId,
   variant,
-}: PopupState): {
+}: PopupState): {|
   'aria-controls'?: ?string,
   'aria-describedby'?: ?string,
   'aria-haspopup': ?true,
   onFocus: (event: SyntheticEvent<any>) => any,
   onBlur: (event: SyntheticEvent<any>) => any,
-} {
+|} {
   return {
     // $FlowFixMe
     [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
@@ -373,7 +373,7 @@ export function bindPopover({
   popupId,
   onMouseLeave,
   disableAutoFocus,
-}: PopupState): {
+}: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
@@ -382,7 +382,7 @@ export function bindPopover({
   disableAutoFocus?: boolean,
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
-} {
+|} {
   return {
     id: popupId,
     anchorEl,
@@ -417,7 +417,7 @@ export function bindMenu({
   popupId,
   onMouseLeave,
   disableAutoFocus,
-}: PopupState): {
+}: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
@@ -428,7 +428,7 @@ export function bindMenu({
   disableAutoFocus?: boolean,
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
-} {
+|} {
   return {
     id: popupId,
     anchorEl,
@@ -455,12 +455,12 @@ export function bindPopper({
   anchorEl,
   popupId,
   onMouseLeave,
-}: PopupState): {
+}: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
   onMouseLeave: (event: SyntheticEvent<any>) => void,
-} {
+|} {
   return {
     id: popupId,
     anchorEl,

@@ -34,13 +34,13 @@ export {
 }
 export type { Variant, InjectedProps }
 
-export type Props = {
+export type Props = {|
   popupId?: string,
   children: (props: InjectedProps) => ?React.Node,
   variant: Variant,
   parentPopupState?: ?InjectedProps,
   disableAutoFocus?: ?boolean,
-}
+|}
 
 export default class PopupState extends React.Component<Props, CoreState> {
   state: CoreState = initCoreState
