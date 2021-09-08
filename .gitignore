@@ -14,3 +14,4 @@ node_modules
 !/.babelrc.js
 !/webpack.config.js
 /demo-dist
+.idea

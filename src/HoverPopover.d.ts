@@ -1,4 +1,4 @@
-import { PopoverProps } from '@material-ui/core/Popover'
+import { PopoverProps } from '@mui/material/Popover'
 
 declare const HoverPopover: React.ComponentType<PopoverProps>
 

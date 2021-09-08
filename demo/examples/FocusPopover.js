@@ -1,7 +1,7 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Popover from '@material-ui/core/Popover'
-import Input from '@material-ui/core/Input'
+import Typography from '@mui/material/Typography'
+import Popover from '@mui/material/Popover'
+import Input from '@mui/material/Input'
 import PopupState, { bindFocus, bindPopover } from 'material-ui-popup-state'
 
 const FocusPopoverPopupState = ({ classes }) => (

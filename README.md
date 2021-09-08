@@ -62,9 +62,9 @@ npm install --save material-ui-popup-state
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import {
   usePopupState,
   bindTrigger,
@@ -94,10 +94,10 @@ export default MenuPopupState
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import {
   usePopupState,
   bindTrigger,
@@ -151,17 +151,17 @@ export default withStyles(styles)(PopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popper from '@material-ui/core/Popper'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popper from '@mui/material/Popper'
 import {
   usePopupState,
   bindToggle,
   bindPopper,
 } from 'material-ui-popup-state/hooks'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
+import Fade from '@mui/material/Fade'
+import Paper from '@mui/material/Paper'
 
 const styles = (theme) => ({
   typography: {
@@ -224,9 +224,9 @@ element:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import {
   usePopupState,
   bindTrigger,
@@ -297,9 +297,9 @@ An object with the following properties:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
@@ -327,10 +327,10 @@ export default MenuPopupState
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 const styles = (theme) => ({
@@ -378,8 +378,8 @@ export default withStyles(styles)(PopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
@@ -433,13 +433,13 @@ export default withStyles(styles)(HoverPopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popper from '@material-ui/core/Popper'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popper from '@mui/material/Popper'
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
+import Fade from '@mui/material/Fade'
+import Paper from '@mui/material/Paper'
 
 const styles = (theme) => ({
   typography: {
@@ -503,9 +503,9 @@ element:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (

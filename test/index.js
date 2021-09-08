@@ -4,12 +4,12 @@ import * as React from 'react'
 import { spy } from 'sinon'
 import { assert } from 'chai'
 import { mount } from 'enzyme'
-import Button from '@material-ui/core/Button'
-import Input from '@material-ui/core/Input'
-import Popper from '@material-ui/core/Popper'
-import Popover from '@material-ui/core/Popover'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Input from '@mui/material/Input'
+import Popper from '@mui/material/Popper'
+import Popover from '@mui/material/Popover'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import PopupState, {
   anchorRef,
   bindMenu,
