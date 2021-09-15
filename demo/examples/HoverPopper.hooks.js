@@ -19,7 +19,7 @@ const HoverPopperPopupState = ({ classes }) => {
       <Button variant="contained" {...bindHover(popupState)}>
         Hover to open Popper
       </Button>
-      <Popper {...bindPopper(popupState)} transition>
+      <Popper {...bindPopper(popupState)} placement="bottom">
         <Paper>
           <Typography style={{ margin: 10 }}>
             The content of the Popper.

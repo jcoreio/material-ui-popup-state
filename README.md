@@ -15,6 +15,11 @@ Also provides a [Render Props Component](https://reactjs.org/docs/render-props.h
 keeps track of the local state for a single popup, and passes the state and
 mutation functions to a child render function.
 
+# Beta version
+
+These are the docs for the beta version that supports the MUI v5 release candidate.
+For v4, see https://github.com/jcoreio/material-ui-popup-state.
+
 # Table of Contents
 
 <!-- toc -->
@@ -53,7 +58,7 @@ mutation functions to a child render function.
 # Installation
 
 ```sh
-npm install --save material-ui-popup-state
+npm install --save material-ui-popup-state@beta
 ```
 
 # Examples with React Hooks

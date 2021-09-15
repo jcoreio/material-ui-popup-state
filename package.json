@@ -111,6 +111,7 @@
     "@mui/material": "^5.0.0-rc.0",
     "@types/classnames": "^2.2.9",
     "@types/prop-types": "^15.7.3",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-istanbul": "^6.0.0",
@@ -119,7 +120,6 @@
     "copy": "^0.3.2",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -157,7 +157,16 @@
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "@mui/material": "^4.0.0 || ^5.0.0-rc.0",
+    "@mui/material": "^5.0.0-rc.0",
     "react": "^15.0.0 || ^16.0.0 || ^17.0.0"
+  },
+  "release": {
+    "branches": [
+      "master",
+      {
+        "name": "beta",
+        "prerelease": true
+      }
+    ]
   }
 }

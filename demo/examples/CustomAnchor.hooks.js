@@ -8,7 +8,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PopupState, {
   anchorRef,
   bindTrigger,
@@ -34,7 +34,7 @@ const CustomAnchor = () => (
                 secondary="Last Modified Apr 9, 2019"
               />
               <ListItemSecondaryAction>
-                <IconButton {...bindTrigger(popupState)}>
+                <IconButton {...bindTrigger(popupState)} size="large">
                   <MoreVertIcon />
                 </IconButton>
               </ListItemSecondaryAction>
