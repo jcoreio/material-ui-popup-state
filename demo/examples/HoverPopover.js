@@ -1,7 +1,7 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
+import Typography from '@mui/material/Typography'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
-import Button from '@material-ui/core/Button'
+import Button from '@mui/material/Button'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
 const HoverPopoverPopupState = ({ classes }) => (

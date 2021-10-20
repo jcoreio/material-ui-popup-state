@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import { usePopupState, bindTrigger, bindPopover } from '../hooks'
 
 const PopoverPopupState = () => {

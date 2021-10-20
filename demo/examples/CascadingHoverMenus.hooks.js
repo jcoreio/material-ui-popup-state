@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { makeStyles } from '@material-ui/styles'
+import { makeStyles } from '@mui/styles'
 import HoverMenu from 'material-ui-popup-state/HoverMenu'
-import MenuItem from '@material-ui/core/MenuItem'
-import ChevronRight from '@material-ui/icons/ChevronRight'
-import Button from '@material-ui/core/Button'
+import MenuItem from '@mui/material/MenuItem'
+import ChevronRight from '@mui/icons-material/ChevronRight'
+import Button from '@mui/material/Button'
 import {
   usePopupState,
   bindHover,

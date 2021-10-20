@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { withStyles } from '@material-ui/styles'
-import Code from '@material-ui/icons/Code'
-import Collapse from '@material-ui/core/Collapse'
-import Button from '@material-ui/core/Button'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Tooltip from '@material-ui/core/Tooltip'
+import { withStyles } from '@mui/styles'
+import Code from '@mui/icons-material/Code'
+import Collapse from '@mui/material/Collapse'
+import Button from '@mui/material/Button'
+import IconButton from '@mui/material/IconButton'
+import Typography from '@mui/material/Typography'
+import Tooltip from '@mui/material/Tooltip'
 
 const { useState, useCallback } = React
 
@@ -92,7 +92,7 @@ const Demo = ({
         )}
         <div className={classes.toolbarSpacer} />
         <Tooltip title="Show Source" placement="top">
-          <IconButton onClick={() => setShowSource(!showSource)}>
+          <IconButton onClick={() => setShowSource(!showSource)} size="large">
             <Code />
           </IconButton>
         </Tooltip>

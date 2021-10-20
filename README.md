@@ -15,10 +15,9 @@ Also provides a [Render Props Component](https://reactjs.org/docs/render-props.h
 keeps track of the local state for a single popup, and passes the state and
 mutation functions to a child render function.
 
-# Using MUI v5?
+# Using MUI v4?
 
-For MUI v5 you'll need the [beta version of `material-ui-popup-state`](https://github.com/jcoreio/material-ui-popup-state/tree/beta).
-The current production release is for v4. Once MUI v5 is officially released, I'll officially release the next major version of `material-ui-popup-state`.
+For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for MUI v5.
 
 # Table of Contents
 
@@ -67,9 +66,9 @@ npm install --save material-ui-popup-state
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import {
   usePopupState,
   bindTrigger,
@@ -99,10 +98,10 @@ export default MenuPopupState
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import {
   usePopupState,
   bindTrigger,
@@ -156,17 +155,17 @@ export default withStyles(styles)(PopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popper from '@material-ui/core/Popper'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popper from '@mui/material/Popper'
 import {
   usePopupState,
   bindToggle,
   bindPopper,
 } from 'material-ui-popup-state/hooks'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
+import Fade from '@mui/material/Fade'
+import Paper from '@mui/material/Paper'
 
 const styles = (theme) => ({
   typography: {
@@ -229,9 +228,9 @@ element:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import {
   usePopupState,
   bindTrigger,
@@ -285,10 +284,10 @@ Defaults to `true` when the popup is opened by the `bindHover` or `bindFocus` el
 
 An object with the following properties:
 
-- `open([eventOrAnchorEl])`: opens the popup. You must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
+- `open([eventOrAnchorEl])`: opens the popup. You must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; MUI needs an anchor element to position the popup.
 - `close()`: closes the popup
-- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open. If the popup is currently closed, you must pass an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
-- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. If `open` is truthy, you must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; Material-UI needs an anchor element to position the popup.
+- `toggle([eventOrAnchorEl])`: opens the popup if it is closed, or closes the popup if it is open. If the popup is currently closed, you must pass an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; MUI needs an anchor element to position the popup.
+- `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. If `open` is truthy, you must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; MUI needs an anchor element to position the popup.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element
 - `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
@@ -302,9 +301,9 @@ An object with the following properties:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
@@ -332,10 +331,10 @@ export default MenuPopupState
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popover from '@material-ui/core/Popover'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popover from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
 
 const styles = (theme) => ({
@@ -383,8 +382,8 @@ export default withStyles(styles)(PopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
 import HoverPopover from 'material-ui-popup-state/HoverPopover'
 import PopupState, { bindHover, bindPopover } from 'material-ui-popup-state'
 
@@ -438,13 +437,13 @@ export default withStyles(styles)(HoverPopoverPopupState)
 ```js
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
-import Button from '@material-ui/core/Button'
-import Popper from '@material-ui/core/Popper'
+import { withStyles } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Popper from '@mui/material/Popper'
 import PopupState, { bindToggle, bindPopper } from 'material-ui-popup-state'
-import Fade from '@material-ui/core/Fade'
-import Paper from '@material-ui/core/Paper'
+import Fade from '@mui/material/Fade'
+import Paper from '@mui/material/Paper'
 
 const styles = (theme) => ({
   typography: {
@@ -508,9 +507,9 @@ element:
 
 ```js
 import * as React from 'react'
-import Button from '@material-ui/core/Button'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
+import Button from '@mui/material/Button'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
 import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state'
 
 const MenuPopupState = () => (
@@ -571,7 +570,7 @@ props (exported as the `InjectedProps` type):
 
 # Using `Popover` and `Menu` with `bindHover`
 
-Material-UI's `Modal` (used by `Popover` and `Menu`) blocks pointer events to all other components, interfering with `bindHover`
+MUI's `Modal` (used by `Popover` and `Menu`) blocks pointer events to all other components, interfering with `bindHover`
 (the popover or menu will open when the mouse enters the `bindHover` element, but won't close when the mouse leaves). You can
 use the following components to work around this:
 

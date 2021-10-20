@@ -1,8 +1,8 @@
 import React from 'react'
-import Typography from '@material-ui/core/Typography'
-import Popper from '@material-ui/core/Popper'
-import Button from '@material-ui/core/Button'
-import Paper from '@material-ui/core/Paper'
+import Typography from '@mui/material/Typography'
+import Popper from '@mui/material/Popper'
+import Button from '@mui/material/Button'
+import Paper from '@mui/material/Paper'
 import {
   usePopupState,
   bindHover,
@@ -19,7 +19,7 @@ const HoverPopperPopupState = ({ classes }) => {
       <Button variant="contained" {...bindHover(popupState)}>
         Hover to open Popper
       </Button>
-      <Popper {...bindPopper(popupState)} transition>
+      <Popper {...bindPopper(popupState)} placement="bottom">
         <Paper>
           <Typography style={{ margin: 10 }}>
             The content of the Popper.

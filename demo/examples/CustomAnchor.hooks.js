@@ -1,14 +1,14 @@
 import * as React from 'react'
-import IconButton from '@material-ui/core/IconButton'
-import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import Paper from '@material-ui/core/Paper'
-import Typography from '@material-ui/core/Typography'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import MoreVertIcon from '@material-ui/icons/MoreVert'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Paper from '@mui/material/Paper'
+import Typography from '@mui/material/Typography'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
+import MoreVertIcon from '@mui/icons-material/MoreVert'
 import PopupState, {
   anchorRef,
   bindTrigger,
@@ -34,7 +34,7 @@ const CustomAnchor = () => (
                 secondary="Last Modified Apr 9, 2019"
               />
               <ListItemSecondaryAction>
-                <IconButton {...bindTrigger(popupState)}>
+                <IconButton {...bindTrigger(popupState)} size="large">
                   <MoreVertIcon />
                 </IconButton>
               </ListItemSecondaryAction>

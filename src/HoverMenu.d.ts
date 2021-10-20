@@ -1,4 +1,4 @@
-import { MenuProps } from '@material-ui/core/Menu'
+import { MenuProps } from '@mui/material/Menu'
 
 declare const HoverMenu: React.ComponentType<MenuProps>
 

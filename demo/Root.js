@@ -33,10 +33,10 @@ import CascadingHoverMenusCode from '!!raw-loader!./examples/CascadingHoverMenus
 import CascadingHoverMenusHooks from './examples/CascadingHoverMenus.hooks'
 import CascadingHoverMenusHooksCode from '!!raw-loader!./examples/CascadingHoverMenus.hooks'
 import Demo from './Demo'
-import Typography from '@material-ui/core/Typography'
-import { withStyles } from '@material-ui/styles'
-import { StyledEngineProvider } from '@material-ui/core/styles'
-import { createTheme, ThemeProvider } from '@material-ui/core/styles'
+import Typography from '@mui/material/Typography'
+import { withStyles } from '@mui/styles'
+import { StyledEngineProvider } from '@mui/material/styles'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme()
 
