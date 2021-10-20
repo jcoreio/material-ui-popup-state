@@ -319,7 +319,6 @@ const MenuPopupState = () => (
         </Menu>
       </React.Fragment>
     )}
-    }
   </PopupState>
 )
 
