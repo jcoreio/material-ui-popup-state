@@ -24,6 +24,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for
 <!-- toc -->
 
 - [material-ui-popup-state](#material-ui-popup-state)
+- [Using MUI v4?](#using-mui-v4)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Examples with React Hooks](#examples-with-react-hooks)
@@ -220,7 +221,8 @@ connect components easily:
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
-- `bindFocus`: creates props for a component that opens the popup while hovered.
+- `bindFocus`: creates props for a component that opens the popup while focus.
+- `bindDoubleClick`: creates props for a component that opens the popup while double click.
 
 To use one of these functions, you should call it with the object
 returned by `usePopupState` and spread the return value into the desired

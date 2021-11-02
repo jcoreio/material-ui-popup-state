@@ -16,6 +16,7 @@ import {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDoubleClick,
   type Variant,
   type CoreState,
   type PopupState as InjectedProps,
@@ -31,6 +32,7 @@ export {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDoubleClick,
 }
 export type { Variant, InjectedProps }
 
