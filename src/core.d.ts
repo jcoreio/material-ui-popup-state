@@ -121,6 +121,19 @@ export function bindFocus(popupState: PopupState): {
 }
 
 /**
+ * Creates props for a component that opens the popup while double click.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindDoubleClick(popupState: PopupState): {
+  'aria-controls'?: string
+  'aria-describedby'?: string
+  'aria-haspopup': true | undefined
+  onDoubleClick: (event: SyntheticEvent<any>) => any
+}
+
+/**
  * Creates props for a `Popover` component.
  *
  * @param {object} popupState the argument passed to the child function of

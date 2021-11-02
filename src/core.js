@@ -361,6 +361,33 @@ export function bindFocus({
 }
 
 /**
+ * Creates props for a component that opens the popup while double click.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindDoubleClick({
+  isOpen,
+  open,
+  popupId,
+  variant,
+}: PopupState): {|
+  'aria-controls'?: ?string,
+  'aria-describedby'?: ?string,
+  'aria-haspopup': ?true,
+  onDoubleClick: (event: SyntheticEvent<any>) => any,
+|} {
+  return {
+    // $FlowFixMe
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
+      ? popupId
+      : null,
+    'aria-haspopup': variant === 'popover' ? true : undefined,
+    onDoubleClick: open,
+  }
+}
+
+/**
  * Creates props for a `Popover` component.
  *
  * @param {object} popupState the argument passed to the child function of
