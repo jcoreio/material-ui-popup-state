@@ -224,7 +224,8 @@ connect components easily:
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
-- `bindFocus`: creates props for a component that opens the popup while hovered.
+- `bindFocus`: creates props for a component that opens the popup while focus.
+- `bindDoubleClick`: creates props for a component that opens the popup while double click.
 
 To use one of these functions, you should call it with the object
 returned by `usePopupState` and spread the return value into the desired
