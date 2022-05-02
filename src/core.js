@@ -17,6 +17,7 @@ export type PopupState = {|
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
   toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
+  onBlur: (event: SyntheticEvent<any>) => void,
   onMouseLeave: (event: SyntheticEvent<any>) => void,
   setOpen: (
     open: boolean,
@@ -124,8 +125,8 @@ export function createPopupState({
 
       const newState: $Shape<CoreState> = {
         isOpen: true,
-        hovered: eventType === 'mouseover',
-        focused: eventType === 'focus',
+        hovered: eventType === 'mouseover' || hovered,
+        focused: eventType === 'focus' || focused,
       }
 
       if (currentTarget) {
@@ -152,9 +153,6 @@ export function createPopupState({
       case 'touchstart':
         setState({ _deferNextClose: true })
         return
-      case 'blur':
-        if (isElementInPopup((arg: any)?.relatedTarget, popupState)) return
-        break
     }
     const doClose = () => {
       if (_childPopupState) _childPopupState.close()
@@ -181,7 +179,22 @@ export function createPopupState({
   const onMouseLeave = (event: SyntheticEvent<any>) => {
     const relatedTarget: any = (event: any).relatedTarget
     if (hovered && !isElementInPopup(relatedTarget, popupState)) {
-      close(event)
+      if (focused) {
+        setState({ hovered: false })
+      } else {
+        close(event)
+      }
+    }
+  }
+
+  const onBlur = (event: SyntheticEvent<any>) => {
+    const relatedTarget: any = (event: any).relatedTarget
+    if (focused && !isElementInPopup(relatedTarget, popupState)) {
+      if (hovered) {
+        setState({ focused: false })
+      } else {
+        close(event)
+      }
     }
   }
 
@@ -199,6 +212,7 @@ export function createPopupState({
     close,
     toggle,
     setOpen,
+    onBlur,
     onMouseLeave,
     disableAutoFocus: disableAutoFocus ?? Boolean(hovered || focused),
     _childPopupState,
@@ -339,7 +353,7 @@ export function bindHover({
 export function bindFocus({
   isOpen,
   open,
-  close,
+  onBlur,
   popupId,
   variant,
 }: PopupState): {|
@@ -356,7 +370,7 @@ export function bindFocus({
       : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onFocus: open,
-    onBlur: close,
+    onBlur,
   }
 }
 

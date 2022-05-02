@@ -26,6 +26,10 @@ import HoverMenu from './examples/HoverMenu'
 import HoverMenuCode from '!!raw-loader!./examples/HoverMenu'
 import HoverMenuHooks from './examples/HoverMenu.hooks'
 import HoverMenuHooksCode from '!!raw-loader!./examples/HoverMenu.hooks'
+import HoverFocusMenu from './examples/HoverFocusMenu'
+import HoverFocusMenuCode from '!!raw-loader!./examples/HoverFocusMenu'
+import HoverFocusMenuHooks from './examples/HoverFocusMenu.hooks'
+import HoverFocusMenuHooksCode from '!!raw-loader!./examples/HoverFocusMenu.hooks'
 import CustomAnchorHooks from './examples/CustomAnchor.hooks'
 import CustomAnchorHooksCode from '!!raw-loader!./examples/CustomAnchor.hooks'
 import CascadingHoverMenus from './examples/CascadingHoverMenus'
@@ -106,6 +110,15 @@ const Root = ({ classes }) => (
           hooksExample={<HoverMenuHooks />}
           hooksCode={HoverMenuHooksCode}
         />
+        <Demo
+          title="Hover/Focus Menu"
+          headerId="HoverFocus-menu"
+          example={<HoverFocusMenu />}
+          code={HoverFocusMenuCode}
+          hooksExample={<HoverFocusMenuHooks />}
+          hooksCode={HoverFocusMenuHooksCode}
+        />
+
         <Demo
           title="Custom Anchor"
           headerId="custom-anchor"

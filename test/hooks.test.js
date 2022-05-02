@@ -18,6 +18,7 @@ import {
   bindTrigger,
   bindToggle,
   bindFocus,
+  bindHover,
   type PopupState,
   bindContextMenu,
 } from '../src/hooks'
@@ -248,7 +249,7 @@ describe('usePopupState', () => {
       assert.strictEqual(input.prop('aria-controls'), null)
       assert.strictEqual(input.prop('aria-haspopup'), true)
       assert.strictEqual(input.prop('onFocus'), popupStates[0].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[0].close)
+      assert.strictEqual(input.prop('onBlur'), popupStates[0].onBlur)
       assert.strictEqual(popover.prop('id'), 'info')
       assert.strictEqual(popover.prop('open'), false)
       assert.strictEqual(popover.prop('disableAutoFocus'), true)
@@ -256,7 +257,7 @@ describe('usePopupState', () => {
       assert.strictEqual(popover.prop('disableRestoreFocus'), true)
       assert.strictEqual(popover.prop('onClose'), popupStates[0].close)
 
-      input.prop('onFocus')({ currentTarget: inputRef })
+      input.prop('onFocus')({ type: 'focus', currentTarget: inputRef })
       wrapper.update()
       input = wrapper.find(Input)
       popover = wrapper.find(Popover)
@@ -264,7 +265,7 @@ describe('usePopupState', () => {
       assert.strictEqual(input.prop('aria-controls'), 'info')
       assert.strictEqual(input.prop('aria-haspopup'), true)
       assert.strictEqual(input.prop('onFocus'), popupStates[1].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[1].close)
+      assert.strictEqual(input.prop('onBlur'), popupStates[1].onBlur)
       assert.strictEqual(popover.prop('id'), 'info')
       assert.strictEqual(popover.prop('anchorEl'), inputRef)
       assert.strictEqual(popover.prop('open'), true)
@@ -273,7 +274,7 @@ describe('usePopupState', () => {
       assert.strictEqual(popover.prop('disableRestoreFocus'), true)
       assert.strictEqual(popover.prop('onClose'), popupStates[1].close)
 
-      input.prop('onBlur')({ currentTarget: inputRef })
+      input.prop('onBlur')({ type: 'blur', currentTarget: inputRef })
       wrapper.update()
       input = wrapper.find(Input)
       popover = wrapper.find(Popover)
@@ -281,11 +282,116 @@ describe('usePopupState', () => {
       assert.strictEqual(input.prop('aria-controls'), null)
       assert.strictEqual(input.prop('aria-haspopup'), true)
       assert.strictEqual(input.prop('onFocus'), popupStates[2].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[2].close)
+      assert.strictEqual(input.prop('onBlur'), popupStates[2].onBlur)
       assert.strictEqual(popover.prop('id'), 'info')
       assert.strictEqual(popover.prop('open'), false)
       assert.strictEqual(popover.prop('onClose'), popupStates[2].close)
     })
+  })
+  describe('bindPopover/bindFocus/bindHover', () => {
+    let inputRef
+    let input
+    let popover
+
+    const popupStates = []
+
+    beforeEach(() => (popupStates.length = 0))
+
+    const MenuTest = (): React.Node => {
+      const popupState = usePopupState({
+        popupId: 'info',
+        variant: 'popover',
+        disableAutoFocus: true,
+      })
+      popupStates.push(popupState)
+      return (
+        <React.Fragment>
+          <Input
+            {...bindFocus(popupState)}
+            {...bindHover(popupState)}
+            inputRef={(c) => (inputRef = c)}
+          />
+          <Popover {...bindPopover(popupState)}>Info</Popover>
+        </React.Fragment>
+      )
+    }
+
+    for (const events of [
+      ['focus', 'mouseover', 'blur', 'mouseleave'],
+      ['focus', 'blur', 'mouseover', 'mouseleave'],
+      ['mouseover', 'focus', 'mouseleave', 'blur'],
+      ['mouseover', 'focus', 'blur', 'mouseleave'],
+      ['focus', 'mouseover', 'mouseleave', 'blur'],
+    ]) {
+      it(`works for ${events.join(', ')}`, async function () {
+        let i = 0
+
+        const wrapper = mount(<MenuTest />)
+        input = wrapper.find(Input)
+        popover = wrapper.find(Popover)
+        assert.strictEqual(popupStates[i].isOpen, false)
+        assert.strictEqual(input.prop('aria-controls'), null)
+        assert.strictEqual(input.prop('aria-haspopup'), true)
+        assert.strictEqual(input.prop('onFocus'), popupStates[i].open)
+        assert.strictEqual(input.prop('onBlur'), popupStates[i].onBlur)
+        assert.strictEqual(popover.prop('id'), 'info')
+        assert.strictEqual(popover.prop('open'), false)
+        assert.strictEqual(popover.prop('disableAutoFocus'), true)
+        assert.strictEqual(popover.prop('disableEnforceFocus'), true)
+        assert.strictEqual(popover.prop('disableRestoreFocus'), true)
+        assert.strictEqual(popover.prop('onClose'), popupStates[i].close)
+
+        let hovered = false
+        let focused = false
+
+        for (const type of events) {
+          let handler = ''
+          switch (type) {
+            case 'focus':
+              focused = true
+              handler = 'onFocus'
+              break
+            case 'blur':
+              focused = false
+              handler = 'onBlur'
+              break
+            case 'mouseover':
+              hovered = true
+              handler = 'onMouseOver'
+              break
+            case 'mouseleave':
+              hovered = false
+              handler = 'onMouseLeave'
+              break
+          }
+          const open = hovered || focused
+          input.prop(handler)({ type, currentTarget: inputRef })
+          wrapper.update()
+          i++
+          input = wrapper.find(Input)
+          popover = wrapper.find(Popover)
+          assert.strictEqual(popupStates[i].isOpen, open)
+          assert.strictEqual(input.prop('aria-controls'), open ? 'info' : null)
+          assert.strictEqual(input.prop('aria-haspopup'), true)
+          assert.strictEqual(input.prop('onFocus'), popupStates[i].open)
+          assert.strictEqual(input.prop('onBlur'), popupStates[i].onBlur)
+          assert.strictEqual(input.prop('onMouseOver'), popupStates[i].open)
+          assert.strictEqual(
+            input.prop('onMouseLeave'),
+            popupStates[i].onMouseLeave
+          )
+          if (open) {
+            assert.strictEqual(popover.prop('id'), 'info')
+            assert.strictEqual(popover.prop('anchorEl'), open ? inputRef : null)
+            assert.strictEqual(popover.prop('open'), open)
+            assert.strictEqual(popover.prop('disableAutoFocus'), true)
+            assert.strictEqual(popover.prop('disableEnforceFocus'), true)
+            assert.strictEqual(popover.prop('disableRestoreFocus'), true)
+            assert.strictEqual(popover.prop('onClose'), popupStates[i].close)
+          }
+        }
+      })
+    }
   })
   describe('bindMenu/bindTrigger with anchorRef', () => {
     let button
