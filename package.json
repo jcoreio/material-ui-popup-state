@@ -3,6 +3,37 @@
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./es/index.js",
+      "require": "./index.js"
+    },
+    "./core": {
+      "import": "./es/core.js",
+      "require": "./core.js"
+    },
+    "./hooks": {
+      "import": "./es/hooks.js",
+      "require": "./hooks.js"
+    },
+    "./HoverMenu": {
+      "import": "./es/HoverMenu.js",
+      "require": "./HoverMenu.js"
+    },
+    "./HoverPopover": {
+      "import": "./es/HoverPopover.js",
+      "require": "./HoverPopover.js"
+    },
+    "./hoverWorkaround": {
+      "import": "./es/hoverWorkaround.js",
+      "require": "./hoverWorkaround.js"
+    },
+    "./package.json": "./package.json",
+    "./index": {
+      "import": "./es/index.js",
+      "require": "./index.js"
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "lint": "eslint $npm_package_config_eslint",
