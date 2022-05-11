@@ -21,6 +21,7 @@ import {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
   type Variant,
   type PopupState,
 } from './core'
@@ -35,6 +36,7 @@ export {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
 }
 export type { Variant, PopupState }
 

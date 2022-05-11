@@ -24,6 +24,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for
 <!-- toc -->
 
 - [material-ui-popup-state](#material-ui-popup-state)
+- [Using MUI v4?](#using-mui-v4)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Examples with React Hooks](#examples-with-react-hooks)
@@ -34,7 +35,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for
   - [Bind Functions](#bind-functions)
   - [`usePopupState`](#usepopupstate)
   - [`usePopupState` Props](#usepopupstate-props)
-    - [`variant` (`'popover'` or `'popper'`, **required**)](#variant-popover-or-popper-required)
+    - [`variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)](#variant-popover-popper-or-dialog-required)
     - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged)
     - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional)
   - [`usePopupState` return value](#usepopupstate-return-value)
@@ -46,7 +47,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for
 - [Render Props API](#render-props-api)
   - [Bind Functions](#bind-functions-1)
   - [`PopupState` Props](#popupstate-props)
-    - [`variant` (`'popover'` or `'popper'`, **required**)](#variant-popover-or-popper-required-1)
+    - [`variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)](#variant-popover-popper-or-dialog-required-1)
     - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged-1)
     - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional-1)
     - [`children` (`(popupState: InjectedProps) => ?React.Node`, **required**)](#children-popupstate-injectedprops--reactnode-required)
@@ -215,6 +216,7 @@ connect components easily:
 - `bindMenu`: creates props to control a `Menu` component.
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
+- `bindDialog`: creates props to control a `Dialog` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
@@ -261,7 +263,7 @@ This is a [Custom Hook](https://reactjs.org/docs/hooks-custom.html) that uses `u
 
 ## `usePopupState` Props
 
-### `variant` (`'popover'` or `'popper'`, **required**)
+### `variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)
 
 Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
 popup is a `Popper`.
@@ -493,6 +495,7 @@ connect components easily:
 - `bindMenu`: creates props to control a `Menu` component.
 - `bindPopover`: creates props to control a `Popover` component.
 - `bindPopper`: creates props to control a `Popper` component.
+- `bindDialog`: creates props to control a `Dialog` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
@@ -532,7 +535,7 @@ export default MenuPopupState
 
 ## `PopupState` Props
 
-### `variant` (`'popover'` or `'popper'`, **required**)
+### `variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)
 
 Use `'popover'` if your popup is a `Popover` or `Menu`; use `'popper'` if your
 popup is a `Popper`.

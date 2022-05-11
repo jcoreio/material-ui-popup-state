@@ -12,6 +12,7 @@ import {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
   Variant,
   PopupState as InjectedProps,
 } from './core'
@@ -26,6 +27,7 @@ export {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
   Variant,
   InjectedProps,
 }

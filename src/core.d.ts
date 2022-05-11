@@ -1,12 +1,12 @@
-import { SyntheticEvent } from 'react'
+import { SyntheticEvent, MouseEvent, TouchEvent, FocusEvent } from 'react'
 
-export type Variant = 'popover' | 'popper'
+export type Variant = 'popover' | 'popper' | 'dialog'
 
 export type PopupState = {
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
   close: () => void
   toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
-  onMouseLeave: (event: SyntheticEvent<any>) => void
+  onMouseLeave: (event: MouseEvent<any>) => void
   setOpen: (
     open: boolean,
     eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement
@@ -37,7 +37,7 @@ export const initCoreState: CoreState
 export function createPopupState(options: {
   state: CoreState
   setState: (state: Partial<CoreState>) => any
-  popupId: string | undefined
+  popupId?: string | null
   variant: Variant
   parentPopupState?: PopupState | null
   disableAutoFocus?: boolean | null
@@ -53,17 +53,21 @@ export function anchorRef<T = HTMLElement>(
   popupState: PopupState
 ): (popupState: T | undefined) => void
 
+type ControlAriaProps = {
+  'aria-controls'?: string
+  'aria-describedby'?: string
+  'aria-haspopup'?: true
+}
+
 /**
  * Creates props for a component that opens the popup when clicked.
  *
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger(popupState: PopupState): {
-  'aria-controls'?: string | undefined
-  'aria-describedby'?: string | undefined
-  'aria-haspopup': true | undefined
-  onClick: (event: SyntheticEvent<any>) => void
+export function bindTrigger(popupState: PopupState): ControlAriaProps & {
+  onClick: (event: MouseEvent<any>) => void
+  onTouchStart: (event: TouchEvent<any>) => void
 }
 
 /**
@@ -72,11 +76,9 @@ export function bindTrigger(popupState: PopupState): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle(popupState: PopupState): {
-  'aria-controls'?: string
-  'aria-describedby'?: string
-  'aria-haspopup': true | undefined
-  onClick: (event: SyntheticEvent<any>) => void
+export function bindToggle(popupState: PopupState): ControlAriaProps & {
+  onClick: (event: MouseEvent<any>) => void
+  onTouchStart: (event: TouchEvent<any>) => void
 }
 
 /**
@@ -85,11 +87,8 @@ export function bindToggle(popupState: PopupState): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindContextMenu(popupState: PopupState): {
-  'aria-controls'?: string | undefined
-  'aria-describedby'?: string | undefined
-  'aria-haspopup': true | undefined
-  onContextMenu: (event: SyntheticEvent<any>) => void
+export function bindContextMenu(popupState: PopupState): ControlAriaProps & {
+  onContextMenu: (event: MouseEvent<any>) => void
 }
 
 /**
@@ -98,12 +97,10 @@ export function bindContextMenu(popupState: PopupState): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindHover(popupState: PopupState): {
-  'aria-controls'?: string
-  'aria-describedby'?: string
-  'aria-haspopup': true | undefined
-  onMouseEnter: (event: SyntheticEvent<any>) => any
-  onMouseLeave: (event: SyntheticEvent<any>) => any
+export function bindHover(popupState: PopupState): ControlAriaProps & {
+  onTouchStart: (event: TouchEvent<any>) => void
+  onMouseEnter: (event: MouseEvent<any>) => void
+  onMouseLeave: (event: MouseEvent<any>) => void
 }
 
 /**
@@ -112,12 +109,9 @@ export function bindHover(popupState: PopupState): {
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindFocus(popupState: PopupState): {
-  'aria-controls'?: string
-  'aria-describedby'?: string
-  'aria-haspopup': true | undefined
-  onFocus: (event: SyntheticEvent<any>) => any
-  onBlur: (event: SyntheticEvent<any>) => any
+export function bindFocus(popupState: PopupState): ControlAriaProps & {
+  onFocus: (event: FocusEvent<any>) => void
+  onBlur: (event: FocusEvent<any>) => void
 }
 
 /**
@@ -131,7 +125,7 @@ export function bindPopover(popupState: PopupState): {
   anchorEl: HTMLElement | undefined
   open: boolean
   onClose: () => void
-  onMouseLeave: (event: SyntheticEvent<any>) => void
+  onMouseLeave: (event: MouseEvent<any>) => void
   disableAutoFocus?: boolean
   disableEnforceFocus?: boolean
   disableRestoreFocus?: boolean
@@ -148,7 +142,7 @@ export function bindMenu(popupState: PopupState): {
   anchorEl: HTMLElement | undefined
   open: boolean
   onClose: () => void
-  onMouseLeave: (event: SyntheticEvent<any>) => void
+  onMouseLeave: (event: MouseEvent<any>) => void
   autoFocus?: boolean
   disableAutoFocusItem?: boolean
   disableAutoFocus?: boolean
@@ -166,5 +160,16 @@ export function bindPopper(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
   open: boolean
-  onMouseLeave: (event: SyntheticEvent<any>) => void
+  onMouseLeave: (event: MouseEvent<any>) => void
+}
+
+/**
+ * Creates props for a `Dialog` component.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindDialog(popupState: PopupState): {
+  open: boolean
+  onClose: (event: SyntheticEvent<any>) => void
 }

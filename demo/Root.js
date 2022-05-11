@@ -36,6 +36,10 @@ import CascadingHoverMenus from './examples/CascadingHoverMenus'
 import CascadingHoverMenusCode from '!!raw-loader!./examples/CascadingHoverMenus'
 import CascadingHoverMenusHooks from './examples/CascadingHoverMenus.hooks'
 import CascadingHoverMenusHooksCode from '!!raw-loader!./examples/CascadingHoverMenus.hooks'
+import Dialog from './examples/Dialog'
+import DialogCode from '!!raw-loader!./examples/Dialog'
+import DialogHooks from './examples/Dialog.hooks'
+import DialogHooksCode from '!!raw-loader!./examples/Dialog.hooks'
 import Demo from './Demo'
 import Typography from '@mui/material/Typography'
 import { withStyles } from '@mui/styles'
@@ -132,6 +136,14 @@ const Root = ({ classes }) => (
           code={CascadingHoverMenusCode}
           hooksExample={<CascadingHoverMenusHooks />}
           hooksCode={CascadingHoverMenusHooksCode}
+        />
+        <Demo
+          title="Dialog"
+          headerId="dialog"
+          example={<Dialog />}
+          code={DialogCode}
+          hooksExample={<DialogHooks />}
+          hooksCode={DialogHooksCode}
         />
       </div>
     </ThemeProvider>
