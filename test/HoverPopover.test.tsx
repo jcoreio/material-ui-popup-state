@@ -1,12 +1,12 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import Popover from '../HoverPopover'
+import Popover from '../src/HoverPopover'
 import Button from '@mui/material/Button'
-import PopupState, { bindHover, bindPopover } from '../'
+import PopupState, { bindHover, bindPopover } from '../src'
 
 const HoverPopoverPopupState = () => (
   <PopupState variant="popover" popupId="demoPopover">
-    {popupState => (
+    {(popupState) => (
       <div>
         <Button variant="contained" {...bindHover(popupState)}>
           Hover to open Popover

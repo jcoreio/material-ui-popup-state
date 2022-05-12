@@ -1,9 +1,16 @@
 // @flow
 
 import * as React from 'react'
-import { spy } from 'sinon'
 import { assert } from 'chai'
-import { mount } from 'enzyme'
+import { describe, it, beforeEach, afterEach } from 'mocha'
+import {
+  cleanup,
+  render,
+  fireEvent,
+  waitFor,
+  waitForElementToBeRemoved,
+  screen,
+} from '@testing-library/react'
 import Button from '@mui/material/Button'
 import Input from '@mui/material/Input'
 import Popper from '@mui/material/Popper'
@@ -11,405 +18,317 @@ import Popover from '@mui/material/Popover'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import PopupState, {
+  type InjectedProps,
   anchorRef,
   bindMenu,
-  bindPopover,
   bindPopper,
+  bindPopover,
   bindTrigger,
   bindToggle,
-  bindHover,
   bindFocus,
-  type InjectedProps,
+  bindHover,
   bindContextMenu,
 } from '../src'
 
-import { beforeEach, describe, it } from 'mocha'
+const waitForTruthy = (cb, ...opts) =>
+  waitFor(() => {
+    if (cb()) return
+    throw new Error('not true')
+  }, ...opts)
 
 /* eslint-disable react/jsx-handler-names */
 
-describe('<PopupState />', () => {
+afterEach(cleanup)
+
+describe('usePopupState', () => {
   describe('bindMenu/bindTrigger', () => {
-    let buttonRef
+    let buttonRef: any
     let button
     let menu
-
-    const render = spy((popupState) => (
-      <React.Fragment>
-        <Button {...bindTrigger(popupState)} ref={(c) => (buttonRef = c)}>
-          Open Menu
-        </Button>
-        <Menu {...bindMenu(popupState)}>
-          <MenuItem onClick={popupState.close}>Test</MenuItem>
-        </Menu>
-      </React.Fragment>
-    ))
-
-    beforeEach(() => render.resetHistory())
-
-    it('passes correct props to bindTrigger/bindPopup', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[0][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), render.args[0][0].open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), render.args[0][0].close)
-
-      button.simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[1][0].isOpen, true)
-      assert.strictEqual(button.prop('aria-controls'), 'menu')
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), render.args[1][0].open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('anchorEl'), buttonRef)
-      assert.strictEqual(menu.prop('open'), true)
-      assert.strictEqual(menu.prop('onClose'), render.args[1][0].close)
-
-      wrapper.find(MenuItem).simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[2][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), render.args[2][0].open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)
-    })
-    it('open/close works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].open(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].close()
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-    it('toggle works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].toggle(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].toggle(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-    it('setOpen works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].setOpen(true, buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].setOpen(false)
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-  })
-  describe('bindMenu/bindContextMenu', () => {
-    let buttonRef
-    let button
-    let menu
-
-    const render = spy((popupState) => (
-      <React.Fragment>
-        <Button {...bindContextMenu(popupState)} ref={(c) => (buttonRef = c)}>
-          Open Menu
-        </Button>
-        <Menu {...bindMenu(popupState)}>
-          <MenuItem onClick={popupState.close}>Test</MenuItem>
-        </Menu>
-      </React.Fragment>
-    ))
-
-    beforeEach(() => render.resetHistory())
-
-    it('passes correct props to bindContextMenu/bindPopup', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[0][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), render.args[0][0].close)
-
-      button.simulate('contextmenu')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[1][0].isOpen, true)
-      assert.strictEqual(button.prop('aria-controls'), 'menu')
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('anchorEl'), buttonRef)
-      assert.strictEqual(menu.prop('open'), true)
-      assert.strictEqual(menu.prop('onClose'), render.args[1][0].close)
-
-      wrapper.find(MenuItem).simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(render.args[2][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), render.args[2][0].close)
-    })
-    it('open/close works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].open(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].close()
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-    it('toggle works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].toggle(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].toggle(buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-    it('setOpen works', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="menu">
-          {render}
-        </PopupState>
-      )
-
-      render.args[0][0].setOpen(true, buttonRef)
-      wrapper.update()
-      assert.strictEqual(render.args[1][0].isOpen, true)
-
-      render.args[1][0].setOpen(false)
-      wrapper.update()
-      assert.strictEqual(render.args[2][0].isOpen, false)
-    })
-  })
-  describe('bindPopover/bindFocus', () => {
-    let inputRef
-    let input
-    let popover
 
     const popupStates = []
 
     beforeEach(() => (popupStates.length = 0))
 
     const MenuTest = (): React.Node => (
-      <PopupState popupId="info" variant="popover" disableAutoFocus>
+      <PopupState variant="popover" popupId="menu">
         {(popupState: InjectedProps): React.Node => {
           popupStates.push(popupState)
           return (
             <React.Fragment>
-              <Input
-                {...bindFocus(popupState)}
-                inputRef={(c) => (inputRef = c)}
-              />
-              <Popover {...bindPopover(popupState)}>Info</Popover>
+              <Button {...bindTrigger(popupState)} ref={(c) => (buttonRef = c)}>
+                Open Menu
+              </Button>
+              <Menu data-testid="menu" {...bindMenu(popupState)}>
+                <MenuItem data-testid="menuitem" onClick={popupState.close}>
+                  Test
+                </MenuItem>
+              </Menu>
             </React.Fragment>
           )
         }}
       </PopupState>
     )
 
-    it('passes correct props to bindFocus/bindPopover', () => {
-      const wrapper = mount(<MenuTest />)
-      input = wrapper.find(Input)
-      popover = wrapper.find(Popover)
+    it('passes correct props to bindTrigger/bindMenu', async () => {
+      render(<MenuTest />)
       assert.strictEqual(popupStates[0].isOpen, false)
-      assert.strictEqual(input.prop('aria-controls'), undefined)
-      assert.strictEqual(input.prop('aria-haspopup'), true)
-      assert.strictEqual(input.prop('onFocus'), popupStates[0].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[0].onBlur)
-      assert.strictEqual(popover.prop('id'), 'info')
-      assert.strictEqual(popover.prop('open'), false)
-      assert.strictEqual(popover.prop('disableAutoFocus'), true)
-      assert.strictEqual(popover.prop('disableEnforceFocus'), true)
-      assert.strictEqual(popover.prop('disableRestoreFocus'), true)
-      assert.strictEqual(popover.prop('onClose'), popupStates[0].close)
+      button = screen.getByRole('button')
+      menu = screen.queryByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
 
-      input.prop('onFocus')({ type: 'focus', currentTarget: inputRef })
-      wrapper.update()
-      input = wrapper.find(Input)
-      popover = wrapper.find(Popover)
+      fireEvent.click(button)
+      menu = screen.getByTestId('menu')
       assert.strictEqual(popupStates[1].isOpen, true)
-      assert.strictEqual(input.prop('aria-controls'), 'info')
-      assert.strictEqual(input.prop('aria-haspopup'), true)
-      assert.strictEqual(input.prop('onFocus'), popupStates[1].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[1].onBlur)
-      assert.strictEqual(popover.prop('id'), 'info')
-      assert.strictEqual(popover.prop('anchorEl'), inputRef)
-      assert.strictEqual(popover.prop('open'), true)
-      assert.strictEqual(popover.prop('disableAutoFocus'), true)
-      assert.strictEqual(popover.prop('disableEnforceFocus'), true)
-      assert.strictEqual(popover.prop('disableRestoreFocus'), true)
-      assert.strictEqual(popover.prop('onClose'), popupStates[1].close)
+      assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu.getAttribute('id'), 'menu')
 
-      input.prop('onBlur')({ type: 'blur', currentTarget: inputRef })
-      wrapper.update()
-      input = wrapper.find(Input)
-      popover = wrapper.find(Popover)
+      await Promise.all([
+        waitForElementToBeRemoved(menu),
+        fireEvent.click(screen.getByTestId('menuitem')),
+      ])
       assert.strictEqual(popupStates[2].isOpen, false)
-      assert.strictEqual(input.prop('aria-controls'), undefined)
-      assert.strictEqual(input.prop('aria-haspopup'), true)
-      assert.strictEqual(input.prop('onFocus'), popupStates[2].open)
-      assert.strictEqual(input.prop('onBlur'), popupStates[2].onBlur)
-      assert.strictEqual(popover.prop('id'), 'info')
-      assert.strictEqual(popover.prop('open'), false)
-      assert.strictEqual(popover.prop('onClose'), popupStates[2].close)
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+    })
+
+    it('open/close works', async () => {
+      render(<MenuTest />)
+
+      await waitForTruthy(() => popupStates[0])
+      popupStates[0].open(buttonRef)
+      await waitForTruthy(() => popupStates[1])
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].close()
+      await waitForTruthy(() => popupStates[2])
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+    it('toggle works', async () => {
+      render(<MenuTest />)
+
+      await waitForTruthy(() => popupStates[0])
+      popupStates[0].toggle(buttonRef)
+      await waitForTruthy(() => popupStates[1])
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].toggle(buttonRef)
+      await waitForTruthy(() => popupStates[2])
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+    it('setOpen works', async () => {
+      render(<MenuTest variant="popover" popupId="menu" />)
+
+      await waitForTruthy(() => popupStates[0])
+      popupStates[0].setOpen(true, buttonRef)
+      await waitForTruthy(() => popupStates[1])
+      assert.strictEqual(popupStates[1].isOpen, true)
+
+      popupStates[1].setOpen(false)
+      await waitForTruthy(() => popupStates[2])
+      assert.strictEqual(popupStates[2].isOpen, false)
     })
   })
-  describe('bindPopover/bindFocus/bindHover', () => {
-    let inputRef
+  describe('bindMenu/bindContextMenu', () => {
+    let button
+    let menu
+
+    const MenuTest = (): React.Node => (
+      <PopupState popupId={'menu'} variant={'popover'}>
+        {(popupState) => (
+          <React.Fragment>
+            <Button {...bindContextMenu(popupState)}>Open Menu</Button>
+            <Menu data-testid="menu" {...bindMenu(popupState)}>
+              <MenuItem data-testid="menuitem" onClick={popupState.close}>
+                Test
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        )}
+      </PopupState>
+    )
+
+    it('passes correct props to bindContextMenu/bindMenu', async () => {
+      render(<MenuTest />)
+      button = screen.getByRole('button')
+      menu = screen.queryByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
+
+      fireEvent.contextMenu(button)
+      menu = screen.getByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu.getAttribute('id'), 'menu')
+
+      await Promise.all([
+        waitForElementToBeRemoved(menu),
+        fireEvent.click(screen.getByTestId('menuitem')),
+      ])
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+    })
+  })
+  describe('bindPopover/bindFocus', () => {
     let input
     let popover
 
-    const popupStates = []
+    const MenuTest = (): React.Node => (
+      <PopupState popupId={'info'} variant={'popover'} disableAutoFocus>
+        {(popupState) => (
+          <React.Fragment>
+            <Input
+              inputProps={{ 'data-testid': 'input', ...bindFocus(popupState) }}
+            />
+            <Popover data-testid="popover" {...bindPopover(popupState)}>
+              Info
+            </Popover>
+          </React.Fragment>
+        )}
+      </PopupState>
+    )
 
-    beforeEach(() => (popupStates.length = 0))
+    it('passes correct props to bindFocus/bindPopover', async () => {
+      render(<MenuTest />)
+      input = screen.getByTestId('input')
+      popover = screen.queryByTestId('popover')
+      assert.strictEqual(input.getAttribute('aria-controls'), null)
+      assert.strictEqual(input.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(popover, null)
+
+      fireEvent.focus(input)
+      popover = screen.getByTestId('popover')
+      assert.strictEqual(input.getAttribute('aria-controls'), 'info')
+      assert.strictEqual(input.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(popover.getAttribute('id'), 'info')
+
+      await Promise.all([
+        waitForElementToBeRemoved(popover),
+        fireEvent.blur(input),
+      ])
+      assert.strictEqual(input.getAttribute('aria-controls'), null)
+      assert.strictEqual(input.getAttribute('aria-haspopup'), 'true')
+    })
+  })
+  describe('bindHover/bindPopover', () => {
+    let button
+    let popover
+
+    const TestComp = (): React.Node => (
+      <PopupState popupId={'popover'} variant={'popover'}>
+        {(popupState) => (
+          <React.Fragment>
+            <Button {...bindHover(popupState)}>Open Menu</Button>
+            <Popover data-testid="popover" {...bindPopover(popupState)}>
+              <span data-testid="content">The popover content</span>
+            </Popover>
+          </React.Fragment>
+        )}
+      </PopupState>
+    )
+
+    it('passes correct props to bindHover/bindPopover', async () => {
+      render(<TestComp />)
+      button = screen.getByRole('button')
+      popover = screen.queryByTestId('popover')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(popover, null)
+
+      fireEvent.mouseOver(button)
+      popover = screen.getByTestId('popover')
+      assert.strictEqual(button.getAttribute('aria-controls'), 'popover')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(popover.getAttribute('id'), 'popover')
+
+      fireEvent.mouseLeave(button, {
+        relatedTarget: screen.getByTestId('content'),
+      })
+      assert.strictEqual(button.getAttribute('aria-controls'), 'popover')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(popover.getAttribute('id'), 'popover')
+
+      await Promise.all([
+        waitForElementToBeRemoved(popover),
+        fireEvent.mouseLeave(popover),
+      ])
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+    })
+  })
+  describe('bindPopover/bindFocus/bindHover', () => {
+    let input
+    let popover
 
     const MenuTest = (): React.Node => (
-      <PopupState popupId="info" variant="popover" disableAutoFocus>
-        {(popupState: InjectedProps): React.Node => {
-          popupStates.push(popupState)
-          return (
-            <React.Fragment>
-              <Input
-                {...bindFocus(popupState)}
-                {...bindHover(popupState)}
-                inputRef={(c) => (inputRef = c)}
-              />
-              <Popover {...bindPopover(popupState)}>Info</Popover>
-            </React.Fragment>
-          )
-        }}
+      <PopupState popupId={'info'} variant={'popover'} disableAutoFocus>
+        {(popupState) => (
+          <React.Fragment>
+            <Input
+              inputProps={{
+                'data-testid': 'input',
+                ...bindFocus(popupState),
+                ...bindHover(popupState),
+              }}
+            />
+            <Popover data-testid="popover" {...bindPopover(popupState)}>
+              Info
+            </Popover>
+          </React.Fragment>
+        )}
       </PopupState>
     )
 
     for (const events of [
-      ['focus', 'mouseover', 'blur', 'mouseleave'],
-      ['focus', 'blur', 'mouseover', 'mouseleave'],
-      ['mouseover', 'focus', 'mouseleave', 'blur'],
-      ['mouseover', 'focus', 'blur', 'mouseleave'],
-      ['focus', 'mouseover', 'mouseleave', 'blur'],
+      ['focus', 'mouseOver', 'blur', 'mouseLeave'],
+      ['focus', 'blur', 'mouseOver', 'mouseLeave'],
+      ['mouseOver', 'focus', 'mouseLeave', 'blur'],
+      ['mouseOver', 'focus', 'blur', 'mouseLeave'],
+      ['focus', 'mouseOver', 'mouseLeave', 'blur'],
     ]) {
       it(`works for ${events.join(', ')}`, async function () {
-        let i = 0
-
-        const wrapper = mount(<MenuTest />)
-        input = wrapper.find(Input)
-        popover = wrapper.find(Popover)
-        assert.strictEqual(popupStates[i].isOpen, false)
-        assert.strictEqual(input.prop('aria-controls'), undefined)
-        assert.strictEqual(input.prop('aria-haspopup'), true)
-        assert.strictEqual(input.prop('onFocus'), popupStates[i].open)
-        assert.strictEqual(input.prop('onBlur'), popupStates[i].onBlur)
-        assert.strictEqual(popover.prop('id'), 'info')
-        assert.strictEqual(popover.prop('open'), false)
-        assert.strictEqual(popover.prop('disableAutoFocus'), true)
-        assert.strictEqual(popover.prop('disableEnforceFocus'), true)
-        assert.strictEqual(popover.prop('disableRestoreFocus'), true)
-        assert.strictEqual(popover.prop('onClose'), popupStates[i].close)
+        render(<MenuTest />)
+        input = screen.getByTestId('input')
+        popover = screen.queryByTestId('popover')
+        assert.strictEqual(input.getAttribute('aria-controls'), null)
+        assert.strictEqual(input.getAttribute('aria-haspopup'), 'true')
+        assert.strictEqual(popover, null)
 
         let hovered = false
         let focused = false
 
         for (const type of events) {
-          let handler = ''
           switch (type) {
             case 'focus':
               focused = true
-              handler = 'onFocus'
               break
             case 'blur':
               focused = false
-              handler = 'onBlur'
               break
-            case 'mouseover':
+            case 'mouseOver':
               hovered = true
-              handler = 'onMouseOver'
               break
-            case 'mouseleave':
+            case 'mouseLeave':
               hovered = false
-              handler = 'onMouseLeave'
               break
           }
           const open = hovered || focused
-          input.prop(handler)({ type, currentTarget: inputRef })
-          wrapper.update()
-          i++
-          input = wrapper.find(Input)
-          popover = wrapper.find(Popover)
-          assert.strictEqual(popupStates[i].isOpen, open)
+          fireEvent[type](input)
+          input = screen.getByTestId('input')
           assert.strictEqual(
-            input.prop('aria-controls'),
-            open ? 'info' : undefined
+            input.getAttribute('aria-controls'),
+            open ? 'info' : null
           )
-          assert.strictEqual(input.prop('aria-haspopup'), true)
-          assert.strictEqual(input.prop('onFocus'), popupStates[i].open)
-          assert.strictEqual(input.prop('onBlur'), popupStates[i].onBlur)
-          assert.strictEqual(input.prop('onMouseOver'), popupStates[i].open)
-          assert.strictEqual(
-            input.prop('onMouseLeave'),
-            popupStates[i].onMouseLeave
-          )
+          assert.strictEqual(input.getAttribute('aria-haspopup'), 'true')
           if (open) {
-            assert.strictEqual(popover.prop('id'), 'info')
-            assert.strictEqual(popover.prop('anchorEl'), open ? inputRef : null)
-            assert.strictEqual(popover.prop('open'), open)
-            assert.strictEqual(popover.prop('disableAutoFocus'), true)
-            assert.strictEqual(popover.prop('disableEnforceFocus'), true)
-            assert.strictEqual(popover.prop('disableRestoreFocus'), true)
-            assert.strictEqual(popover.prop('onClose'), popupStates[i].close)
+            popover = screen.getByTestId('popover')
+            assert.strictEqual(popover.getAttribute('id'), 'info')
+          } else if (popover) {
+            await waitForElementToBeRemoved(popover)
           }
         }
       })
@@ -418,256 +337,81 @@ describe('<PopupState />', () => {
   describe('bindMenu/bindTrigger with anchorRef', () => {
     let button
     let menu
-    let divRef
-
-    const popupStates = []
-    let lastPopupState: InjectedProps = (null: any)
-
-    beforeEach(() => {
-      popupStates.length = 0
-      lastPopupState = (null: any)
-    })
 
     const MenuTest = (): React.Node => (
-      <PopupState variant="popover" popupId="menu">
-        {(popupState: InjectedProps): React.Node => {
-          popupStates.push(popupState)
-          lastPopupState = popupState
-          return (
-            <React.Fragment>
-              <Button {...bindTrigger(popupState)}>Open Menu</Button>
-              <div
-                ref={(c: ?HTMLElement) => {
-                  divRef = c
-                  anchorRef(popupState)(c)
-                }}
-              />
-              <Menu {...bindMenu(popupState)}>
-                <MenuItem onClick={popupState.close}>Test</MenuItem>
-              </Menu>
-            </React.Fragment>
-          )
-        }}
+      <PopupState popupId={'menu'} variant={'popover'}>
+        {(popupState) => (
+          <React.Fragment>
+            <Button {...bindTrigger(popupState)}>Open Menu</Button>
+            <div data-testid="div" ref={anchorRef(popupState)} />
+            <Menu data-testid="menu" {...bindMenu(popupState)}>
+              <MenuItem data-testid="menuitem" onClick={popupState.close}>
+                Test
+              </MenuItem>
+            </Menu>
+          </React.Fragment>
+        )}
       </PopupState>
     )
 
-    it('passes correct props to bindTrigger/bindMenu', () => {
-      const wrapper = mount(<MenuTest />)
+    it('passes correct props to bindTrigger/bindMenu', async () => {
+      render(<MenuTest />)
 
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(lastPopupState.isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), lastPopupState.open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), lastPopupState.close)
+      button = screen.getByRole('button')
+      menu = screen.queryByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
 
-      button.simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(lastPopupState.isOpen, true)
-      assert.strictEqual(button.prop('aria-controls'), 'menu')
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), lastPopupState.open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('anchorEl'), divRef)
-      assert.strictEqual(menu.prop('open'), true)
-      assert.strictEqual(menu.prop('onClose'), lastPopupState.close)
+      fireEvent.click(button)
+      menu = screen.getByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu.getAttribute('id'), 'menu')
 
-      wrapper.find(MenuItem).simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      menu = wrapper.find(Menu)
-      assert.strictEqual(lastPopupState.isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onClick'), lastPopupState.open)
-      assert.strictEqual(menu.prop('id'), 'menu')
-      assert.strictEqual(menu.prop('open'), false)
-      assert.strictEqual(menu.prop('onClose'), lastPopupState.close)
-    })
-    it('open/close works', () => {
-      const wrapper = mount(<MenuTest />)
-
-      lastPopupState.open()
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, true)
-
-      lastPopupState.close()
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, false)
-    })
-    it('toggle works', () => {
-      const wrapper = mount(<MenuTest />)
-
-      lastPopupState.toggle()
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, true)
-
-      lastPopupState.toggle()
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, false)
-    })
-    it('setOpen works', () => {
-      const wrapper = mount(<MenuTest />)
-
-      lastPopupState.setOpen(true)
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, true)
-
-      lastPopupState.setOpen(false)
-      wrapper.update()
-      assert.strictEqual(lastPopupState.isOpen, false)
+      await Promise.all([
+        waitForElementToBeRemoved(menu),
+        fireEvent.click(screen.getByTestId('menuitem')),
+      ])
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
     })
   })
   describe('bindToggle/bindPopper', () => {
-    let buttonRef
     let button
     let popper
 
-    const render = spy((popupState) => (
-      <React.Fragment>
-        <Button {...bindToggle(popupState)} ref={(c) => (buttonRef = c)}>
-          Open Menu
-        </Button>
-        <Popper {...bindPopper(popupState)}>The popper content</Popper>
-      </React.Fragment>
-    ))
+    const PopperTest = (): React.Node => (
+      <PopupState popupId={'popper'} variant={'popper'}>
+        {(popupState) => (
+          <React.Fragment>
+            <Button {...bindToggle(popupState)}>Open Menu</Button>
+            <Popper data-testid="popper" {...bindPopper(popupState)}>
+              The popper content
+            </Popper>
+          </React.Fragment>
+        )}
+      </PopupState>
+    )
 
-    beforeEach(() => render.resetHistory())
+    it('passes correct props to bindToggle/bindPopper', async () => {
+      render(<PopperTest variant="popper" popupId="popper" />)
+      button = screen.getByRole('button')
+      popper = screen.queryByTestId('popper')
+      assert.strictEqual(button.getAttribute('aria-describedby'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), null)
+      assert.strictEqual(popper, null)
 
-    it('passes correct props to bindToggle/bindPopup', () => {
-      const wrapper = mount(
-        <PopupState variant="popper" popupId="popper">
-          {render}
-        </PopupState>
-      )
-      button = wrapper.find(Button)
-      popper = wrapper.find(Popper)
-      assert.strictEqual(render.args[0][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-describedby'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), undefined)
-      assert.strictEqual(button.prop('onClick'), render.args[0][0].toggle)
-      assert.strictEqual(popper.prop('id'), 'popper')
-      assert.strictEqual(popper.prop('open'), false)
-      assert.strictEqual(popper.prop('onClose'), undefined)
+      fireEvent.click(button)
+      popper = screen.getByTestId('popper')
+      assert.strictEqual(button.getAttribute('aria-describedby'), 'popper')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), null)
+      assert.strictEqual(popper.getAttribute('id'), 'popper')
 
-      button.simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      popper = wrapper.find(Popper)
-      assert.strictEqual(render.args[1][0].isOpen, true)
-      assert.strictEqual(button.prop('aria-describedby'), 'popper')
-      assert.strictEqual(button.prop('aria-haspopup'), undefined)
-      assert.strictEqual(button.prop('onClick'), render.args[1][0].toggle)
-      assert.strictEqual(popper.prop('id'), 'popper')
-      assert.strictEqual(popper.prop('anchorEl'), buttonRef)
-      assert.strictEqual(popper.prop('open'), true)
-      assert.strictEqual(popper.prop('onClose'), undefined)
-
-      button.simulate('click')
-      wrapper.update()
-      button = wrapper.find(Button)
-      popper = wrapper.find(Popper)
-      assert.strictEqual(render.args[2][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-describedby'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), undefined)
-      assert.strictEqual(button.prop('onClick'), render.args[2][0].toggle)
-      assert.strictEqual(popper.prop('id'), 'popper')
-      assert.strictEqual(popper.prop('open'), false)
-      assert.strictEqual(popper.prop('onClose'), undefined)
-    })
-  })
-  describe('bindHover/bindPopover', () => {
-    let buttonRef
-    let button
-    let popover
-    let content
-
-    const render = spy((popupState) => (
-      <React.Fragment>
-        <Button {...bindHover(popupState)} ref={(c) => (buttonRef = c)}>
-          Open Menu
-        </Button>
-        <Popover {...bindPopover(popupState)}>
-          <span ref={(c) => (content = c)}>The popover content</span>
-        </Popover>
-      </React.Fragment>
-    ))
-
-    beforeEach(() => render.resetHistory())
-
-    it('passes correct props to bindHover/bindPopover', () => {
-      const wrapper = mount(
-        <PopupState variant="popover" popupId="popover">
-          {render}
-        </PopupState>
-      )
-      button = wrapper.find(Button)
-      popover = wrapper.find(Popover)
-      assert.strictEqual(render.args[0][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseOver'), render.args[0][0].open)
-      assert.strictEqual(
-        button.prop('onMouseLeave'),
-        render.args[0][0].onMouseLeave
-      )
-      assert.strictEqual(popover.prop('id'), 'popover')
-      assert.strictEqual(popover.prop('open'), false)
-      assert.strictEqual(popover.prop('onClose'), render.args[0][0].close)
-
-      button.simulate('mouseover')
-      wrapper.update()
-      button = wrapper.find(Button)
-      popover = wrapper.find(Popover)
-      assert.strictEqual(render.args[1][0].isOpen, true)
-      assert.strictEqual(button.prop('aria-controls'), 'popover')
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseOver'), render.args[1][0].open)
-      assert.strictEqual(
-        button.prop('onMouseLeave'),
-        render.args[1][0].onMouseLeave
-      )
-      assert.strictEqual(popover.prop('id'), 'popover')
-      assert.strictEqual(popover.prop('anchorEl'), buttonRef)
-      assert.strictEqual(popover.prop('open'), true)
-      assert.strictEqual(popover.prop('onClose'), render.args[1][0].close)
-
-      button.simulate('mouseleave', { relatedTarget: content })
-      wrapper.update()
-      button = wrapper.find(Button)
-      popover = wrapper.find(Popover)
-      assert.strictEqual(button.prop('aria-controls'), 'popover')
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseOver'), render.args[1][0].open)
-      assert.strictEqual(
-        button.prop('onMouseLeave'),
-        render.args[1][0].onMouseLeave
-      )
-      assert.strictEqual(popover.prop('id'), 'popover')
-      assert.strictEqual(popover.prop('anchorEl'), buttonRef)
-      assert.strictEqual(popover.prop('open'), true)
-      assert.strictEqual(popover.prop('onClose'), render.args[1][0].close)
-
-      popover.simulate('mouseleave')
-      wrapper.update()
-      button = wrapper.find(Button)
-      popover = wrapper.find(Popover)
-      assert.strictEqual(render.args[2][0].isOpen, false)
-      assert.strictEqual(button.prop('aria-controls'), undefined)
-      assert.strictEqual(button.prop('aria-haspopup'), true)
-      assert.strictEqual(button.prop('onMouseOver'), render.args[2][0].open)
-      assert.strictEqual(
-        button.prop('onMouseLeave'),
-        render.args[2][0].onMouseLeave
-      )
-      assert.strictEqual(popover.prop('id'), 'popover')
-      assert.strictEqual(popover.prop('open'), false)
-      assert.strictEqual(popover.prop('onClose'), render.args[2][0].close)
+      await Promise.all([
+        waitForElementToBeRemoved(popper),
+        fireEvent.click(button),
+      ])
     })
   })
 })

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import Popover from '@mui/material/Popover'
-import { usePopupState, bindTrigger, bindPopover } from '../hooks'
+import { usePopupState, bindTrigger, bindPopover } from '../src/hooks'
 
 const PopoverPopupState = () => {
   const popupState = usePopupState({

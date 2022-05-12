@@ -2,7 +2,7 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import { usePopupState, bindTrigger, bindMenu } from '../hooks'
+import { usePopupState, bindTrigger, bindMenu } from '../src/hooks'
 
 const MenuPopupState = () => {
   const popupState = usePopupState({ variant: 'popover', popupId: 'demoMenu' })

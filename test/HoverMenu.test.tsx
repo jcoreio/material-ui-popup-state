@@ -1,8 +1,8 @@
 import * as React from 'react'
-import Menu from '../HoverMenu'
+import Menu from '../src/HoverMenu'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
-import PopupState, { bindHover, bindMenu } from '../'
+import PopupState, { bindHover, bindMenu } from '../src'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">

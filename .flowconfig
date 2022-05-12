@@ -6,6 +6,7 @@
 <PROJECT_ROOT>/node_modules/.*/fbjs/.*
 <PROJECT_ROOT>/node_modules/fbjs/.*
 <PROJECT_ROOT>/node_modules/.*/config-chain/.*
+<PROJECT_ROOT>/node_modules/.*/resolve/.*
 
 [include]
 ./src
