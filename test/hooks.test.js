@@ -155,11 +155,21 @@ describe('usePopupState', () => {
       assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
       assert.strictEqual(menu, null)
 
-      fireEvent.contextMenu(button)
+      fireEvent.contextMenu(button, {
+        clientX: 100,
+        clientY: 200,
+        screenX: 100,
+        screenY: 200,
+      })
       menu = screen.getByTestId('menu')
       assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
       assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
       assert.strictEqual(menu.getAttribute('id'), 'menu')
+      const { left, top } = getComputedStyle(
+        menu.querySelector('ul').parentElement
+      )
+      assert.strictEqual(left, '100px')
+      assert.strictEqual(top, '200px')
 
       await Promise.all([
         waitForElementToBeRemoved(menu),

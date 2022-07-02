@@ -219,6 +219,8 @@ connect components easily:
 - `bindDialog`: creates props to control a `Dialog` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
+  **NOTE**: `bindPopover`/`bindMenu` will position the Popover/Menu to the `contextmenu` event location. To position
+  using the `contextmenu` target element instead, pass `anchorReference="anchorEl"` after `{...bindPopover(popupState)}`/`{...bindMenu(popupState)}`.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
@@ -292,6 +294,7 @@ An object with the following properties:
 - `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open. If `open` is truthy, you must pass in an anchor element or an event with a `currentTarget`, otherwise the popup will not position properly and you will get a warning; MUI needs an anchor element to position the popup.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element
+- `anchorPosition`: the current anchor position
 - `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
   mouse event is used by default unless you have called `setAnchorEl`)
 - `popupId`: the `popupId` prop you passed to `PopupState`
@@ -498,6 +501,8 @@ connect components easily:
 - `bindDialog`: creates props to control a `Dialog` component.
 - `bindTrigger`: creates props for a component that opens the popup when clicked.
 - `bindContextMenu`: creates props for a component that opens the popup on when right clicked (`contextmenu` event).
+  **NOTE**: `bindPopover`/`bindMenu` will position the Popover/Menu to the `contextmenu` event location. To position
+  using the `contextmenu` target element instead, pass `anchorReference="anchorEl"` after `{...bindPopover(popupState)}`/`{...bindMenu(popupState)}`.
 - `bindToggle`: creates props for a component that toggles the popup when clicked.
 - `bindHover`: creates props for a component that opens the popup while hovered.
   **NOTE**: See [this guidance](#using-popover-and-menu-with-bindhover) if you are using `bindHover` with `Popover` or `Menu`.
@@ -565,6 +570,7 @@ props (exported as the `InjectedProps` type):
 - `setOpen(open, [eventOrAnchorEl])`: sets whether the popup is open.
 - `isOpen`: `true`/`false` if the popup is open/closed
 - `anchorEl`: the current anchor element
+- `anchorPosition`: the current anchor position
 - `setAnchorEl`: sets the anchor element (the `currentTarget` of the triggering
   mouse event is used by default unless you have called `setAnchorEl`)
 - `popupId`: the `popupId` prop you passed to `PopupState`

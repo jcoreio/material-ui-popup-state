@@ -15,6 +15,7 @@ jobs:
           command: |
             echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
             echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
+            echo "strict-peer-dependencies=false" >> ~/.npmrc
 
       # https://github.com/atlassian/react-beautiful-dnd/issues/1007#issuecomment-446415426
       - run:

@@ -13,6 +13,8 @@ function warn(key: string, message: string) {
 
 export type Variant = 'popover' | 'popper' | 'dialog'
 
+export type AnchorPosition = {| left: number, top: number |}
+
 export type PopupState = {|
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
@@ -25,11 +27,13 @@ export type PopupState = {|
   ) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
+  anchorPosition: ?AnchorPosition,
   setAnchorEl: (?HTMLElement) => any,
   setAnchorElUsed: boolean,
   popupId: ?string,
   variant: Variant,
   disableAutoFocus: boolean,
+  _openEventType: ?string,
   _childPopupState: ?PopupState,
   _setChildPopupState: (?PopupState) => void,
 |}
@@ -38,8 +42,10 @@ export type CoreState = {|
   isOpen: boolean,
   setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
+  anchorPosition: ?AnchorPosition,
   hovered: boolean,
   focused: boolean,
+  _openEventType: ?string,
   _childPopupState: ?PopupState,
   _deferNextOpen: boolean,
   _deferNextClose: boolean,
@@ -49,8 +55,10 @@ export const initCoreState: CoreState = {
   isOpen: false,
   setAnchorElUsed: false,
   anchorEl: null,
+  anchorPosition: null,
   hovered: false,
   focused: false,
+  _openEventType: null,
   _childPopupState: null,
   _deferNextOpen: false,
   _deferNextClose: false,
@@ -75,8 +83,10 @@ export function createPopupState({
     isOpen,
     setAnchorElUsed,
     anchorEl,
+    anchorPosition,
     hovered,
     focused,
+    _openEventType,
     _childPopupState,
     _deferNextOpen,
     _deferNextClose,
@@ -104,6 +114,12 @@ export function createPopupState({
     const eventType = eventOrAnchorEl && (eventOrAnchorEl: any).type
     const currentTarget =
       eventOrAnchorEl && (eventOrAnchorEl: any).currentTarget
+    const clientX = eventOrAnchorEl && (eventOrAnchorEl: any).clientX
+    const clientY = eventOrAnchorEl && (eventOrAnchorEl: any).clientY
+    const anchorPosition =
+      typeof clientX === 'number' && typeof clientY === 'number'
+        ? { left: clientX, top: clientY }
+        : null
 
     if (eventType === 'touchstart') {
       setState({ _deferNextOpen: true })
@@ -125,8 +141,10 @@ export function createPopupState({
 
       const newState: $Shape<CoreState> = {
         isOpen: true,
+        anchorPosition,
         hovered: eventType === 'mouseover' || hovered,
         focused: eventType === 'focus' || focused,
+        _openEventType: eventType,
       }
 
       if (currentTarget) {
@@ -203,6 +221,7 @@ export function createPopupState({
 
   const popupState = {
     anchorEl,
+    anchorPosition,
     setAnchorEl,
     setAnchorElUsed,
     popupId,
@@ -215,6 +234,7 @@ export function createPopupState({
     onBlur,
     onMouseLeave,
     disableAutoFocus: disableAutoFocus ?? Boolean(hovered || focused),
+    _openEventType,
     _childPopupState,
     _setChildPopupState,
   }
@@ -362,13 +382,17 @@ export function bindFocus(popupState: PopupState): {|
 export function bindPopover({
   isOpen,
   anchorEl,
+  anchorPosition,
   close,
   popupId,
   onMouseLeave,
   disableAutoFocus,
+  _openEventType,
 }: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
+  anchorPosition: ?AnchorPosition,
+  anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => void,
@@ -376,9 +400,12 @@ export function bindPopover({
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
 |} {
+  const useAnchorPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
+    anchorPosition,
+    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,
@@ -406,13 +433,17 @@ export function bindPopover({
 export function bindMenu({
   isOpen,
   anchorEl,
+  anchorPosition,
   close,
   popupId,
   onMouseLeave,
   disableAutoFocus,
+  _openEventType,
 }: PopupState): {|
   id: ?string,
-  anchorEl: ?HTMLElement,
+  anchorEl?: ?HTMLElement,
+  anchorPosition?: ?AnchorPosition,
+  anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => void,
@@ -422,9 +453,12 @@ export function bindMenu({
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
 |} {
+  const useAnchorPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
+    anchorPosition,
+    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,

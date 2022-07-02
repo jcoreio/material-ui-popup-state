@@ -2,6 +2,8 @@ import { SyntheticEvent, MouseEvent, TouchEvent, FocusEvent } from 'react'
 
 export type Variant = 'popover' | 'popper' | 'dialog'
 
+export type AnchorPosition = { left: number; top: number }
+
 export type PopupState = {
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
   close: () => void
@@ -13,11 +15,13 @@ export type PopupState = {
   ) => void
   isOpen: boolean
   anchorEl: HTMLElement | undefined
+  anchorPosition: AnchorPosition | null | undefined
   setAnchorEl: (anchorEl: HTMLElement) => any
   setAnchorElUsed: boolean
   disableAutoFocus: boolean
   popupId: string | undefined
   variant: Variant
+  _openEventType: string | null | undefined
   _childPopupState: PopupState | undefined
   _setChildPopupState: (popupState: PopupState | null | undefined) => void
 }
@@ -26,7 +30,9 @@ export type CoreState = {
   isOpen: boolean
   setAnchorElUsed: boolean
   anchorEl: HTMLElement | undefined
+  anchorPosition: AnchorPosition | null | undefined
   hovered: boolean
+  _openEventType: string | null | undefined
   _childPopupState: PopupState | undefined
   _deferNextOpen: boolean
   _deferNextClose: boolean
@@ -123,6 +129,8 @@ export function bindFocus(popupState: PopupState): ControlAriaProps & {
 export function bindPopover(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
+  anchorPosition: AnchorPosition | null | undefined
+  anchorReference: 'anchorEl' | 'anchorPosition'
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent<any>) => void
@@ -140,6 +148,8 @@ export function bindPopover(popupState: PopupState): {
 export function bindMenu(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
+  anchorPosition: AnchorPosition | null | undefined
+  anchorReference: 'anchorEl' | 'anchorPosition'
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent<any>) => void
