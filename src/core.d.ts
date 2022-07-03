@@ -1,8 +1,10 @@
 import { SyntheticEvent, MouseEvent, TouchEvent, FocusEvent } from 'react'
 
 export type Variant = 'popover' | 'popper' | 'dialog'
-
-export type AnchorPosition = { left: number; top: number }
+export interface AnchorPosition {
+  top: number
+  left: number
+}
 
 export type PopupState = {
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null) => void
@@ -129,7 +131,7 @@ export function bindFocus(popupState: PopupState): ControlAriaProps & {
 export function bindPopover(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
-  anchorPosition: AnchorPosition | null | undefined
+  anchorPosition: AnchorPosition | undefined
   anchorReference: 'anchorEl' | 'anchorPosition'
   open: boolean
   onClose: () => void
@@ -148,7 +150,7 @@ export function bindPopover(popupState: PopupState): {
 export function bindMenu(popupState: PopupState): {
   id: string | undefined
   anchorEl: HTMLElement | undefined
-  anchorPosition: AnchorPosition | null | undefined
+  anchorPosition: AnchorPosition | undefined
   anchorReference: 'anchorEl' | 'anchorPosition'
   open: boolean
   onClose: () => void

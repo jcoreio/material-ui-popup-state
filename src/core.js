@@ -27,7 +27,7 @@ export type PopupState = {|
   ) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
-  anchorPosition: ?AnchorPosition,
+  anchorPosition: AnchorPosition | void,
   setAnchorEl: (?HTMLElement) => any,
   setAnchorElUsed: boolean,
   popupId: ?string,
@@ -42,7 +42,7 @@ export type CoreState = {|
   isOpen: boolean,
   setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
-  anchorPosition: ?AnchorPosition,
+  anchorPosition: AnchorPosition | void,
   hovered: boolean,
   focused: boolean,
   _openEventType: ?string,
@@ -55,7 +55,7 @@ export const initCoreState: CoreState = {
   isOpen: false,
   setAnchorElUsed: false,
   anchorEl: null,
-  anchorPosition: null,
+  anchorPosition: undefined,
   hovered: false,
   focused: false,
   _openEventType: null,
@@ -119,7 +119,7 @@ export function createPopupState({
     const anchorPosition =
       typeof clientX === 'number' && typeof clientY === 'number'
         ? { left: clientX, top: clientY }
-        : null
+        : undefined
 
     if (eventType === 'touchstart') {
       setState({ _deferNextOpen: true })
@@ -391,7 +391,7 @@ export function bindPopover({
 }: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
-  anchorPosition: ?AnchorPosition,
+  anchorPosition: AnchorPosition | void,
   anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
@@ -442,7 +442,7 @@ export function bindMenu({
 }: PopupState): {|
   id: ?string,
   anchorEl?: ?HTMLElement,
-  anchorPosition?: ?AnchorPosition,
+  anchorPosition: AnchorPosition | void,
   anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
