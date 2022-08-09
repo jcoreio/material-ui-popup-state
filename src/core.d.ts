@@ -107,7 +107,7 @@ export function bindContextMenu(popupState: PopupState): ControlAriaProps & {
  */
 export function bindHover(popupState: PopupState): ControlAriaProps & {
   onTouchStart: (event: TouchEvent<any>) => void
-  onMouseEnter: (event: MouseEvent<any>) => void
+  onMouseOver: (event: MouseEvent<any>) => void
   onMouseLeave: (event: MouseEvent<any>) => void
 }
 
