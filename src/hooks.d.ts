@@ -9,6 +9,7 @@ import {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
   Variant,
   PopupState,
 } from './core'
@@ -24,6 +25,7 @@ export {
   bindMenu,
   bindPopover,
   bindPopper,
+  bindDialog,
   Variant,
   PopupState,
 }

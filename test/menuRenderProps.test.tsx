@@ -2,11 +2,11 @@ import * as React from 'react'
 import Button from '@mui/material/Button'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import PopupState, { bindTrigger, bindMenu } from '../'
+import PopupState, { bindTrigger, bindMenu } from '../src'
 
 const MenuPopupState = () => (
   <PopupState variant="popover" popupId="demoMenu">
-    {popupState => (
+    {(popupState) => (
       <React.Fragment>
         <Button variant="contained" {...bindTrigger(popupState)}>
           Open Menu

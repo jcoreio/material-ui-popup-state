@@ -3,6 +3,37 @@
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
+  "exports": {
+    ".": {
+      "import": "./es/index.js",
+      "require": "./index.js"
+    },
+    "./core": {
+      "import": "./es/core.js",
+      "require": "./core.js"
+    },
+    "./hooks": {
+      "import": "./es/hooks.js",
+      "require": "./hooks.js"
+    },
+    "./HoverMenu": {
+      "import": "./es/HoverMenu.js",
+      "require": "./HoverMenu.js"
+    },
+    "./HoverPopover": {
+      "import": "./es/HoverPopover.js",
+      "require": "./HoverPopover.js"
+    },
+    "./hoverWorkaround": {
+      "import": "./es/hoverWorkaround.js",
+      "require": "./hoverWorkaround.js"
+    },
+    "./package.json": "./package.json",
+    "./index": {
+      "import": "./es/index.js",
+      "require": "./index.js"
+    }
+  },
   "sideEffects": false,
   "scripts": {
     "lint": "eslint $npm_package_config_eslint",
@@ -48,7 +79,7 @@
     "trailingComma": "es5"
   },
   "config": {
-    "mocha": "-r @babel/register -r jsdom-global/register test/configure.js 'test/**/*.js'",
+    "mocha": "-r @babel/register -r global-jsdom/register test/configure.js 'test/**/*.js'",
     "eslint": "src test demo --cache",
     "prettier": "*.{json,md,js} {src,test,demo}/**/*.{js,ts}",
     "commitizen": {
@@ -108,9 +139,13 @@
     "@jedwards1211/eslint-config": "^2.0.2",
     "@jedwards1211/eslint-config-flow": "^3.0.0",
     "@jedwards1211/eslint-config-react": "^4.0.0",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/styles": "^5.0.0",
+    "@mui/types": "^7.1.3",
+    "@testing-library/react": "^13.2.0",
     "@types/classnames": "^2.2.9",
     "@types/prop-types": "^15.7.3",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "@types/react": "^18.0.9",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-istanbul": "^6.0.0",
@@ -118,7 +153,6 @@
     "codecov": "^3.8.1",
     "copy": "^0.3.2",
     "cross-env": "^7.0.3",
-    "enzyme": "^3.11.0",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-flowtype": "^5.2.0",
@@ -126,37 +160,37 @@
     "flow-bin": "^0.145.0",
     "flow-copy-source": "https://github.com/jedwards1211/flow-copy-source#no-watch",
     "gh-pages": "^2.0.1",
+    "global-jsdom": "^8.4.0",
     "husky": "^4.3.8",
     "istanbul": "^0.4.5",
     "jsdom": "^16.4.0",
-    "jsdom-global": "^3.0.2",
     "lint-staged": "^10.5.3",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
     "raw-loader": "^1.0.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.3.7",
     "sinon": "^6.1.4",
-    "typescript": "^4.1.3",
+    "typescript": "^4.6.4",
     "webpack": "^4.29.3",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.1.14"
   },
   "dependencies": {
     "@babel/runtime": "^7.12.5",
-    "@mui/icons-material": "^5.0.0",
     "@mui/material": "^5.0.0",
-    "@mui/styles": "^5.0.0",
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "@mui/material": "^5.0.0",
-    "react": "^15.0.0 || ^16.0.0 || ^17.0.0"
+    "react": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0"
+  },
+  "resolutions": {
+    "@mui/styles": "5.0.1"
   },
   "release": {
     "branches": [

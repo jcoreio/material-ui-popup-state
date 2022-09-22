@@ -17,6 +17,7 @@ import {
   bindPopover,
   bindPopper,
   bindDoubleClick,
+  bindDialog,
   type Variant,
   type CoreState,
   type PopupState as InjectedProps,
@@ -33,6 +34,7 @@ export {
   bindPopover,
   bindPopper,
   bindDoubleClick,
+  bindDialog,
 }
 export type { Variant, InjectedProps }
 

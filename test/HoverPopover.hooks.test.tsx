@@ -1,8 +1,8 @@
 import React from 'react'
 import Typography from '@mui/material/Typography'
-import Popover from '../HoverPopover'
+import Popover from '../src/HoverPopover'
 import Button from '@mui/material/Button'
-import { usePopupState, bindHover, bindPopover } from '../hooks'
+import { usePopupState, bindHover, bindPopover } from '../src/hooks'
 
 const HoverPopoverPopupState = () => {
   const popupState = usePopupState({

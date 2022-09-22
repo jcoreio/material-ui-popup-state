@@ -11,12 +11,15 @@ function warn(key: string, message: string) {
   console.error('[material-ui-popup-state] WARNING', message) // eslint-disable-line no-console
 }
 
-export type Variant = 'popover' | 'popper'
+export type Variant = 'popover' | 'popper' | 'dialog'
+
+export type AnchorPosition = {| left: number, top: number |}
 
 export type PopupState = {|
   open: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
   close: () => void,
   toggle: (eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement) => void,
+  onBlur: (event: SyntheticEvent<any>) => void,
   onMouseLeave: (event: SyntheticEvent<any>) => void,
   setOpen: (
     open: boolean,
@@ -24,11 +27,13 @@ export type PopupState = {|
   ) => void,
   isOpen: boolean,
   anchorEl: ?HTMLElement,
+  anchorPosition: AnchorPosition | void,
   setAnchorEl: (?HTMLElement) => any,
   setAnchorElUsed: boolean,
   popupId: ?string,
   variant: Variant,
   disableAutoFocus: boolean,
+  _openEventType: ?string,
   _childPopupState: ?PopupState,
   _setChildPopupState: (?PopupState) => void,
 |}
@@ -37,8 +42,10 @@ export type CoreState = {|
   isOpen: boolean,
   setAnchorElUsed: boolean,
   anchorEl: ?HTMLElement,
+  anchorPosition: AnchorPosition | void,
   hovered: boolean,
   focused: boolean,
+  _openEventType: ?string,
   _childPopupState: ?PopupState,
   _deferNextOpen: boolean,
   _deferNextClose: boolean,
@@ -48,8 +55,10 @@ export const initCoreState: CoreState = {
   isOpen: false,
   setAnchorElUsed: false,
   anchorEl: null,
+  anchorPosition: undefined,
   hovered: false,
   focused: false,
+  _openEventType: null,
   _childPopupState: null,
   _deferNextOpen: false,
   _deferNextClose: false,
@@ -65,7 +74,7 @@ export function createPopupState({
 }: {|
   state: CoreState,
   setState: ($Shape<CoreState>) => any,
-  popupId: ?string,
+  popupId?: ?string,
   variant: Variant,
   parentPopupState?: ?PopupState,
   disableAutoFocus?: ?boolean,
@@ -74,8 +83,10 @@ export function createPopupState({
     isOpen,
     setAnchorElUsed,
     anchorEl,
+    anchorPosition,
     hovered,
     focused,
+    _openEventType,
     _childPopupState,
     _deferNextOpen,
     _deferNextClose,
@@ -103,6 +114,12 @@ export function createPopupState({
     const eventType = eventOrAnchorEl && (eventOrAnchorEl: any).type
     const currentTarget =
       eventOrAnchorEl && (eventOrAnchorEl: any).currentTarget
+    const clientX = eventOrAnchorEl && (eventOrAnchorEl: any).clientX
+    const clientY = eventOrAnchorEl && (eventOrAnchorEl: any).clientY
+    const anchorPosition =
+      typeof clientX === 'number' && typeof clientY === 'number'
+        ? { left: clientX, top: clientY }
+        : undefined
 
     if (eventType === 'touchstart') {
       setState({ _deferNextOpen: true })
@@ -124,8 +141,10 @@ export function createPopupState({
 
       const newState: $Shape<CoreState> = {
         isOpen: true,
-        hovered: eventType === 'mouseover',
-        focused: eventType === 'focus',
+        anchorPosition,
+        hovered: eventType === 'mouseover' || hovered,
+        focused: eventType === 'focus' || focused,
+        _openEventType: eventType,
       }
 
       if (currentTarget) {
@@ -152,9 +171,6 @@ export function createPopupState({
       case 'touchstart':
         setState({ _deferNextClose: true })
         return
-      case 'blur':
-        if (isElementInPopup((arg: any)?.relatedTarget, popupState)) return
-        break
     }
     const doClose = () => {
       if (_childPopupState) _childPopupState.close()
@@ -181,7 +197,22 @@ export function createPopupState({
   const onMouseLeave = (event: SyntheticEvent<any>) => {
     const relatedTarget: any = (event: any).relatedTarget
     if (hovered && !isElementInPopup(relatedTarget, popupState)) {
-      close(event)
+      if (focused) {
+        setState({ hovered: false })
+      } else {
+        close(event)
+      }
+    }
+  }
+
+  const onBlur = (event: SyntheticEvent<any>) => {
+    const relatedTarget: any = (event: any).relatedTarget
+    if (focused && !isElementInPopup(relatedTarget, popupState)) {
+      if (hovered) {
+        setState({ focused: false })
+      } else {
+        close(event)
+      }
     }
   }
 
@@ -190,6 +221,7 @@ export function createPopupState({
 
   const popupState = {
     anchorEl,
+    anchorPosition,
     setAnchorEl,
     setAnchorElUsed,
     popupId,
@@ -199,8 +231,10 @@ export function createPopupState({
     close,
     toggle,
     setOpen,
+    onBlur,
     onMouseLeave,
     disableAutoFocus: disableAutoFocus ?? Boolean(hovered || focused),
+    _openEventType,
     _childPopupState,
     _setChildPopupState,
   }
@@ -220,27 +254,45 @@ export function anchorRef({ setAnchorEl }: PopupState): (?HTMLElement) => any {
   }
 }
 
+type ControlAriaProps = {|
+  'aria-controls'?: string,
+  'aria-describedby'?: string,
+  'aria-haspopup'?: true,
+|}
+
+function controlAriaProps({
+  isOpen,
+  open,
+  popupId,
+  variant,
+}: PopupState): ControlAriaProps {
+  return {
+    ...(variant === 'popover'
+      ? {
+          'aria-haspopup': true,
+          'aria-controls': isOpen && popupId != null ? popupId : undefined,
+        }
+      : variant === 'popper'
+      ? { 'aria-describedby': isOpen && popupId != null ? popupId : undefined }
+      : undefined),
+  }
+}
+
 /**
  * Creates props for a component that opens the popup when clicked.
  *
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindTrigger({ isOpen, open, popupId, variant }: PopupState): {|
-  'aria-controls'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': ?true,
-  onClick: (event: SyntheticEvent<any>) => void,
-  onTouchStart: (event: SyntheticEvent<any>) => void,
+export function bindTrigger(popupState: PopupState): {|
+  ...ControlAriaProps,
+  onClick: (event: SyntheticMouseEvent<any>) => void,
+  onTouchStart: (event: SyntheticTouchEvent<any>) => void,
 |} {
   return {
-    // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': variant === 'popover' ? true : undefined,
-    onClick: open,
-    onTouchStart: open,
+    ...controlAriaProps(popupState),
+    onClick: popupState.open,
+    onTouchStart: popupState.open,
   }
 }
 
@@ -250,26 +302,15 @@ export function bindTrigger({ isOpen, open, popupId, variant }: PopupState): {|
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindContextMenu({
-  isOpen,
-  open,
-  popupId,
-  variant,
-}: PopupState): {|
-  'aria-controls'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': ?true,
-  onContextMenu: (event: SyntheticEvent<any>) => void,
+export function bindContextMenu(popupState: PopupState): {|
+  ...ControlAriaProps,
+  onContextMenu: (event: SyntheticMouseEvent<any>) => void,
 |} {
   return {
-    // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': variant === 'popover' ? true : undefined,
+    ...controlAriaProps(popupState),
     onContextMenu: (e: SyntheticMouseEvent<any>) => {
       e.preventDefault()
-      open(e)
+      popupState.open(e)
     },
   }
 }
@@ -280,21 +321,15 @@ export function bindContextMenu({
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindToggle({ isOpen, toggle, popupId, variant }: PopupState): {|
-  'aria-controls'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': ?true,
-  onClick: (event: SyntheticEvent<any>) => void,
-  onTouchStart: (event: SyntheticEvent<any>) => void,
+export function bindToggle(popupState: PopupState): {|
+  ...ControlAriaProps,
+  onClick: (event: SyntheticMouseEvent<any>) => void,
+  onTouchStart: (event: SyntheticTouchEvent<any>) => void,
 |} {
   return {
-    // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': variant === 'popover' ? true : undefined,
-    onClick: toggle,
-    onTouchStart: toggle,
+    ...controlAriaProps(popupState),
+    onClick: popupState.toggle,
+    onTouchStart: popupState.toggle,
   }
 }
 
@@ -304,26 +339,15 @@ export function bindToggle({ isOpen, toggle, popupId, variant }: PopupState): {|
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindHover({
-  isOpen,
-  open,
-  onMouseLeave,
-  popupId,
-  variant,
-}: PopupState): {|
-  'aria-controls'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': ?true,
-  onTouchStart: (event: SyntheticMouseEvent<any>) => any,
+export function bindHover(popupState: PopupState): {|
+  ...ControlAriaProps,
+  onTouchStart: (event: SyntheticTouchEvent<any>) => any,
   onMouseOver: (event: SyntheticMouseEvent<any>) => any,
   onMouseLeave: (event: SyntheticMouseEvent<any>) => any,
 |} {
+  const { open, onMouseLeave } = popupState
   return {
-    // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': variant === 'popover' ? true : undefined,
+    ...controlAriaProps(popupState),
     onTouchStart: open,
     onMouseOver: open,
     onMouseLeave,
@@ -336,27 +360,16 @@ export function bindHover({
  * @param {object} popupState the argument passed to the child function of
  * `PopupState`
  */
-export function bindFocus({
-  isOpen,
-  open,
-  close,
-  popupId,
-  variant,
-}: PopupState): {|
-  'aria-controls'?: ?string,
-  'aria-describedby'?: ?string,
-  'aria-haspopup': ?true,
-  onFocus: (event: SyntheticEvent<any>) => any,
-  onBlur: (event: SyntheticEvent<any>) => any,
+export function bindFocus(popupState: PopupState): {|
+  ...ControlAriaProps,
+  onFocus: (event: SyntheticFocusEvent<any>) => any,
+  onBlur: (event: SyntheticFocusEvent<any>) => any,
 |} {
+  const { open, onBlur } = popupState
   return {
-    // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
-    'aria-haspopup': variant === 'popover' ? true : undefined,
+    ...controlAriaProps(popupState),
     onFocus: open,
-    onBlur: close,
+    onBlur,
   }
 }
 
@@ -396,23 +409,30 @@ export function bindDoubleClick({
 export function bindPopover({
   isOpen,
   anchorEl,
+  anchorPosition,
   close,
   popupId,
   onMouseLeave,
   disableAutoFocus,
+  _openEventType,
 }: PopupState): {|
   id: ?string,
   anchorEl: ?HTMLElement,
+  anchorPosition: AnchorPosition | void,
+  anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
+  onMouseLeave: (event: SyntheticMouseEvent<any>) => void,
   disableAutoFocus?: boolean,
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
 |} {
+  const useAnchorPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
+    anchorPosition,
+    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,
@@ -440,25 +460,32 @@ export function bindPopover({
 export function bindMenu({
   isOpen,
   anchorEl,
+  anchorPosition,
   close,
   popupId,
   onMouseLeave,
   disableAutoFocus,
+  _openEventType,
 }: PopupState): {|
   id: ?string,
-  anchorEl: ?HTMLElement,
+  anchorEl?: ?HTMLElement,
+  anchorPosition: AnchorPosition | void,
+  anchorReference: 'anchorEl' | 'anchorPosition',
   open: boolean,
   onClose: () => void,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
+  onMouseLeave: (event: SyntheticMouseEvent<any>) => void,
   autoFocus?: boolean,
   disableAutoFocusItem?: boolean,
   disableAutoFocus?: boolean,
   disableEnforceFocus?: boolean,
   disableRestoreFocus?: boolean,
 |} {
+  const useAnchorPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
+    anchorPosition,
+    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,
@@ -486,13 +513,29 @@ export function bindPopper({
   id: ?string,
   anchorEl: ?HTMLElement,
   open: boolean,
-  onMouseLeave: (event: SyntheticEvent<any>) => void,
+  onMouseLeave: (event: SyntheticMouseEvent<any>) => void,
 |} {
   return {
     id: popupId,
     anchorEl,
     open: isOpen,
     onMouseLeave,
+  }
+}
+
+/**
+ * Creates props for a `Dialog` component.
+ *
+ * @param {object} popupState the argument passed to the child function of
+ * `PopupState`
+ */
+export function bindDialog({ isOpen, close }: PopupState): {|
+  open: boolean,
+  onClose: (event: SyntheticEvent<any>) => any,
+|} {
+  return {
+    open: isOpen,
+    onClose: close,
   }
 }
 
