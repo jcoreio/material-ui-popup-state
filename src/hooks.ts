@@ -85,12 +85,12 @@ export function usePopupState({
 }): PopupState {
   const isMounted = useRef(true)
 
-  useEffect(
-    () => () => {
+  useEffect((): (() => void) => {
+    isMounted.current = true
+    return () => {
       isMounted.current = false
-    },
-    []
-  )
+    }
+  }, [])
 
   const [state, _setState] = useState(initCoreState)
 
