@@ -187,7 +187,16 @@ export function usePopupState({
     })
   })
 
-  const close = useCallback(
+  const doClose = (state: CoreState): CoreState => {
+    const { _childPopupState } = state
+    setTimeout(() => {
+      _childPopupState?.close()
+      parentPopupState?._setChildPopupState(null)
+    })
+    return { ...state, isOpen: false, hovered: false, focused: false }
+  }
+
+  const close = useEvent(
     (eventOrAnchorEl?: SyntheticEvent | Element | null) => {
       const event =
         eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
@@ -197,14 +206,6 @@ export function usePopupState({
         return
       }
 
-      const doClose = (state: CoreState): CoreState => {
-        const { _childPopupState } = state
-        setTimeout(() => {
-          _childPopupState?.close()
-          parentPopupState?._setChildPopupState(null)
-        })
-        return { ...state, isOpen: false, hovered: false, focused: false }
-      }
       setState((state: CoreState): CoreState => {
         if (state._deferNextClose) {
           setTimeout(() => setState(doClose), 0)
@@ -213,8 +214,7 @@ export function usePopupState({
           return doClose(state)
         }
       })
-    },
-    []
+    }
   )
 
   const setOpen = useCallback(
@@ -244,7 +244,7 @@ export function usePopupState({
         if (state.focused) {
           return { ...state, hovered: false }
         } else {
-          close(event)
+          return doClose(state)
         }
       }
       return state
@@ -265,7 +265,7 @@ export function usePopupState({
         if (state.hovered) {
           return { ...state, focused: false }
         } else {
-          close(event)
+          return doClose(state)
         }
       }
       return state
