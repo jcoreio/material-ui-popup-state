@@ -6,14 +6,15 @@ const prod = 'production' === process.env.NODE_ENV
 
 module.exports = {
   mode: prod ? 'production' : 'development',
-  entry: ['@babel/polyfill', './demo/index.js'],
+  entry: ['@babel/polyfill', path.resolve(__dirname, 'index.js')],
   output: {
-    path: path.join(__dirname, 'demo-dist'),
+    path: path.resolve(__dirname, '..', 'demo-dist'),
     filename: 'bundle.js',
   },
   resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.json'],
     alias: {
-      'material-ui-popup-state': path.join(__dirname, 'src'),
+      'material-ui-popup-state': path.resolve(__dirname, '..', 'src/'),
     },
   },
   module: {
@@ -24,21 +25,29 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: [
-              '@babel/plugin-transform-flow-strip-types',
-              '@babel/plugin-syntax-dynamic-import',
-              '@babel/plugin-proposal-export-default-from',
-              '@babel/plugin-proposal-export-namespace-from',
-              '@babel/plugin-proposal-object-rest-spread',
-              '@babel/plugin-proposal-class-properties',
-            ],
             presets: [
               [
                 '@babel/preset-env',
                 { targets: { browsers: 'last 2 versions' } },
               ],
               '@babel/preset-react',
-              '@babel/preset-flow',
+            ],
+          },
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                { targets: { browsers: 'last 2 versions' } },
+              ],
+              '@babel/preset-react',
+              '@babel/preset-typescript',
             ],
           },
         },
@@ -48,6 +57,8 @@ module.exports = {
   devServer: {
     port: 3000,
     host: '0.0.0.0',
-    contentBase: path.join(__dirname, 'demo'),
+    static: {
+      directory: __dirname,
+    },
   },
 }

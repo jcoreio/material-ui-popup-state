@@ -1,0 +1,40 @@
+// @flow
+
+import * as React from 'react'
+import {
+  anchorRef,
+  bindTrigger,
+  bindContextMenu,
+  bindToggle,
+  bindHover,
+  bindFocus,
+  bindMenu,
+  bindPopover,
+  bindPopper,
+  bindDoubleClick,
+  bindDialog,
+  type Variant,
+  type PopupState as InjectedProps,
+} from './hooks'
+export {
+  anchorRef,
+  bindTrigger,
+  bindContextMenu,
+  bindToggle,
+  bindHover,
+  bindFocus,
+  bindMenu,
+  bindPopover,
+  bindPopper,
+  bindDoubleClick,
+  bindDialog,
+}
+export type { Variant, InjectedProps }
+export type Props = {|
+  popupId?: string,
+  children: (props: InjectedProps) => React.Node | null,
+  variant: Variant,
+  parentPopupState?: InjectedProps | null,
+  disableAutoFocus?: boolean | null,
+|}
+declare export default function PopupState(props: Props): React.Node

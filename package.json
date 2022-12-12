@@ -3,38 +3,41 @@
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
   "main": "index.js",
+  "types": "index.d.ts",
+  "sideEffects": false,
   "exports": {
     ".": {
-      "import": "./es/index.js",
+      "types": "./es/index.d.mts",
+      "import": "./es/index.mjs",
       "require": "./index.js"
     },
-    "./core": {
-      "import": "./es/core.js",
-      "require": "./core.js"
-    },
     "./hooks": {
-      "import": "./es/hooks.js",
+      "types": "./es/hooks.mts",
+      "import": "./es/hooks.mjs",
       "require": "./hooks.js"
     },
     "./HoverMenu": {
-      "import": "./es/HoverMenu.js",
+      "types": "./es/HoverMenu.d.mts",
+      "import": "./es/HoverMenu.mjs",
       "require": "./HoverMenu.js"
     },
     "./HoverPopover": {
-      "import": "./es/HoverPopover.js",
+      "types": "./es/HoverPopover.d.mts",
+      "import": "./es/HoverPopover.mjs",
       "require": "./HoverPopover.js"
     },
     "./hoverWorkaround": {
-      "import": "./es/hoverWorkaround.js",
+      "types": "./es/hoverWorkaround.d.mts",
+      "import": "./es/hoverWorkaround.mjs",
       "require": "./hoverWorkaround.js"
     },
     "./package.json": "./package.json",
     "./index": {
-      "import": "./es/index.js",
+      "types": "./es/index.d.mts",
+      "import": "./es/index.mjs",
       "require": "./index.js"
     }
   },
-  "sideEffects": false,
   "scripts": {
     "lint": "eslint $npm_package_config_eslint",
     "lint:fix": "eslint --fix $npm_package_config_eslint",
@@ -42,23 +45,25 @@
     "prettier:check": "prettier --list-different $npm_package_config_prettier",
     "flow": "flow",
     "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "clean": "rimraf demo-dist es lib $(cd src; ls) *.js.flow *.d.ts",
-    "build": "npm run clean && babel src --out-dir es && flow-copy-source -v src/ es && copy src/**/*.d.ts es && cross-env BABEL_ENV=es5 babel src --out-dir . && flow-copy-source -v src/ . && copy src/**/*.d.ts .",
+    "clean": "rimraf demo-dist es lib $(cd src; ls) *.js *.js.flow *.d.ts",
+    "build": "npm run clean && npm run build:cjs && npm run build:mjs",
+    "build:cjs": "rimraf $(cd src; ls) *.js *.js.flow *.d.ts && cross-env BABEL_ENV=es5 babel src --extensions .ts,.tsx --out-dir . && tsc && copy 'src/**/*.js.flow' .",
+    "build:mjs": "cross-env OUTPUT_ESM=1 babel src --extensions .ts,.tsx --out-dir es --delete-dir-on-start --out-file-extension .mjs && tsc --outDir es && babel-node --extensions .ts scripts/copyMjsFlow.ts",
     "test": "cross-env NODE_ENV=test BABEL_ENV=es5 mocha $npm_package_config_mocha && cross-env NODE_ENV=test BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
-    "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch $npm_package_config_mocha",
+    "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch --watch-files 'src/**/*.ts' --watch-files 'src/**/*.tsx' --watch-files 'test/**/*.ts' --watch-files 'test/**/*.tsx' --watch-files 'test/**/*.js' $npm_package_config_mocha",
     "test:debug": "cross-env NODE_ENV=test BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
     "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc && npm test && npm run build",
+    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc --emitDeclarationOnly false --noEmit && npm test && npm run build",
     "open:coverage": "open coverage/lcov-report/index.html",
     "semantic-release": "semantic-release",
-    "start": "webpack-dev-server",
-    "build:demo": "rimraf demo-dist && cross-env NODE_ENV=production BABEL_ENV=es5 webpack && (cd demo; copy index.html ../demo-dist/) && copy .circleci/config.yml demo-dist/",
+    "start": "webpack-dev-server --config demo/webpack.config.js",
+    "build:demo": "rimraf demo-dist && cross-env NODE_ENV=production BABEL_ENV=es5 webpack --config demo/webpack.config.js && (cd demo; copy index.html ../demo-dist/) && copy .circleci/config.yml demo-dist/",
     "predeploy": "yarn build:demo",
     "deploy": "gh-pages -d demo-dist --dotfiles"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run lint && flow && tsc",
+      "pre-commit": "lint-staged && npm run lint && flow && tsc --emitDeclarationOnly false --noEmit",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
       "pre-push": "npm test"
     }
@@ -79,19 +84,17 @@
     "trailingComma": "es5"
   },
   "config": {
-    "mocha": "-r @babel/register -r global-jsdom/register test/configure.js 'test/**/*.js'",
-    "eslint": "src test demo --cache",
-    "prettier": "*.{json,md,js} {src,test,demo}/**/*.{js,ts}",
+    "mocha": "-r @babel/register -r global-jsdom/register test/configure.js 'test/**/*.{js,tsx}'",
+    "eslint": "src test demo scripts --cache",
+    "prettier": "*.{json,md,js} {src,test,demo,scripts}/**/*.{js,ts}",
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
   },
   "nyc": {
     "include": [
-      "src/**/*.js"
-    ],
-    "require": [
-      "@babel/register"
+      "src/**/*.ts",
+      "src/**/*.tsx"
     ],
     "sourceMap": false,
     "instrument": false
@@ -116,39 +119,42 @@
   },
   "homepage": "https://github.com/jcoreio/material-ui-popup-state#readme",
   "devDependencies": {
-    "@babel/cli": "^7.12.10",
-    "@babel/core": "^7.12.10",
-    "@babel/eslint-parser": "^7.12.13",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-export-default-from": "^7.12.1",
-    "@babel/plugin-proposal-export-namespace-from": "^7.12.1",
-    "@babel/plugin-proposal-object-rest-spread": "^7.12.1",
-    "@babel/plugin-proposal-optional-chaining": "^7.10.3",
-    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
-    "@babel/plugin-transform-runtime": "^7.12.10",
-    "@babel/polyfill": "^7.2.5",
-    "@babel/preset-env": "^7.12.11",
-    "@babel/preset-flow": "^7.12.1",
-    "@babel/preset-react": "^7.12.10",
-    "@babel/register": "^7.12.10",
+    "@babel/cli": "^7.19.3",
+    "@babel/core": "^7.20.5",
+    "@babel/eslint-parser": "^7.19.1",
+    "@babel/node": "^7.20.5",
+    "@babel/plugin-transform-runtime": "^7.19.6",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-flow": "^7.18.6",
+    "@babel/preset-react": "^7.18.6",
+    "@babel/preset-typescript": "^7.18.6",
+    "@babel/register": "^7.18.9",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
-    "@emotion/react": "^11.0.0",
-    "@emotion/styled": "^11.0.0",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@jedwards1211/commitlint-config": "^1.0.2",
     "@jedwards1211/eslint-config": "^2.0.2",
     "@jedwards1211/eslint-config-flow": "^3.0.0",
     "@jedwards1211/eslint-config-react": "^4.0.0",
-    "@mui/icons-material": "^5.0.0",
-    "@mui/styles": "^5.0.0",
-    "@mui/types": "^7.1.3",
-    "@testing-library/react": "^13.2.0",
+    "@jedwards1211/eslint-config-typescript": "^2.0.2",
+    "@mui/icons-material": "^5.10.16",
+    "@mui/styles": "5.10.16",
+    "@mui/types": "^7.2.2",
+    "@testing-library/react": "^13.4.0",
     "@types/classnames": "^2.2.9",
+    "@types/glob": "^8.0.0",
+    "@types/node": "^18.11.13",
     "@types/prop-types": "^15.7.3",
-    "@types/react": "^18.0.9",
+    "@types/react": "^18.0.26",
+    "@typescript-eslint/eslint-plugin": "^5.46.0",
+    "@typescript-eslint/parser": "^5.46.0",
+    "@typescript-eslint/typescript-estree": "^5.46.0",
+    "astx": "^2.1.3",
     "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.0.5",
-    "babel-plugin-istanbul": "^6.0.0",
+    "babel-loader": "^9.1.0",
+    "babel-plugin-istanbul": "^6.1.1",
     "chai": "^4.2.0",
     "codecov": "^3.8.1",
     "copy": "^0.3.2",
@@ -160,37 +166,35 @@
     "flow-bin": "^0.145.0",
     "flow-copy-source": "https://github.com/jedwards1211/flow-copy-source#no-watch",
     "gh-pages": "^2.0.1",
+    "glob": "^8.0.3",
     "global-jsdom": "^8.4.0",
     "husky": "^4.3.8",
     "istanbul": "^0.4.5",
     "jsdom": "^16.4.0",
     "lint-staged": "^10.5.3",
-    "mocha": "^8.2.1",
+    "mocha": "^10.2.0",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1",
     "prettier-eslint": "^12.0.0",
-    "raw-loader": "^1.0.0",
+    "raw-loader": "^4.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "rimraf": "^3.0.2",
     "semantic-release": "^17.3.7",
     "sinon": "^6.1.4",
-    "typescript": "^4.6.4",
-    "webpack": "^4.29.3",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14"
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.12.5",
+    "@babel/runtime": "^7.20.6",
     "@mui/material": "^5.0.0",
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "react": "^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0"
-  },
-  "resolutions": {
-    "@mui/styles": "5.0.1"
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
   "release": {
     "branches": [

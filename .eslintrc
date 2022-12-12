@@ -1,13 +1,4 @@
 {
-  "extends": [
-    "@jedwards1211/eslint-config-react",
-    "@jedwards1211/eslint-config-flow",
-    "prettier",
-    "prettier/babel",
-    "prettier/flowtype",
-    "prettier/react"
-  ],
-  "parser": "@babel/eslint-parser",
   "env": {
     "shared-node-browser": true,
     "es2017": true
@@ -18,5 +9,29 @@
       "version": "detect",
       "flowVersion": "detect"
     }
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "extends": [
+        "@jedwards1211/eslint-config-react",
+        "@jedwards1211/eslint-config-flow",
+        "prettier"
+      ],
+      "parser": "@babel/eslint-parser"
+    },
+    {
+      "files": ["*.ts", "*.tsx"],
+      "extends": [
+        "@jedwards1211/eslint-config-react",
+        "@jedwards1211/eslint-config-typescript",
+        "prettier"
+      ],
+      "plugins": ["@typescript-eslint/eslint-plugin"],
+      "parser": "@typescript-eslint/parser",
+      "rules": {
+        "@typescript-eslint/no-explicit-any": 0
+      }
+    }
+  ]
 }

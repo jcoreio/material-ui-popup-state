@@ -15,16 +15,17 @@ Also provides a [Render Props Component](https://reactjs.org/docs/render-props.h
 keeps track of the local state for a single popup, and passes the state and
 mutation functions to a child render function.
 
-# Using MUI v4?
+# Requirements
 
-For MUI v4 you'll need `material-ui-popup-state@^1.9.3`. Use `^2.0.0` and up for MUI v5.
+Requires MUI >= 5.0.0 and React >= 16.8.0.
+For MUI v4 you'll need `material-ui-popup-state@^1.9.3`.
 
 # Table of Contents
 
 <!-- toc -->
 
 - [material-ui-popup-state](#material-ui-popup-state)
-- [Using MUI v4?](#using-mui-v4)
+- [Requirements](#requirements)
 - [Table of Contents](#table-of-contents)
 - [Installation](#installation)
 - [Examples with React Hooks](#examples-with-react-hooks)
