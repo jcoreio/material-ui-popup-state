@@ -12,7 +12,7 @@ const DoubleClickPoperPopupState = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
     {(popupState) => (
       <ClickAwayListener onClickAway={popupState.close}>
-        <Button {...bindDoubleClick(popupState)} variant="text">
+        <Button {...bindDoubleClick(popupState)} variant="contained">
           Double click to open poper
         </Button>
         <Popover

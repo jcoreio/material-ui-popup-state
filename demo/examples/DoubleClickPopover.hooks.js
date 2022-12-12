@@ -16,7 +16,7 @@ const DoubleClickPoperPopupState = ({ classes }) => {
 
   return (
     <div>
-      <Button {...bindDoubleClick(popupState)} variant="text">
+      <Button {...bindDoubleClick(popupState)} variant="contained">
         Double click to open poper
       </Button>
       <Popover
