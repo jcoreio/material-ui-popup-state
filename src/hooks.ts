@@ -585,17 +585,24 @@ export function bindDialog({ isOpen, close }: PopupState): {
   }
 }
 
-function getPopup({ popupId }: PopupState): Element | null | undefined {
-  return popupId && typeof document !== 'undefined'
-    ? document.getElementById(popupId) // eslint-disable-line no-undef
-    : null
+function getPopup(
+  element: Element,
+  { popupId }: PopupState
+): Element | null | undefined {
+  if (!popupId) return null
+  const rootNode: any =
+    typeof element.getRootNode === 'function' ? element.getRootNode() : document
+  if (typeof rootNode.getElementById === 'function') {
+    return rootNode.getElementById(popupId)
+  }
+  return null
 }
 
 function isElementInPopup(element: Element, popupState: PopupState): boolean {
   const { anchorEl, _childPopupState } = popupState
   return (
     isAncestor(anchorEl, element) ||
-    isAncestor(getPopup(popupState), element) ||
+    isAncestor(getPopup(element, popupState), element) ||
     (_childPopupState != null && isElementInPopup(element, _childPopupState))
   )
 }
