@@ -7,6 +7,8 @@ import {
   FocusEvent,
   useCallback,
   useState,
+  useRef,
+  useEffect,
 } from 'react'
 import { PopoverPosition, PopoverReference } from '@mui/material'
 import { useEvent } from './useEvent'
@@ -81,21 +83,31 @@ export function usePopupState({
   variant: Variant
   disableAutoFocus?: boolean | null | undefined
 }): PopupState {
-  const [state, setState] = useState(initCoreState)
+  const isMounted = useRef(true)
 
-  const mergeState = useCallback(
-    (updates: Partial<CoreState>) =>
-      setState((state) => ({ ...state, ...updates })),
+  useEffect(
+    () => () => {
+      isMounted.current = false
+    },
+    []
+  )
+
+  const [state, _setState] = useState(initCoreState)
+
+  const setState = useCallback(
+    (state: CoreState | ((prevState: CoreState) => CoreState)) => {
+      if (isMounted.current) _setState(state)
+    },
     []
   )
 
   const setAnchorEl = useCallback(
     (anchorEl: Element | null | undefined) =>
-      mergeState({
+      setState((state) => ({
         ...state,
         setAnchorElUsed: true,
         anchorEl: anchorEl ?? undefined,
-      }),
+      })),
     []
   )
 
@@ -121,7 +133,7 @@ export function usePopupState({
         : undefined
 
     if (event?.type === 'touchstart') {
-      mergeState({ _deferNextOpen: true })
+      setState((state) => ({ ...state, _deferNextOpen: true }))
       return
     }
 
@@ -179,11 +191,9 @@ export function usePopupState({
     (eventOrAnchorEl?: SyntheticEvent | Element | null) => {
       const event =
         eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
-      const element =
-        eventOrAnchorEl instanceof Element ? eventOrAnchorEl : undefined
 
       if (event?.type === 'touchstart') {
-        mergeState({ _deferNextClose: true })
+        setState((state) => ({ ...state, _deferNextClose: true }))
         return
       }
 
@@ -264,7 +274,7 @@ export function usePopupState({
 
   const _setChildPopupState = useCallback(
     (_childPopupState: PopupState | null | undefined) =>
-      mergeState({ _childPopupState }),
+      setState((state) => ({ ...state, _childPopupState })),
     []
   )
 
