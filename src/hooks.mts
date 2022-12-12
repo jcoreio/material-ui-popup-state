@@ -8,7 +8,7 @@ import {
   useCallback,
   useState,
 } from 'react'
-import { useEvent } from './useEvent'
+import { useEvent } from './useEvent.mjs'
 
 const printedWarnings: Record<string, boolean> = {}
 

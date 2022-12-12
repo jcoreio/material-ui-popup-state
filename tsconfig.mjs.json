@@ -3,7 +3,6 @@
   "compilerOptions": {
     "target": "ES2019",
     "module": "ESNext",
-    "outDir": "./es",
-    "jsx": "react"
+    "outDir": "./es"
   }
 }
