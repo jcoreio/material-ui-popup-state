@@ -1,5 +1,5 @@
 {
-  "include": ["./src/**/*.mts", "./src/**/*.mtsx"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     /* Basic Options */

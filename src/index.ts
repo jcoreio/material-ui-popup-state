@@ -14,7 +14,7 @@ import {
   bindDialog,
   Variant,
   PopupState as InjectedProps,
-} from './hooks.mjs'
+} from './hooks'
 
 export {
   anchorRef,
