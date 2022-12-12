@@ -111,15 +111,12 @@ export function usePopupState({
     []
   )
 
-  const toggle = useCallback(
+  const toggle = useEvent(
     (eventOrAnchorEl?: SyntheticEvent | Element | null) => {
-      setState((state: CoreState): CoreState => {
-        if (state.isOpen) close(eventOrAnchorEl)
-        else open(eventOrAnchorEl)
-        return state
-      })
-    },
-    []
+      if (state.isOpen) close(eventOrAnchorEl)
+      else open(eventOrAnchorEl)
+      return state
+    }
   )
 
   const open = useEvent((eventOrAnchorEl?: SyntheticEvent | Element | null) => {
