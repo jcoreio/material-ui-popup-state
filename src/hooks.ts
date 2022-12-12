@@ -22,19 +22,19 @@ function warn(key: string, message: string) {
 export type Variant = 'popover' | 'popper' | 'dialog'
 
 export type PopupState = {
-  open: (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => void
+  open: (eventOrAnchorEl?: SyntheticEvent | Element | null) => void
   close: () => void
-  toggle: (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => void
+  toggle: (eventOrAnchorEl?: SyntheticEvent | Element | null) => void
   onBlur: (event: FocusEvent) => void
   onMouseLeave: (event: MouseEvent) => void
   setOpen: (
     open: boolean,
-    eventOrAnchorEl?: SyntheticEvent | HTMLElement | null
+    eventOrAnchorEl?: SyntheticEvent | Element | null
   ) => void
   isOpen: boolean
-  anchorEl: HTMLElement | null | undefined
+  anchorEl: Element | undefined
   anchorPosition: PopoverPosition | undefined
-  setAnchorEl: (anchorEl: HTMLElement | null | undefined) => any
+  setAnchorEl: (anchorEl: Element | null | undefined) => any
   setAnchorElUsed: boolean
   disableAutoFocus: boolean
   popupId: string | undefined
@@ -47,7 +47,7 @@ export type PopupState = {
 export type CoreState = {
   isOpen: boolean
   setAnchorElUsed: boolean
-  anchorEl: HTMLElement | null | undefined
+  anchorEl: Element | undefined
   anchorPosition: PopoverPosition | undefined
   hovered: boolean
   focused: boolean
@@ -60,7 +60,7 @@ export type CoreState = {
 export const initCoreState: CoreState = {
   isOpen: false,
   setAnchorElUsed: false,
-  anchorEl: null,
+  anchorEl: undefined,
   anchorPosition: undefined,
   hovered: false,
   focused: false,
@@ -90,13 +90,17 @@ export function usePopupState({
   )
 
   const setAnchorEl = useCallback(
-    (anchorEl: HTMLElement | null | undefined) =>
-      mergeState({ ...state, setAnchorElUsed: true, anchorEl }),
+    (anchorEl: Element | null | undefined) =>
+      mergeState({
+        ...state,
+        setAnchorElUsed: true,
+        anchorEl: anchorEl ?? undefined,
+      }),
     []
   )
 
   const toggle = useCallback(
-    (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => {
+    (eventOrAnchorEl?: SyntheticEvent | Element | null) => {
       setState((state: CoreState): CoreState => {
         if (state.isOpen) close(eventOrAnchorEl)
         else open(eventOrAnchorEl)
@@ -106,71 +110,73 @@ export function usePopupState({
     []
   )
 
-  const open = useEvent(
-    (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => {
-      const event =
-        eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
-      const element =
-        eventOrAnchorEl instanceof Element ? eventOrAnchorEl : undefined
+  const open = useEvent((eventOrAnchorEl?: SyntheticEvent | Element | null) => {
+    const event =
+      eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
+    const element =
+      eventOrAnchorEl instanceof Element
+        ? eventOrAnchorEl
+        : eventOrAnchorEl?.currentTarget instanceof Element
+        ? eventOrAnchorEl.currentTarget
+        : undefined
 
-      if (event?.type === 'touchstart') {
-        mergeState({ _deferNextOpen: true })
-        return
-      }
-
-      const clientX = (event as MouseEvent | undefined)?.clientX
-      const clientY = (event as MouseEvent | undefined)?.clientY
-      const anchorPosition =
-        typeof clientX === 'number' && typeof clientY === 'number'
-          ? { left: clientX, top: clientY }
-          : undefined
-
-      const doOpen = (state: CoreState): CoreState => {
-        if (!eventOrAnchorEl && !state.setAnchorElUsed) {
-          warn(
-            'missingEventOrAnchorEl',
-            'eventOrAnchorEl should be defined if setAnchorEl is not used'
-          )
-        }
-
-        if (parentPopupState) {
-          if (!parentPopupState.isOpen) return state
-          parentPopupState._setChildPopupState(popupState)
-        }
-
-        const newState: CoreState = {
-          ...state,
-          isOpen: true,
-          anchorPosition,
-          hovered: event?.type === 'mouseover' || state.hovered,
-          focused: event?.type === 'focus' || state.focused,
-          _openEventType: event?.type,
-        }
-
-        if (event?.currentTarget) {
-          if (!state.setAnchorElUsed) {
-            newState.anchorEl = event?.currentTarget as any
-          }
-        } else if (element) {
-          newState.anchorEl = element
-        }
-
-        return newState
-      }
-
-      setState((state: CoreState): CoreState => {
-        if (state._deferNextOpen) {
-          setTimeout(() => setState(doOpen), 0)
-          return { ...state, _deferNextOpen: false }
-        } else {
-          return doOpen(state)
-        }
-      })
+    if (event?.type === 'touchstart') {
+      mergeState({ _deferNextOpen: true })
+      return
     }
-  )
+
+    const clientX = (event as MouseEvent | undefined)?.clientX
+    const clientY = (event as MouseEvent | undefined)?.clientY
+    const anchorPosition =
+      typeof clientX === 'number' && typeof clientY === 'number'
+        ? { left: clientX, top: clientY }
+        : undefined
+
+    const doOpen = (state: CoreState): CoreState => {
+      if (!eventOrAnchorEl && !state.setAnchorElUsed) {
+        warn(
+          'missingEventOrAnchorEl',
+          'eventOrAnchorEl should be defined if setAnchorEl is not used'
+        )
+      }
+
+      if (parentPopupState) {
+        if (!parentPopupState.isOpen) return state
+        setTimeout(() => parentPopupState._setChildPopupState(popupState))
+      }
+
+      const newState: CoreState = {
+        ...state,
+        isOpen: true,
+        anchorPosition,
+        hovered: event?.type === 'mouseover' || state.hovered,
+        focused: event?.type === 'focus' || state.focused,
+        _openEventType: event?.type,
+      }
+
+      if (event?.currentTarget) {
+        if (!state.setAnchorElUsed) {
+          newState.anchorEl = event?.currentTarget as any
+        }
+      } else if (element) {
+        newState.anchorEl = element
+      }
+
+      return newState
+    }
+
+    setState((state: CoreState): CoreState => {
+      if (state._deferNextOpen) {
+        setTimeout(() => setState(doOpen), 0)
+        return { ...state, _deferNextOpen: false }
+      } else {
+        return doOpen(state)
+      }
+    })
+  })
 
   const close = useCallback(
-    (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => {
+    (eventOrAnchorEl?: SyntheticEvent | Element | null) => {
       const event =
         eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
       const element =
@@ -182,8 +188,11 @@ export function usePopupState({
       }
 
       const doClose = (state: CoreState): CoreState => {
-        state._childPopupState?.close()
-        parentPopupState?._setChildPopupState(null)
+        const { _childPopupState } = state
+        setTimeout(() => {
+          _childPopupState?.close()
+          parentPopupState?._setChildPopupState(null)
+        })
         return { ...state, isOpen: false, hovered: false, focused: false }
       }
       setState((state: CoreState): CoreState => {
@@ -201,7 +210,7 @@ export function usePopupState({
   const setOpen = useCallback(
     (
       nextOpen: boolean,
-      eventOrAnchorEl?: SyntheticEvent<any> | HTMLElement | null
+      eventOrAnchorEl?: SyntheticEvent<any> | Element | null
     ) => {
       if (nextOpen) {
         open(eventOrAnchorEl)
@@ -286,7 +295,7 @@ export function usePopupState({
  */
 export function anchorRef({
   setAnchorEl,
-}: PopupState): (el: HTMLElement | null | null | undefined) => any {
+}: PopupState): (el: Element | null | null | undefined) => any {
   return setAnchorEl
 }
 
@@ -447,7 +456,7 @@ export function bindPopover({
   _openEventType,
 }: PopupState): {
   id?: string
-  anchorEl?: HTMLElement | null
+  anchorEl?: Element | null
   anchorPosition?: PopoverPosition
   anchorReference: PopoverReference
   open: boolean
@@ -498,7 +507,7 @@ export function bindMenu({
   _openEventType,
 }: PopupState): {
   id?: string
-  anchorEl?: HTMLElement | null
+  anchorEl?: Element | null
   anchorPosition?: PopoverPosition
   anchorReference: PopoverReference
   open: boolean
@@ -541,7 +550,7 @@ export function bindPopper({
   onMouseLeave,
 }: PopupState): {
   id?: string
-  anchorEl?: HTMLElement | null
+  anchorEl?: Element | null
   open: boolean
   onMouseLeave: (event: MouseEvent) => void
 } {
@@ -569,7 +578,7 @@ export function bindDialog({ isOpen, close }: PopupState): {
   }
 }
 
-function getPopup({ popupId }: PopupState): HTMLElement | null | undefined {
+function getPopup({ popupId }: PopupState): Element | null | undefined {
   return popupId && typeof document !== 'undefined'
     ? document.getElementById(popupId) // eslint-disable-line no-undef
     : null
