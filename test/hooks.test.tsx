@@ -1,5 +1,3 @@
-// @flow
-
 import * as React from 'react'
 import { assert } from 'chai'
 import {
@@ -27,6 +25,7 @@ import {
   bindFocus,
   bindHover,
   bindContextMenu,
+  PopupState,
 } from '../src/hooks'
 import { afterEach, beforeEach, describe, it } from 'mocha'
 
@@ -46,11 +45,11 @@ describe('usePopupState', () => {
     let button
     let menu
 
-    const popupStates = []
+    const popupStates: PopupState[] = []
 
     beforeEach(() => (popupStates.length = 0))
 
-    const MenuTest = (): React.Node => {
+    const MenuTest = (): React.ReactElement => {
       const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
       popupStates.push(popupState)
       return (
@@ -117,7 +116,7 @@ describe('usePopupState', () => {
       assert.strictEqual(popupStates[2].isOpen, false)
     })
     it('setOpen works', async () => {
-      render(<MenuTest variant="popover" popupId="menu" />)
+      render(<MenuTest />)
 
       await waitForTruthy(() => popupStates[0])
       popupStates[0].setOpen(true, buttonRef)
@@ -133,7 +132,7 @@ describe('usePopupState', () => {
     let button
     let menu
 
-    const MenuTest = (): React.Node => {
+    const MenuTest = (): React.ReactElement => {
       const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
       return (
         <React.Fragment>
@@ -183,7 +182,7 @@ describe('usePopupState', () => {
     let input
     let popover
 
-    const MenuTest = (): React.Node => {
+    const MenuTest = (): React.ReactElement => {
       const popupState = usePopupState({
         popupId: 'info',
         variant: 'popover',
@@ -227,7 +226,7 @@ describe('usePopupState', () => {
     let button
     let popover
 
-    function TestComp(): React.Node {
+    function TestComp(): React.ReactElement {
       const popupState = usePopupState({
         variant: 'popover',
         popupId: 'popover',
@@ -275,7 +274,7 @@ describe('usePopupState', () => {
     let input
     let popover
 
-    const MenuTest = (): React.Node => {
+    const MenuTest = (): React.ReactElement => {
       const popupState = usePopupState({
         popupId: 'info',
         variant: 'popover',
@@ -352,7 +351,7 @@ describe('usePopupState', () => {
     let button
     let menu
 
-    const MenuTest = (): React.Node => {
+    const MenuTest = (): React.ReactElement => {
       const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
       return (
         <React.Fragment>
@@ -394,7 +393,7 @@ describe('usePopupState', () => {
     let button
     let popper
 
-    const PopperTest = (): React.Node => {
+    const PopperTest = (): React.ReactElement => {
       const popupState = usePopupState({ popupId: 'popper', variant: 'popper' })
       return (
         <React.Fragment>
@@ -407,7 +406,7 @@ describe('usePopupState', () => {
     }
 
     it('passes correct props to bindToggle/bindPopper', async () => {
-      render(<PopperTest variant="popper" popupId="popper" />)
+      render(<PopperTest />)
       button = screen.getByRole('button')
       popper = screen.queryByTestId('popper')
       assert.strictEqual(button.getAttribute('aria-describedby'), null)

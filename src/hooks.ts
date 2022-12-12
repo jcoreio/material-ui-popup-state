@@ -8,6 +8,7 @@ import {
   useCallback,
   useState,
 } from 'react'
+import { PopoverPosition, PopoverReference } from '@mui/material'
 import { useEvent } from './useEvent'
 
 const printedWarnings: Record<string, boolean> = {}
@@ -19,11 +20,6 @@ function warn(key: string, message: string) {
 }
 
 export type Variant = 'popover' | 'popper' | 'dialog'
-
-export interface AnchorPosition {
-  top: number
-  left: number
-}
 
 export type PopupState = {
   open: (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => void
@@ -37,11 +33,11 @@ export type PopupState = {
   ) => void
   isOpen: boolean
   anchorEl: HTMLElement | null | undefined
-  anchorPosition: AnchorPosition | null | undefined
+  anchorPosition: PopoverPosition | undefined
   setAnchorEl: (anchorEl: HTMLElement | null | undefined) => any
   setAnchorElUsed: boolean
   disableAutoFocus: boolean
-  popupId: string | null | undefined
+  popupId: string | undefined
   variant: Variant
   _openEventType: string | null | undefined
   _childPopupState: PopupState | null | undefined
@@ -52,7 +48,7 @@ export type CoreState = {
   isOpen: boolean
   setAnchorElUsed: boolean
   anchorEl: HTMLElement | null | undefined
-  anchorPosition: AnchorPosition | null | undefined
+  anchorPosition: PopoverPosition | undefined
   hovered: boolean
   focused: boolean
   _openEventType: string | null | undefined
@@ -81,7 +77,7 @@ export function usePopupState({
   disableAutoFocus,
 }: {
   parentPopupState?: PopupState | null | undefined
-  popupId: string | null | undefined
+  popupId?: string
   variant: Variant
   disableAutoFocus?: boolean | null | undefined
 }): PopupState {
@@ -164,7 +160,7 @@ export function usePopupState({
 
       setState((state: CoreState): CoreState => {
         if (state._deferNextOpen) {
-          setTimeout(() => doOpen(state), 0)
+          setTimeout(() => setState(doOpen), 0)
           return { ...state, _deferNextOpen: false }
         } else {
           return doOpen(state)
@@ -173,7 +169,7 @@ export function usePopupState({
     }
   )
 
-  const close = useEvent(
+  const close = useCallback(
     (eventOrAnchorEl?: SyntheticEvent | HTMLElement | null) => {
       const event =
         eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
@@ -192,13 +188,14 @@ export function usePopupState({
       }
       setState((state: CoreState): CoreState => {
         if (state._deferNextClose) {
-          setTimeout(() => doClose(state), 0)
+          setTimeout(() => setState(doClose), 0)
           return { ...state, _deferNextClose: false }
         } else {
           return doClose(state)
         }
       })
-    }
+    },
+    []
   )
 
   const setOpen = useCallback(
@@ -208,7 +205,9 @@ export function usePopupState({
     ) => {
       if (nextOpen) {
         open(eventOrAnchorEl)
-      } else close(eventOrAnchorEl)
+      } else {
+        close(eventOrAnchorEl)
+      }
     },
     []
   )
@@ -234,6 +233,7 @@ export function usePopupState({
   })
 
   const onBlur = useEvent((event: FocusEvent) => {
+    if (!event) return
     const { relatedTarget } = event
     setState((state: CoreState): CoreState => {
       if (
@@ -298,7 +298,6 @@ type ControlAriaProps = {
 
 function controlAriaProps({
   isOpen,
-  open,
   popupId,
   variant,
 }: PopupState): ControlAriaProps {
@@ -357,7 +356,7 @@ export function bindContextMenu(popupState: PopupState): ControlAriaProps & {
  */
 export function bindToggle(popupState: PopupState): ControlAriaProps & {
   onClick: (event: MouseEvent) => void
-  onTouchStart: (event: MouseEvent) => void
+  onTouchStart: (event: TouchEvent) => void
 } {
   return {
     ...controlAriaProps(popupState),
@@ -447,10 +446,10 @@ export function bindPopover({
   disableAutoFocus,
   _openEventType,
 }: PopupState): {
-  id?: string | null
+  id?: string
   anchorEl?: HTMLElement | null
-  anchorPosition?: AnchorPosition | null
-  anchorReference: 'anchorEl' | 'anchorPosition'
+  anchorPosition?: PopoverPosition
+  anchorReference: PopoverReference
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent) => void
@@ -458,12 +457,12 @@ export function bindPopover({
   disableEnforceFocus?: boolean
   disableRestoreFocus?: boolean
 } {
-  const useAnchorPosition = _openEventType === 'contextmenu'
+  const usePopoverPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
     anchorPosition,
-    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
+    anchorReference: usePopoverPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,
@@ -498,10 +497,10 @@ export function bindMenu({
   disableAutoFocus,
   _openEventType,
 }: PopupState): {
-  id?: string | null
+  id?: string
   anchorEl?: HTMLElement | null
-  anchorPosition?: AnchorPosition | null
-  anchorReference: 'anchorEl' | 'anchorPosition'
+  anchorPosition?: PopoverPosition
+  anchorReference: PopoverReference
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent) => void
@@ -511,12 +510,12 @@ export function bindMenu({
   disableEnforceFocus?: boolean
   disableRestoreFocus?: boolean
 } {
-  const useAnchorPosition = _openEventType === 'contextmenu'
+  const usePopoverPosition = _openEventType === 'contextmenu'
   return {
     id: popupId,
     anchorEl,
     anchorPosition,
-    anchorReference: useAnchorPosition ? 'anchorPosition' : 'anchorEl',
+    anchorReference: usePopoverPosition ? 'anchorPosition' : 'anchorEl',
     open: isOpen,
     onClose: close,
     onMouseLeave,
@@ -541,7 +540,7 @@ export function bindPopper({
   popupId,
   onMouseLeave,
 }: PopupState): {
-  id?: string | null
+  id?: string
   anchorEl?: HTMLElement | null
   open: boolean
   onMouseLeave: (event: MouseEvent) => void

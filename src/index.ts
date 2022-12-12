@@ -12,8 +12,8 @@ import {
   bindPopover,
   bindPopper,
   bindDialog,
-  Variant,
-  PopupState as InjectedProps,
+  type Variant,
+  type PopupState as InjectedProps,
 } from './hooks'
 
 export {
@@ -27,13 +27,13 @@ export {
   bindPopover,
   bindPopper,
   bindDialog,
-  Variant,
-  InjectedProps,
+  type Variant,
+  type InjectedProps,
 }
 
 export type Props = {
   popupId?: string
-  children: (props: InjectedProps) => React.ReactNode | null | undefined
+  children: (props: InjectedProps) => any
   variant: Variant
   parentPopupState?: InjectedProps | null | undefined
   disableAutoFocus?: boolean | null
@@ -45,7 +45,7 @@ export default function PopupState({
   variant,
   parentPopupState,
   disableAutoFocus,
-}: Props): React.ReactNode | null {
+}: Props): any {
   const popupState = usePopupState({
     popupId,
     variant,
