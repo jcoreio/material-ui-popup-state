@@ -1,8 +1,3 @@
-/**
- * @prettier
- * @flow
- */
-
 import * as React from 'react'
 
 export function useEvent<Fn extends (...args: any[]) => any>(handler: Fn): Fn {

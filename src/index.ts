@@ -1,8 +1,7 @@
-/* eslint-env browser */
-
-import * as React from 'react'
+import React from 'react'
 
 import {
+  usePopupState,
   anchorRef,
   bindTrigger,
   bindContextMenu,
@@ -15,7 +14,7 @@ import {
   bindDialog,
   Variant,
   PopupState as InjectedProps,
-} from './core'
+} from './hooks'
 
 export {
   anchorRef,
@@ -40,5 +39,19 @@ export type Props = {
   disableAutoFocus?: boolean | null
 }
 
-declare const PopupState: React.ComponentType<Props>
-export default PopupState
+export default function PopupState({
+  children,
+  popupId,
+  variant,
+  parentPopupState,
+  disableAutoFocus,
+}: Props): React.ReactNode | null {
+  const popupState = usePopupState({
+    popupId,
+    variant,
+    parentPopupState,
+    disableAutoFocus,
+  })
+  const result = children(popupState)
+  return result != null ? result : null
+}
