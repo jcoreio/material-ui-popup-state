@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Popover, { PopoverProps } from '@mui/material/Popover'
+import { Popover, PopoverProps } from '@mui/material'
 
 const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
   function HoverPopover(props: PopoverProps, ref): any {
