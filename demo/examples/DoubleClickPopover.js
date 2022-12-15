@@ -8,12 +8,12 @@ import PopupState, {
 } from 'material-ui-popup-state'
 import { ClickAwayListener } from '@mui/material'
 
-const DoubleClickPoperPopupState = ({ classes }) => (
+const DoubleClickPopperPopupState = ({ classes }) => (
   <PopupState variant="popover" popupId="demoPopover">
     {(popupState) => (
       <ClickAwayListener onClickAway={popupState.close}>
         <Button {...bindDoubleClick(popupState)} variant="contained">
-          Double click to open poper
+          Double click to open Popper
         </Button>
         <Popover
           {...bindPopper(popupState)}
@@ -35,4 +35,4 @@ const DoubleClickPoperPopupState = ({ classes }) => (
   </PopupState>
 )
 
-export default DoubleClickPoperPopupState
+export default DoubleClickPopperPopupState

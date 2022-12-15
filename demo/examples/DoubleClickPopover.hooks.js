@@ -8,7 +8,7 @@ import {
   bindPopover,
 } from 'material-ui-popup-state/hooks'
 
-const DoubleClickPoperPopupState = ({ classes }) => {
+const DoubleClickPopperPopupState = ({ classes }) => {
   const popupState = usePopupState({
     variant: 'popover',
     popupId: 'demoPopover',
@@ -17,7 +17,7 @@ const DoubleClickPoperPopupState = ({ classes }) => {
   return (
     <div>
       <Button {...bindDoubleClick(popupState)} variant="contained">
-        Double click to open poper
+        Double click to open Popper
       </Button>
       <Popover
         {...bindPopover(popupState)}
@@ -38,4 +38,4 @@ const DoubleClickPoperPopupState = ({ classes }) => {
   )
 }
 
-export default DoubleClickPoperPopupState
+export default DoubleClickPopperPopupState

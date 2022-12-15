@@ -111,8 +111,8 @@ const Root = ({ classes }) => (
           hooksCode={FocusPopoverHooksCode}
         />
         <Demo
-          title="DoubleClick Poper"
-          headerId="doubleClick-poper"
+          title="Double Click Popper"
+          headerId="double-click-popper"
           example={<DoubleClickPopover />}
           code={DoubleClickPopoverCode}
           hooksExample={<DoubleClickPopoverHooks />}
