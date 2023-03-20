@@ -7,33 +7,33 @@
   "sideEffects": false,
   "exports": {
     ".": {
-      "types": "./es/index.d.mts",
+      "types": "./es/index.d.ts",
       "import": "./es/index.mjs",
       "require": "./index.js"
     },
     "./hooks": {
-      "types": "./es/hooks.mts",
+      "types": "./es/hooks.ts",
       "import": "./es/hooks.mjs",
       "require": "./hooks.js"
     },
     "./HoverMenu": {
-      "types": "./es/HoverMenu.d.mts",
+      "types": "./es/HoverMenu.d.ts",
       "import": "./es/HoverMenu.mjs",
       "require": "./HoverMenu.js"
     },
     "./HoverPopover": {
-      "types": "./es/HoverPopover.d.mts",
+      "types": "./es/HoverPopover.d.ts",
       "import": "./es/HoverPopover.mjs",
       "require": "./HoverPopover.js"
     },
     "./hoverWorkaround": {
-      "types": "./es/hoverWorkaround.d.mts",
+      "types": "./es/hoverWorkaround.d.ts",
       "import": "./es/hoverWorkaround.mjs",
       "require": "./hoverWorkaround.js"
     },
     "./package.json": "./package.json",
     "./index": {
-      "types": "./es/index.d.mts",
+      "types": "./es/index.d.ts",
       "import": "./es/index.mjs",
       "require": "./index.js"
     }
