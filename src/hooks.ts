@@ -142,7 +142,7 @@ export function usePopupState({
         : undefined
 
     const doOpen = (state: CoreState): CoreState => {
-      if (!eventOrAnchorEl && !state.setAnchorElUsed) {
+      if (!eventOrAnchorEl && !state.setAnchorElUsed && variant !== 'dialog') {
         warn(
           'missingEventOrAnchorEl',
           'eventOrAnchorEl should be defined if setAnchorEl is not used'
