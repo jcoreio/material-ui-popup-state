@@ -469,7 +469,6 @@ export function bindPopover({
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent) => void
-  onContextMenu: (event: MouseEvent) => void
   disableAutoFocus?: boolean
   disableEnforceFocus?: boolean
   disableRestoreFocus?: boolean
@@ -483,10 +482,6 @@ export function bindPopover({
     open: isOpen,
     onClose: close,
     onMouseLeave,
-    onContextMenu: (e: MouseEvent) => {
-      e.preventDefault()
-      close()
-    },
     ...(disableAutoFocus && {
       disableAutoFocus: true,
       disableEnforceFocus: true,
@@ -525,7 +520,6 @@ export function bindMenu({
   open: boolean
   onClose: () => void
   onMouseLeave: (event: MouseEvent) => void
-  onContextMenu: (event: MouseEvent) => void
   autoFocus?: boolean
   disableAutoFocusItem?: boolean
   disableAutoFocus?: boolean
@@ -541,10 +535,6 @@ export function bindMenu({
     open: isOpen,
     onClose: close,
     onMouseLeave,
-    onContextMenu: (e: MouseEvent) => {
-      e.preventDefault()
-      close()
-    },
     ...(disableAutoFocus && {
       autoFocus: false,
       disableAutoFocusItem: true,
