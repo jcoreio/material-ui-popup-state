@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { Popover, PopoverProps } from '@mui/material'
+import { Popover as _Popover, type PopoverProps } from '@mui/material'
+import { interopRequireDefault } from './util/interopRequireDefault'
+// work around https://github.com/vercel/next.js/issues/57285
+const Popover = interopRequireDefault(_Popover)
 
 const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
   function HoverPopover(props: PopoverProps, ref): any {

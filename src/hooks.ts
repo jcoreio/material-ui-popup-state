@@ -1,16 +1,16 @@
 /* eslint-env browser */
 
 import {
-  SyntheticEvent,
-  MouseEvent,
-  TouchEvent,
-  FocusEvent,
+  type SyntheticEvent,
+  type MouseEvent,
+  type TouchEvent,
+  type FocusEvent,
   useCallback,
   useState,
   useRef,
   useEffect,
 } from 'react'
-import { PopoverPosition, PopoverReference } from '@mui/material'
+import { type PopoverPosition, type PopoverReference } from '@mui/material'
 import { useEvent } from './useEvent'
 
 const printedWarnings: Record<string, boolean> = {}
