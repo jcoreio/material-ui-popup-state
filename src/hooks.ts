@@ -9,6 +9,7 @@ import {
   useState,
   useRef,
   useEffect,
+  useId,
 } from 'react'
 import { type PopoverPosition, type PopoverReference } from '@mui/material'
 import { useEvent } from './useEvent'
@@ -39,7 +40,7 @@ export type PopupState = {
   setAnchorEl: (anchorEl: Element | null | undefined) => any
   setAnchorElUsed: boolean
   disableAutoFocus: boolean
-  popupId: string | undefined
+  popupId: string
   variant: Variant
   _openEventType: string | null | undefined
   _childPopupState: PopupState | null | undefined
@@ -83,6 +84,7 @@ export function usePopupState({
   variant: Variant
   disableAutoFocus?: boolean | null | undefined
 }): PopupState {
+  const defaultPopupId = useId()
   const isMounted = useRef(true)
 
   useEffect((): (() => void) => {
@@ -278,7 +280,7 @@ export function usePopupState({
   const popupState: PopupState = {
     ...state,
     setAnchorEl,
-    popupId,
+    popupId: popupId ?? defaultPopupId,
     variant,
     open,
     close,
@@ -321,10 +323,10 @@ function controlAriaProps({
     ...(variant === 'popover'
       ? {
           'aria-haspopup': true,
-          'aria-controls': isOpen && popupId != null ? popupId : undefined,
+          'aria-controls': isOpen ? popupId : undefined,
         }
       : variant === 'popper'
-      ? { 'aria-describedby': isOpen && popupId != null ? popupId : undefined }
+      ? { 'aria-describedby': isOpen ? popupId : undefined }
       : undefined),
   }
 }
@@ -462,7 +464,7 @@ export function bindPopover({
   disableAutoFocus,
   _openEventType,
 }: PopupState): {
-  id?: string
+  id: string
   anchorEl?: Element | null
   anchorPosition?: PopoverPosition
   anchorReference: PopoverReference
@@ -513,7 +515,7 @@ export function bindMenu({
   disableAutoFocus,
   _openEventType,
 }: PopupState): {
-  id?: string
+  id: string
   anchorEl?: Element | null
   anchorPosition?: PopoverPosition
   anchorReference: PopoverReference
@@ -556,7 +558,7 @@ export function bindPopper({
   popupId,
   onMouseLeave,
 }: PopupState): {
-  id?: string
+  id: string
   anchorEl?: Element | null
   open: boolean
   onMouseLeave: (event: MouseEvent) => void
@@ -589,7 +591,6 @@ function getPopup(
   element: Element,
   { popupId }: PopupState
 ): Element | null | undefined {
-  if (!popupId) return null
   const rootNode: any =
     typeof element.getRootNode === 'function' ? element.getRootNode() : document
   if (typeof rootNode.getElementById === 'function') {
