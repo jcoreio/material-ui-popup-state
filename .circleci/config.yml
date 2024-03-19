@@ -49,7 +49,7 @@ jobs:
       - run:
           name: Build Demo
           command: pnpm run build:demo
-      - deploy:
+      - run:
           name: Deploy
           command: pnpm run deploy
 
