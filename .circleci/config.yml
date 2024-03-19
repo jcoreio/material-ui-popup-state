@@ -69,13 +69,13 @@ workflows:
           context:
             - npm-release
             - github-release
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
-          context:
-            - npm-release
-            - github-release
+      # - deploy:
+      #     requires:
+      #       - build
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #     context:
+      #       - npm-release
+      #       - github-release
