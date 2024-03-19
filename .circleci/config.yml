@@ -28,6 +28,30 @@ jobs:
           name: Release
           command: |
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
+  deploy:
+    docker:
+      - image: cimg/node:20.10.0
+
+    steps:
+      - checkout
+      - run:
+          name: Setup NPM Token
+          command: |
+            npm config set \
+              "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \
+              "registry=https://registry.npmjs.org/"
+      - run:
+          name: Corepack enable
+          command: sudo corepack enable
+      - run:
+          name: Install Dependencies
+          command: pnpm install --frozen-lockfile
+      - run:
+          name: Build Demo
+          command: pnpm run build:demo
+      - deploy:
+          name: Deploy
+          command: pnpm run deploy
 
 workflows:
   build:
@@ -36,3 +60,12 @@ workflows:
           context:
             - npm-release
             - github-release
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
+          context:
+            - npm-release
