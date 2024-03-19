@@ -2,102 +2,16 @@
   "name": "material-ui-popup-state",
   "version": "0.0.0-development",
   "description": "easiest way to create menus, popovers, and poppers with material-ui",
-  "main": "index.js",
-  "types": "index.d.ts",
   "sideEffects": false,
-  "exports": {
-    ".": {
-      "types": "./es/index.d.ts",
-      "import": "./es/index.mjs",
-      "require": "./index.js"
-    },
-    "./hooks": {
-      "types": "./es/hooks.d.ts",
-      "import": "./es/hooks.mjs",
-      "require": "./hooks.js"
-    },
-    "./HoverMenu": {
-      "types": "./es/HoverMenu.d.ts",
-      "import": "./es/HoverMenu.mjs",
-      "require": "./HoverMenu.js"
-    },
-    "./HoverPopover": {
-      "types": "./es/HoverPopover.d.ts",
-      "import": "./es/HoverPopover.mjs",
-      "require": "./HoverPopover.js"
-    },
-    "./hoverWorkaround": {
-      "types": "./es/hoverWorkaround.d.ts",
-      "import": "./es/hoverWorkaround.mjs",
-      "require": "./hoverWorkaround.js"
-    },
-    "./package.json": "./package.json",
-    "./index": {
-      "types": "./es/index.d.ts",
-      "import": "./es/index.mjs",
-      "require": "./index.js"
-    }
-  },
   "scripts": {
-    "lint": "eslint $npm_package_config_eslint",
-    "lint:fix": "eslint --fix $npm_package_config_eslint",
-    "prettier": "prettier --write $npm_package_config_prettier",
-    "prettier:check": "prettier --list-different $npm_package_config_prettier",
-    "flow": "flow",
-    "flow:coverage": "for file in src/**.js test/**.js; do echo $file; flow coverage $file; done",
-    "clean": "rimraf demo-dist es lib $(cd src; ls) *.js *.js.flow *.d.ts",
-    "build": "npm run clean && npm run build:cjs && npm run build:mjs",
-    "build:cjs": "rimraf $(cd src; ls) *.js *.js.flow *.d.ts && cross-env BABEL_ENV=es5 babel src --extensions .ts,.tsx --out-dir . && tsc && copy 'src/**/*.js.flow' .",
-    "build:mjs": "cross-env OUTPUT_ESM=1 babel src --extensions .ts,.tsx --out-dir es --delete-dir-on-start --out-file-extension .mjs && tsc --outDir es && babel-node --extensions .ts scripts/copyMjsFlow.ts",
-    "test": "cross-env NODE_ENV=test BABEL_ENV=es5 mocha $npm_package_config_mocha && cross-env NODE_ENV=test BABEL_ENV=coverage nyc --reporter=lcov --reporter=text mocha $npm_package_config_mocha",
-    "test:watch": "cross-env NODE_ENV=test BABEL_ENV=test mocha --watch --watch-files 'src/**/*.ts' --watch-files 'src/**/*.tsx' --watch-files 'test/**/*.ts' --watch-files 'test/**/*.tsx' --watch-files 'test/**/*.js' $npm_package_config_mocha",
-    "test:debug": "cross-env NODE_ENV=test BABEL_ENV=test mocha --inspect-brk $npm_package_config_mocha",
-    "codecov": "nyc report --reporter=text-lcov > coverage.lcov; codecov",
-    "prepublishOnly": "npm run clean && npm run prettier:check && npm run lint && flow && tsc --emitDeclarationOnly false --noEmit && npm test && npm run build",
-    "open:coverage": "open coverage/lcov-report/index.html",
-    "semantic-release": "semantic-release",
     "start": "webpack-dev-server --config demo/webpack.config.js",
     "build:demo": "rimraf demo-dist && cross-env NODE_ENV=production BABEL_ENV=es5 webpack --config demo/webpack.config.js && (cd demo; copy index.html ../demo-dist/) && copy .circleci/config.yml demo-dist/",
     "predeploy": "npm run build:demo",
-    "deploy": "gh-pages -d demo-dist --dotfiles"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run lint && flow && tsc --emitDeclarationOnly false --noEmit",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
-      "pre-push": "npm test"
-    }
-  },
-  "lint-staged": {
-    "*.{js,json,css,md,ts}": [
-      "prettier --write"
-    ]
-  },
-  "commitlint": {
-    "extends": [
-      "@jedwards1211/commitlint-config"
-    ]
-  },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
-  },
-  "config": {
-    "mocha": "-r @babel/register -r global-jsdom/register test/configure.js 'test/**/*.{js,tsx}'",
-    "eslint": "src test demo scripts --cache",
-    "prettier": "*.{json,md,js} {src,test,demo,scripts}/**/*.{js,ts}",
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.ts",
-      "src/**/*.tsx"
-    ],
-    "sourceMap": false,
-    "instrument": false
+    "deploy": "gh-pages -d demo-dist --dotfiles",
+    "tc": "toolchain",
+    "toolchain": "toolchain",
+    "test": "toolchain test",
+    "prepublishOnly": "echo This package is meant to be published by semantic-release from the dist build directory. && exit 1"
   },
   "repository": {
     "type": "git",
@@ -119,90 +33,103 @@
   },
   "homepage": "https://github.com/jcoreio/material-ui-popup-state#readme",
   "devDependencies": {
-    "@babel/cli": "^7.19.3",
-    "@babel/core": "^7.20.5",
     "@babel/eslint-parser": "^7.19.1",
     "@babel/node": "^7.20.5",
-    "@babel/plugin-transform-runtime": "^7.19.6",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-flow": "^7.18.6",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.18.6",
-    "@babel/register": "^7.18.9",
-    "@commitlint/cli": "^11.0.0",
-    "@commitlint/config-conventional": "^11.0.0",
+    "@babel/plugin-syntax-flow": "^7.14.5",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
-    "@jedwards1211/commitlint-config": "^1.0.2",
-    "@jedwards1211/eslint-config": "^2.0.2",
-    "@jedwards1211/eslint-config-flow": "^3.0.0",
-    "@jedwards1211/eslint-config-react": "^4.0.0",
-    "@jedwards1211/eslint-config-typescript": "^2.0.2",
+    "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
+    "@jcoreio/toolchain": "^3.9.8",
+    "@jcoreio/toolchain-circle": "^3.9.8",
+    "@jcoreio/toolchain-esnext": "^3.9.8",
+    "@jcoreio/toolchain-flow": "^3.9.8",
+    "@jcoreio/toolchain-mocha": "^3.9.8",
+    "@jcoreio/toolchain-react": "^3.9.8",
+    "@jcoreio/toolchain-semantic-release": "^3.9.8",
+    "@jcoreio/toolchain-typescript": "^3.9.8",
     "@mui/icons-material": "^5.10.16",
-    "@mui/styles": "5.10.16",
+    "@mui/material": "^5.0.0",
+    "@mui/styles": "5.15.14",
     "@mui/types": "^7.2.2",
     "@testing-library/react": "^13.4.0",
-    "@types/classnames": "^2.2.9",
+    "@types/chai": "^4.0.0",
     "@types/glob": "^8.0.0",
+    "@types/mocha": "^10.0.6",
     "@types/node": "^18.11.13",
-    "@types/prop-types": "^15.7.3",
-    "@types/react": "^18.0.26",
-    "@typescript-eslint/eslint-plugin": "^5.46.0",
-    "@typescript-eslint/parser": "^5.46.0",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
     "@typescript-eslint/typescript-estree": "^5.46.0",
     "astx": "^2.1.3",
-    "babel-eslint": "^10.1.0",
     "babel-loader": "^9.1.0",
-    "babel-plugin-istanbul": "^6.1.1",
-    "chai": "^4.2.0",
-    "codecov": "^3.8.1",
+    "chai": "^4.3.7",
     "copy": "^0.3.2",
+    "core-js": "^3.36.1",
     "cross-env": "^7.0.3",
-    "eslint": "^7.18.0",
+    "eslint": "^8.43.0",
     "eslint-config-prettier": "^7.2.0",
-    "eslint-plugin-flowtype": "^5.2.0",
-    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.145.0",
-    "flow-copy-source": "https://github.com/jedwards1211/flow-copy-source#no-watch",
     "gh-pages": "^2.0.1",
     "glob": "^8.0.3",
-    "global-jsdom": "^8.4.0",
-    "husky": "^4.3.8",
-    "istanbul": "^0.4.5",
-    "jsdom": "^16.4.0",
-    "lint-staged": "^10.5.3",
+    "global-jsdom": "^24.0.0",
+    "jsdom": "^24.0.0",
     "mocha": "^10.2.0",
-    "nyc": "^15.1.0",
-    "prettier": "^2.2.1",
-    "prettier-eslint": "^12.0.0",
     "raw-loader": "^4.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rimraf": "^3.0.2",
-    "semantic-release": "^17.3.7",
     "sinon": "^6.1.4",
-    "typescript": "^4.9.4",
+    "typescript": "^5.1.0",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.20.6",
-    "@mui/material": "^5.0.0",
+    "@types/prop-types": "^15.7.3",
+    "@types/react": "^18.0.26",
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
+    "@mui/material": "^5.0.0",
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
   },
-  "release": {
-    "branches": [
-      "master",
-      {
-        "name": "beta",
-        "prerelease": true
-      }
-    ]
-  }
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./index": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.js"
+    },
+    "./hooks": {
+      "types": "./dist/hooks.d.ts",
+      "import": "./dist/hooks.mjs",
+      "default": "./dist/hooks.js"
+    },
+    "./HoverMenu": {
+      "types": "./dist/HoverMenu.d.ts",
+      "import": "./dist/HoverMenu.mjs",
+      "default": "./dist/HoverMenu.js"
+    },
+    "./HoverPopover": {
+      "types": "./dist/HoverPopover.d.ts",
+      "import": "./dist/HoverPopover.mjs",
+      "default": "./dist/HoverPopover.js"
+    }
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "packageManager": "pnpm@8.11.0"
 }

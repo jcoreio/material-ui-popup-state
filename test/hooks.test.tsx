@@ -7,13 +7,9 @@ import {
   waitFor,
   waitForElementToBeRemoved,
   screen,
+  waitForOptions,
 } from '@testing-library/react'
-import Button from '@mui/material/Button'
-import Input from '@mui/material/Input'
-import Popper from '@mui/material/Popper'
-import Popover from '@mui/material/Popover'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+import { Button, Input, Popper, Popover, Menu, MenuItem } from '@mui/material'
 import {
   usePopupState,
   anchorRef,
@@ -29,11 +25,11 @@ import {
 } from '../src/hooks'
 import { afterEach, beforeEach, describe, it } from 'mocha'
 
-const waitForTruthy = (cb, ...opts) =>
+const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
   waitFor(() => {
     if (cb()) return
     throw new Error('not true')
-  }, ...opts)
+  }, opts)
 
 /* eslint-disable react/jsx-handler-names */
 
@@ -164,9 +160,9 @@ describe('usePopupState', () => {
       assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
       assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
       assert.strictEqual(menu.getAttribute('id'), 'menu')
-      const { left, top } = getComputedStyle(
-        menu.querySelector('ul').parentElement
-      )
+      const parent = menu.querySelector('ul')?.parentElement
+      if (!parent) throw new Error('failed to get parent element')
+      const { left, top } = getComputedStyle(parent)
       assert.strictEqual(left, '100px')
       assert.strictEqual(top, '200px')
 
@@ -302,7 +298,7 @@ describe('usePopupState', () => {
       ['mouseOver', 'focus', 'mouseLeave', 'blur'],
       ['mouseOver', 'focus', 'blur', 'mouseLeave'],
       ['focus', 'mouseOver', 'mouseLeave', 'blur'],
-    ]) {
+    ] as ('focus' | 'mouseOver' | 'blur' | 'mouseLeave')[][]) {
       it(`works for ${events.join(', ')}`, async function () {
         render(<MenuTest />)
         input = screen.getByTestId('input')

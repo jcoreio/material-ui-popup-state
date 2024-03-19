@@ -6,7 +6,7 @@ const prod = 'production' === process.env.NODE_ENV
 
 module.exports = {
   mode: prod ? 'production' : 'development',
-  entry: ['@babel/polyfill', path.resolve(__dirname, 'index.js')],
+  entry: ['core-js/stable', path.resolve(__dirname, 'index.js')],
   output: {
     path: path.resolve(__dirname, '..', 'demo-dist'),
     filename: 'bundle.js',

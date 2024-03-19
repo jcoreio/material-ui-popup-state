@@ -8,13 +8,9 @@ import {
   waitFor,
   waitForElementToBeRemoved,
   screen,
+  waitForOptions,
 } from '@testing-library/react'
-import Button from '@mui/material/Button'
-import Input from '@mui/material/Input'
-import Popper from '@mui/material/Popper'
-import Popover from '@mui/material/Popover'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
+import { Button, Input, Popper, Popover, Menu, MenuItem } from '@mui/material'
 import PopupState, {
   type InjectedProps,
   anchorRef,
@@ -28,11 +24,11 @@ import PopupState, {
   bindContextMenu,
 } from '../src'
 
-const waitForTruthy = (cb, ...opts) =>
+const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
   waitFor(() => {
     if (cb()) return
     throw new Error('not true')
-  }, ...opts)
+  }, opts)
 
 /* eslint-disable react/jsx-handler-names */
 
@@ -287,7 +283,7 @@ describe('usePopupState', () => {
       ['mouseOver', 'focus', 'mouseLeave', 'blur'],
       ['mouseOver', 'focus', 'blur', 'mouseLeave'],
       ['focus', 'mouseOver', 'mouseLeave', 'blur'],
-    ]) {
+    ] as ('focus' | 'mouseOver' | 'blur' | 'mouseLeave')[][]) {
       it(`works for ${events.join(', ')}`, async function () {
         render(<MenuTest />)
         input = screen.getByTestId('input')
