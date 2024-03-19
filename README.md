@@ -642,3 +642,8 @@ const button = (
 `chainEventHandlers` accepts a variable number of props arguments and combines any function props of the same name
 into a function that invokes the chained functions in sequence. For all other properties the behavior is like
 `Object.assign`.
+
+> [!WARNING]  
+> `chainEventHandlers` doesn't memoize the combined event handler functions, so they will cause components to
+> rerender. If you need memoized functions, you will need to perform the memoization with your own code, for example
+> using `React.useCallback` and [chaining event handlers manually](#chaining-event-handlers-manually).
