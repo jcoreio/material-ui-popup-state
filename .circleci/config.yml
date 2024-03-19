@@ -1,38 +1,38 @@
-version: 2
+# created by @jcoreio/toolchain-circle
+
+version: 2.1
 jobs:
   build:
-    branches:
-      ignore:
-        - gh-pages
     docker:
-      - image: cimg/node:16.14.0
+      - image: cimg/node:20.10.0
 
     steps:
       - checkout
-
       - run:
           name: Setup NPM Token
           command: |
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-            echo "registry=https://registry.npmjs.org/" >> ~/.npmrc
-            echo "strict-peer-dependencies=false" >> ~/.npmrc
-
-      # https://github.com/atlassian/react-beautiful-dnd/issues/1007#issuecomment-446415426
+            npm config set \
+              "//registry.npmjs.org/:_authToken=$NPM_TOKEN" \
+              "registry=https://registry.npmjs.org/"
       - run:
-          name: Workaround for Flow crashing
-          command: echo "server.max_workers=1" >> .flowconfig
-      - run:
-          name: Install pnpm
-          command: sudo npm install --global pnpm
+          name: Corepack enable
+          command: sudo corepack enable
       - run:
           name: Install Dependencies
           command: pnpm install --frozen-lockfile
       - run:
-          name: build
-          command: pnpm prepublishOnly
+          name: Prepublish
+          command: |
+            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
       - run:
-          name: upload test coverage
-          command: pnpm codecov
-      - run:
-          name: release
-          command: pnpm semantic-release
+          name: Release
+          command: |
+            [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc release
+
+workflows:
+  build:
+    jobs:
+      - build:
+          context:
+            - npm-release
+            - github-release
