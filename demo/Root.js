@@ -44,6 +44,8 @@ import Dialog from './examples/Dialog'
 import DialogCode from '!!raw-loader!./examples/Dialog'
 import DialogHooks from './examples/Dialog.hooks'
 import DialogHooksCode from '!!raw-loader!./examples/Dialog.hooks'
+import ChainingEventHandlers from './examples/ChainingEventHandlers'
+import ChainingEventHandlersCode from '!!raw-loader!./examples/ChainingEventHandlers'
 import Demo from './Demo'
 import Typography from '@mui/material/Typography'
 import { withStyles } from '@mui/styles'
@@ -156,6 +158,12 @@ const Root = ({ classes }) => (
           code={DialogCode}
           hooksExample={<DialogHooks />}
           hooksCode={DialogHooksCode}
+        />
+        <Demo
+          title="Chaining Event Handlers"
+          headerId="chaining-event-handlers"
+          example={<ChainingEventHandlers />}
+          code={ChainingEventHandlersCode}
         />
       </div>
     </ThemeProvider>

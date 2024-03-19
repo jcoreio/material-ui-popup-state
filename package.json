@@ -126,6 +126,11 @@
       "types": "./dist/HoverPopover.d.ts",
       "import": "./dist/HoverPopover.mjs",
       "default": "./dist/HoverPopover.js"
+    },
+    "./chainEventHandlers": {
+      "types": "./dist/chainEventHandlers.d.ts",
+      "import": "./dist/chainEventHandlers.mjs",
+      "default": "./dist/chainEventHandlers.js"
     }
   },
   "engines": {

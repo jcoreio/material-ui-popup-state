@@ -53,6 +53,9 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`.
     - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional-1)
     - [`children` (`(popupState: InjectedProps) => ?React.Node`, **required**)](#children-popupstate-injectedprops--reactnode-required)
 - [Using `Popover` and `Menu` with `bindHover`](#using-popover-and-menu-with-bindhover)
+- [Chaining event handlers](#chaining-event-handlers)
+  - [Chaining event handlers manually](#chaining-event-handlers-manually)
+  - [Using `material-ui-popup-state/chainEventHandlers`](#using-material-ui-popup-statechaineventhandlers)
 
 <!-- tocstop -->
 
@@ -590,3 +593,52 @@ import HoverPopover from 'material-ui-popup-state/HoverPopover'
 ```
 
 These are just wrapper components that pass inline styles to prevent `Modal` from blocking pointer events.
+
+# Chaining event handlers
+
+What if you need to perform additional actions in `onClick`, but it's being injected by `{...bindTrigger(popupState)}` etc?
+
+There are two options:
+
+## Chaining event handlers manually
+
+This is the most straightforward, explicit option.
+
+```tsx
+const button = (
+  <Button
+    {...bindTrigger(popupState)}
+    onClick={(e: React.MouseEvent) => {
+      bindTrigger(popupState).onClick(e)
+      performCustomAction(e)
+    }}
+  >
+    Open Menu
+  </Button>
+)
+```
+
+## Using `material-ui-popup-state/chainEventHandlers`
+
+If you don't like the above option, you can use the provided `material-ui-popup-state/chainEventHandlers` helper:
+
+```tsx
+import { chainEventHandlers } from 'material-ui-popup-state/chainEventHandlers'
+
+const button = (
+  <Button
+    {...chainEventHandlers(bindTrigger(popupState), {
+      onClick: (e: React.MouseEvent) => {
+        bindTrigger(popupState).onClick(e)
+        performCustomAction(e)
+      },
+    })}
+  >
+    Open Menu
+  </Button>
+)
+```
+
+`chainEventHandlers` accepts a variable number of props arguments and combines any function props of the same name
+into a function that invokes the chained functions in sequence. For all other properties the behavior is like
+`Object.assign`.
