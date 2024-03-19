@@ -57,6 +57,10 @@ workflows:
   build:
     jobs:
       - build:
+          filters:
+            branches:
+              ignore:
+                - gh-pages
           context:
             - npm-release
             - github-release
