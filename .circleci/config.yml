@@ -35,6 +35,11 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Configure git
+          command: |
+            git config --global user.email "jedwards@fastmail.com"
+            git config --global user.name "Andy Edwards"
+      - run:
           name: Setup NPM Token
           command: |
             npm config set \
