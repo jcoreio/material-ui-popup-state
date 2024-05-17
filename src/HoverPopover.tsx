@@ -6,6 +6,24 @@ const Popover = interopRequireDefault(_Popover)
 
 const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
   function HoverPopover(props: PopoverProps, ref): any {
+    const paperSlotProps = React.useCallback(
+      // eslint-disable-next-line @typescript-eslint/ban-types
+      (ownerProps: {}) => {
+        const base =
+          props.slotProps?.paper instanceof Function
+            ? props.slotProps?.paper(ownerProps)
+            : props.slotProps?.paper
+        return {
+          ...base,
+          style: {
+            pointerEvents: 'auto',
+            ...base?.style,
+          },
+        } as const
+      },
+      [props.slotProps?.paper]
+    )
+
     return (
       <Popover
         {...props}
@@ -13,7 +31,14 @@ const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
         style={{ pointerEvents: 'none', ...props.style }}
         PaperProps={{
           ...props.PaperProps,
-          style: { pointerEvents: 'auto', ...props.PaperProps?.style },
+          style: {
+            pointerEvents: 'auto',
+            ...props.PaperProps?.style,
+          },
+        }}
+        slotProps={{
+          ...props.slotProps,
+          paper: paperSlotProps,
         }}
       />
     )

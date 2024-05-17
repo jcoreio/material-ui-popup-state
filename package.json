@@ -49,7 +49,7 @@
     "@jcoreio/toolchain-semantic-release": "^3.9.8",
     "@jcoreio/toolchain-typescript": "^3.9.8",
     "@mui/icons-material": "^5.10.16",
-    "@mui/material": "^5.0.0",
+    "@mui/material": "^5.15.18",
     "@mui/styles": "5.15.14",
     "@mui/types": "^7.2.2",
     "@testing-library/react": "^13.4.0",
