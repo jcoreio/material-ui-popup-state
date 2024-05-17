@@ -165,7 +165,7 @@ export function usePopupState({
 
       if (!state.setAnchorElUsed) {
         if (event?.currentTarget) {
-            newState.anchorEl = event?.currentTarget as any
+          newState.anchorEl = event?.currentTarget as any
         } else if (element) {
           newState.anchorEl = element
         }
