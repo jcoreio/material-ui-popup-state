@@ -40,14 +40,14 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
-    "@jcoreio/toolchain": "^4.6.1",
-    "@jcoreio/toolchain-circle": "^4.6.1",
-    "@jcoreio/toolchain-esnext": "^4.6.1",
-    "@jcoreio/toolchain-flow": "^4.6.1",
-    "@jcoreio/toolchain-mocha": "^4.6.1",
-    "@jcoreio/toolchain-react": "^4.6.1",
-    "@jcoreio/toolchain-semantic-release": "^4.6.1",
-    "@jcoreio/toolchain-typescript": "^4.6.1",
+    "@jcoreio/toolchain": "^4.7.0",
+    "@jcoreio/toolchain-circle": "^4.7.0",
+    "@jcoreio/toolchain-esnext": "^4.7.0",
+    "@jcoreio/toolchain-flow": "^4.7.0",
+    "@jcoreio/toolchain-mocha": "^4.7.0",
+    "@jcoreio/toolchain-react": "^4.7.0",
+    "@jcoreio/toolchain-semantic-release": "^4.7.0",
+    "@jcoreio/toolchain-typescript": "^4.7.0",
     "@mui/icons-material": "^6.0.0",
     "@mui/material": "^6.0.0",
     "@mui/styles": "6.0.0",
@@ -137,5 +137,8 @@
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@8.11.0"
+  "packageManager": "pnpm@8.11.0",
+  "@jcoreio/toolchain": {
+    "migratedVersion": "4.7.0"
+  }
 }

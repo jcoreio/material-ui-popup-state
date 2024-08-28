@@ -1,6 +1,9 @@
 # created by @jcoreio/toolchain-circle
 
 version: 2.1
+
+orbs:
+  codecov: codecov/codecov@4.1.0
 jobs:
   build:
     docker:
@@ -24,6 +27,7 @@ jobs:
           name: Prepublish
           command: |
             [[ $(netstat -tnlp | grep -F 'circleci-agent') ]] || pnpm run tc prepublish
+      - codecov/upload
       - run:
           name: Release
           command: |
