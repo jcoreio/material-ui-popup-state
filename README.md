@@ -37,7 +37,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`.
   - [`usePopupState`](#usepopupstate)
   - [`usePopupState` Props](#usepopupstate-props)
     - [`variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)](#variant-popover-popper-or-dialog-required)
-    - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged)
+    - [`popupId` (`string`, **optional**)](#popupid-string-optional)
     - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional)
   - [`usePopupState` return value](#usepopupstate-return-value)
 - [Examples with Render Props](#examples-with-render-props)
@@ -49,7 +49,7 @@ For MUI v4 you'll need `material-ui-popup-state@^1.9.3`.
   - [Bind Functions](#bind-functions-1)
   - [`PopupState` Props](#popupstate-props)
     - [`variant` (`'popover'`, `'popper'`, or `'dialog'`, **required**)](#variant-popover-popper-or-dialog-required-1)
-    - [`popupId` (`string`, **optional** but strongly encouraged)](#popupid-string-optional-but-strongly-encouraged-1)
+    - [`popupId` (`string`, **optional**)](#popupid-string-optional)
     - [`disableAutoFocus` (`boolean`, **optional**)](#disableautofocus-boolean-optional-1)
     - [`children` (`(popupState: InjectedProps) => ?React.Node`, **required**)](#children-popupstate-injectedprops--reactnode-required)
 - [Using `Popover` and `Menu` with `bindHover`](#using-popover-and-menu-with-bindhover)
@@ -278,14 +278,17 @@ popup is a `Popper`.
 Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
 an `aria-controls` prop or an `aria-describedby` prop.
 
-### `popupId` (`string`, **optional** but strongly encouraged)
+### `popupId` (`string`, **optional**)
 
 The `id` for the popup component. It will be passed to the child props so that
 the trigger component may declare the same id in an ARIA prop.
 
+Defaults to `React.useId()` if `React.useId` exists; in older versions of React
+you will have to manually provide a `popupId`.
+
 ### `disableAutoFocus` (`boolean`, **optional**)
 
-If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
+If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu` will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
 Defaults to `true` when the popup is opened by the `bindHover` or `bindFocus` element.
 
@@ -553,14 +556,17 @@ popup is a `Popper`.
 Right now this only affects whether `bindTrigger`/`bindToggle`/`bindHover` return
 an `aria-controls` prop or an `aria-describedby` prop.
 
-### `popupId` (`string`, **optional** but strongly encouraged)
+### `popupId` (`string`, **optional**)
 
 The `id` for the popup component. It will be passed to the child props so that
 the trigger component may declare the same id in an ARIA prop.
 
+Defaults to `React.useId()` if `React.useId` exists; in older versions of React
+you will have to manually provide a `popupId`.
+
 ### `disableAutoFocus` (`boolean`, **optional**)
 
-If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu`) will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
+If `true`, will not steal focus when the popup is opened. (And `bindPopover`/`bindMenu` will inject `disableAutoFocus`, `disableEnforceFocus`, and `disableRestoreFocus`).
 
 Defaults to `true` when the popup is opened by the `bindHover` or `bindFocus` element.
 

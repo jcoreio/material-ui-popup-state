@@ -10,6 +10,7 @@ import {
   useRef,
   useEffect,
 } from 'react'
+import * as React from 'react'
 import { type PopoverPosition, type PopoverReference } from '@mui/material'
 import { useEvent } from './useEvent'
 
@@ -72,9 +73,11 @@ export const initCoreState: CoreState = {
   _deferNextClose: false,
 }
 
+const defaultPopupId = 'useId' in React ? () => React.useId() : () => undefined
+
 export function usePopupState({
   parentPopupState,
-  popupId,
+  popupId = defaultPopupId(),
   variant,
   disableAutoFocus,
 }: {
@@ -321,10 +324,10 @@ function controlAriaProps({
     ...(variant === 'popover'
       ? {
           'aria-haspopup': true,
-          'aria-controls': isOpen && popupId != null ? popupId : undefined,
+          'aria-controls': isOpen ? popupId : undefined,
         }
       : variant === 'popper'
-      ? { 'aria-describedby': isOpen && popupId != null ? popupId : undefined }
+      ? { 'aria-describedby': isOpen ? popupId : undefined }
       : undefined),
   }
 }
