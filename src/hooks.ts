@@ -73,7 +73,11 @@ export const initCoreState: CoreState = {
   _deferNextClose: false,
 }
 
-const defaultPopupId = 'useId' in React ? () => React.useId() : () => undefined
+const defaultPopupId =
+  'useId' in React
+    ? () => React.useId()
+    : // istanbul ignore next
+      () => undefined
 
 export function usePopupState({
   parentPopupState,
