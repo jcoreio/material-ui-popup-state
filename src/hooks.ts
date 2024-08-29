@@ -26,7 +26,7 @@ export type Variant = 'popover' | 'popper' | 'dialog'
 
 export type PopupState = {
   open: (eventOrAnchorEl?: SyntheticEvent | Element | null) => void
-  close: () => void
+  close: (eventOrAnchorEl?: SyntheticEvent | Element | null) => void
   toggle: (eventOrAnchorEl?: SyntheticEvent | Element | null) => void
   onBlur: (event: FocusEvent) => void
   onMouseLeave: (event: MouseEvent) => void
@@ -82,7 +82,7 @@ export function usePopupState({
   disableAutoFocus,
 }: {
   parentPopupState?: PopupState | null | undefined
-  popupId?: string
+  popupId?: string | null
   variant: Variant
   disableAutoFocus?: boolean | null | undefined
 }): PopupState {
@@ -281,7 +281,7 @@ export function usePopupState({
   const popupState: PopupState = {
     ...state,
     setAnchorEl,
-    popupId,
+    popupId: popupId ?? undefined,
     variant,
     open,
     close,

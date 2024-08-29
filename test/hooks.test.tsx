@@ -9,7 +9,16 @@ import {
   screen,
   waitForOptions,
 } from '@testing-library/react'
-import { Button, Input, Popper, Popover, Menu, MenuItem } from '@mui/material'
+import {
+  Button,
+  Input,
+  Popper,
+  Popover,
+  Menu,
+  MenuItem,
+  Dialog,
+  DialogTitle,
+} from '@mui/material'
 import {
   usePopupState,
   anchorRef,
@@ -22,8 +31,12 @@ import {
   bindHover,
   bindContextMenu,
   PopupState,
+  bindDoubleClick,
+  bindDialog,
 } from '../src/hooks'
 import { afterEach, beforeEach, describe, it } from 'mocha'
+import sinon from 'sinon'
+import HoverMenu from '../src/HoverMenu'
 
 const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
   waitFor(() => {
@@ -33,7 +46,22 @@ const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
 
 /* eslint-disable react/jsx-handler-names */
 
-afterEach(cleanup)
+let consoleError: sinon.SinonSpy<
+  Parameters<(typeof console)['error']>,
+  void
+  // eslint-disable-next-line no-console
+> = console.error as any
+
+beforeEach(() => {
+  sinon.spy(console, 'error')
+  // eslint-disable-next-line no-console
+  consoleError = console.error as any
+})
+
+afterEach(() => {
+  cleanup()
+  consoleError.restore()
+})
 
 describe('usePopupState', () => {
   describe('bindMenu/bindTrigger', () => {
@@ -45,8 +73,12 @@ describe('usePopupState', () => {
 
     beforeEach(() => (popupStates.length = 0))
 
-    const MenuTest = (): React.ReactElement => {
-      const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
+    const MenuTest = ({
+      popupId = null,
+    }: {
+      popupId?: string | null
+    }): React.ReactElement => {
+      const popupState = usePopupState({ popupId, variant: 'popover' })
       popupStates.push(popupState)
       return (
         <React.Fragment>
@@ -54,7 +86,11 @@ describe('usePopupState', () => {
             Open Menu
           </Button>
           <Menu data-testid="menu" {...bindMenu(popupState)}>
-            <MenuItem data-testid="menuitem" onClick={popupState.close}>
+            <MenuItem
+              data-testid="menuitem"
+              onTouchStart={popupState.close}
+              onClick={popupState.close}
+            >
               Test
             </MenuItem>
           </Menu>
@@ -63,7 +99,7 @@ describe('usePopupState', () => {
     }
 
     it('passes correct props to bindTrigger/bindMenu', async () => {
-      render(<MenuTest />)
+      render(<MenuTest popupId="menu" />)
       assert.strictEqual(popupStates[0].isOpen, false)
       button = screen.getByRole('button')
       menu = screen.queryByTestId('menu')
@@ -87,6 +123,36 @@ describe('usePopupState', () => {
       assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
     })
 
+    it('open/close with touch events works', async () => {
+      render(<MenuTest popupId="menu" />)
+      assert.strictEqual(popupStates[0].isOpen, false)
+      button = screen.getByRole('button')
+      menu = screen.queryByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
+
+      fireEvent.touchStart(button)
+      fireEvent.click(button)
+      await waitForTruthy(() => screen.queryByTestId('menu'))
+      menu = screen.getByTestId('menu')
+      assert.strictEqual(popupStates[popupStates.length - 1].isOpen, true)
+      assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu.getAttribute('id'), 'menu')
+
+      await Promise.all([
+        waitForElementToBeRemoved(menu),
+        (() => {
+          fireEvent.touchStart(screen.getByTestId('menuitem'))
+          fireEvent.click(screen.getByTestId('menuitem'))
+        })(),
+      ])
+      assert.strictEqual(popupStates[popupStates.length - 1].isOpen, false)
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+    })
+
     it('open/close works', async () => {
       render(<MenuTest />)
 
@@ -98,6 +164,21 @@ describe('usePopupState', () => {
       popupStates[1].close()
       await waitForTruthy(() => popupStates[2])
       assert.strictEqual(popupStates[2].isOpen, false)
+    })
+    it('open warns if not passed an anchor element', async () => {
+      render(<MenuTest />)
+
+      await waitForTruthy(() => popupStates[0])
+      popupStates[0].open()
+      popupStates[popupStates.length - 1].close()
+      popupStates[popupStates.length - 1].open()
+
+      assert.deepEqual(consoleError.args, [
+        [
+          '[material-ui-popup-state] WARNING',
+          'eventOrAnchorEl should be defined if setAnchorEl is not used',
+        ],
+      ])
     })
     it('toggle works', async () => {
       render(<MenuTest />)
@@ -174,6 +255,91 @@ describe('usePopupState', () => {
       assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
     })
   })
+  describe('bindMenu/bindDoubleClick', () => {
+    let button
+    let menu
+
+    const MenuTest = (): React.ReactElement => {
+      const popupState = usePopupState({ popupId: 'menu', variant: 'popover' })
+      return (
+        <React.Fragment>
+          <Button {...bindDoubleClick(popupState)}>Open Menu</Button>
+          <Menu data-testid="menu" {...bindMenu(popupState)}>
+            <MenuItem data-testid="menuitem" onClick={popupState.close}>
+              Test
+            </MenuItem>
+          </Menu>
+        </React.Fragment>
+      )
+    }
+
+    it('passes correct props to bindDoubleClick/bindMenu', async () => {
+      render(<MenuTest />)
+      button = screen.getByRole('button')
+      menu = screen.queryByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
+
+      fireEvent.click(button)
+      assert.strictEqual(screen.queryByTestId('menu'), null)
+      fireEvent.doubleClick(button)
+      menu = screen.getByTestId('menu')
+      assert.strictEqual(button.getAttribute('aria-controls'), 'menu')
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu.getAttribute('id'), 'menu')
+
+      await Promise.all([
+        waitForElementToBeRemoved(menu),
+        fireEvent.click(screen.getByTestId('menuitem')),
+      ])
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+    })
+  })
+
+  describe('bindDialog/bindTrigger', () => {
+    let button
+    let dialog
+
+    const popupStates: PopupState[] = []
+
+    beforeEach(() => (popupStates.length = 0))
+
+    const DialogTest = (): React.ReactElement => {
+      const popupState = usePopupState({ variant: 'dialog' })
+      popupStates.push(popupState)
+      return (
+        <React.Fragment>
+          <Button {...bindTrigger(popupState)}>Open Dialog</Button>
+          <Dialog data-testid="dialog" {...bindDialog(popupState)}>
+            <DialogTitle>Test</DialogTitle>
+          </Dialog>
+        </React.Fragment>
+      )
+    }
+
+    it('passes correct props to bindTrigger/bindDialog', async () => {
+      render(<DialogTest />)
+      assert.strictEqual(popupStates[0].isOpen, false)
+      button = screen.getByRole('button')
+      dialog = screen.queryByTestId('dialog')
+      assert.strictEqual(dialog, null)
+
+      fireEvent.click(button)
+      dialog = screen.getByTestId('dialog')
+      assert.strictEqual(popupStates[1].isOpen, true)
+      const backdrop = document.querySelector('.MuiBackdrop-root')
+      if (!backdrop) throw new Error(`failed to find backdrop element`)
+
+      await Promise.all([
+        waitForElementToBeRemoved(dialog),
+        fireEvent.click(backdrop),
+      ])
+      assert.strictEqual(popupStates[2].isOpen, false)
+    })
+  })
+
   describe('bindPopover/bindFocus', () => {
     let input
     let popover
@@ -419,6 +585,185 @@ describe('usePopupState', () => {
         waitForElementToBeRemoved(popper),
         fireEvent.click(button),
       ])
+    })
+  })
+  describe('cascading hover menus', function () {
+    const CascadingContext = React.createContext<{
+      parentPopupState: PopupState | null
+      rootPopupState: PopupState | null
+    }>({
+      parentPopupState: null,
+      rootPopupState: null,
+    })
+
+    function CascadingMenuItem({
+      onClick,
+      ...props
+    }: React.ComponentProps<typeof MenuItem>) {
+      const { rootPopupState } = React.useContext(CascadingContext)
+      if (!rootPopupState)
+        throw new Error('must be used inside a CascadingMenu')
+      const handleClick = React.useCallback<
+        NonNullable<React.ComponentProps<typeof MenuItem>['onClick']>
+      >(
+        (event) => {
+          rootPopupState.close(event)
+          if (onClick) onClick(event)
+        },
+        [rootPopupState, onClick]
+      )
+
+      return (
+        <MenuItem
+          {...props}
+          onClick={handleClick}
+          data-testid={String(props.children)}
+        />
+      )
+    }
+
+    function CascadingSubmenu({
+      title,
+      popupId,
+      ...props
+    }: Omit<React.ComponentProps<typeof CascadingMenu>, 'popupState'> & {
+      title: React.ReactNode
+      popupId?: string
+    }) {
+      const { parentPopupState } = React.useContext(CascadingContext)
+      const popupState = usePopupState({
+        popupId,
+        variant: 'popover',
+        parentPopupState,
+      })
+      return (
+        <React.Fragment>
+          <MenuItem
+            data-testid={title}
+            {...bindHover(popupState)}
+            {...bindFocus(popupState)}
+          >
+            {title}
+          </MenuItem>
+          <CascadingMenu
+            {...props}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+            popupState={popupState}
+          />
+        </React.Fragment>
+      )
+    }
+
+    function CascadingMenu({
+      popupState,
+      ...props
+    }: Omit<React.ComponentProps<typeof HoverMenu>, 'open'> & {
+      popupState: PopupState
+    }) {
+      const { rootPopupState } = React.useContext(CascadingContext)
+      const context = React.useMemo(
+        () => ({
+          rootPopupState: rootPopupState || popupState,
+          parentPopupState: popupState,
+        }),
+        [rootPopupState, popupState]
+      )
+
+      return (
+        <CascadingContext.Provider value={context}>
+          <HoverMenu {...props} {...bindMenu(popupState)} />
+        </CascadingContext.Provider>
+      )
+    }
+
+    const CascadingHoverMenus = () => {
+      const popupState = usePopupState({
+        popupId: 'rootMenu',
+        variant: 'popover',
+      })
+      return (
+        <div style={{ height: 600 }}>
+          <Button
+            variant="contained"
+            {...bindHover(popupState)}
+            {...bindFocus(popupState)}
+          >
+            Hover to open Menu
+          </Button>
+          <CascadingMenu
+            popupState={popupState}
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          >
+            <CascadingMenuItem>Tea</CascadingMenuItem>
+            <CascadingMenuItem>Cake</CascadingMenuItem>
+            <CascadingMenuItem>Death</CascadingMenuItem>
+            <CascadingSubmenu
+              popupId="moreChoicesCascadingMenu"
+              title="More Choices"
+            >
+              <CascadingMenuItem>Cheesecake</CascadingMenuItem>
+              <CascadingMenuItem>Cheesedeath</CascadingMenuItem>
+              <CascadingSubmenu
+                popupId="evenMoreChoicesCascadingMenu"
+                title="Even More Choices"
+              >
+                <CascadingMenuItem>Cake (the band)</CascadingMenuItem>
+                <CascadingMenuItem>Death Metal</CascadingMenuItem>
+              </CascadingSubmenu>
+              <CascadingSubmenu
+                popupId="moreBenignChoices"
+                title="More Benign Choices"
+              >
+                <CascadingMenuItem>Salad</CascadingMenuItem>
+                <CascadingMenuItem>Lobotomy</CascadingMenuItem>
+              </CascadingSubmenu>
+            </CascadingSubmenu>
+          </CascadingMenu>
+        </div>
+      )
+    }
+
+    it('passes correct props to bindTrigger/bindMenu', async () => {
+      let menu
+
+      render(<CascadingHoverMenus />)
+      const button = screen.getByRole('button')
+      menu = document.getElementById('rootMenu')
+      assert.strictEqual(button.getAttribute('aria-controls'), null)
+      assert.strictEqual(button.getAttribute('aria-haspopup'), 'true')
+      assert.strictEqual(menu, null)
+
+      fireEvent.mouseOver(button)
+      menu = document.getElementById('rootMenu')
+      assert.exists(menu)
+      assert.exists(screen.queryByTestId('Tea'))
+      assert.exists(screen.queryByTestId('Cake'))
+      assert.exists(screen.queryByTestId('Death'))
+      assert.exists(screen.queryByTestId('More Choices'))
+      assert.notExists(screen.queryByTestId('Cheesecake'))
+
+      fireEvent.mouseOver(screen.getByTestId('More Choices'))
+      assert.exists(screen.queryByTestId('Cheesecake'))
+      assert.exists(screen.queryByTestId('Cheesedeath'))
+      assert.exists(screen.queryByTestId('Even More Choices'))
+
+      fireEvent.mouseOver(screen.getByTestId('Even More Choices'))
+      assert.exists(screen.getByTestId('Cake (the band)'))
+      assert.exists(screen.getByTestId('Death Metal'))
+
+      fireEvent.mouseLeave(
+        screen.getByTestId('Death Metal').closest('.MuiMenu-root')!
+      )
+      await new Promise((r) => setTimeout(r, 30))
+      assert.notExists(screen.queryByTestId('Cake (the band)'))
+      assert.notExists(screen.queryByTestId('Death Metal'))
+      assert.notExists(screen.queryByTestId('Cheesecake'))
+      assert.notExists(screen.queryByTestId('Cheesedeath'))
+      assert.notExists(screen.queryByTestId('Tea'))
+      assert.notExists(screen.queryByTestId('Cake'))
+      assert.notExists(screen.queryByTestId('Death'))
     })
   })
 })

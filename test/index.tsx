@@ -126,6 +126,7 @@ describe('usePopupState', () => {
       assert.strictEqual(popupStates[2].isOpen, false)
     })
   })
+
   describe('bindMenu/bindContextMenu', () => {
     let button
     let menu
