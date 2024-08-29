@@ -3,7 +3,6 @@
 [![CircleCI](https://circleci.com/gh/jcoreio/material-ui-popup-state.svg?style=svg)](https://circleci.com/gh/jcoreio/material-ui-popup-state)
 [![Coverage Status](https://codecov.io/gh/jcoreio/material-ui-popup-state/branch/master/graph/badge.svg)](https://codecov.io/gh/jcoreio/material-ui-popup-state)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![npm version](https://badge.fury.io/js/material-ui-popup-state.svg)](https://badge.fury.io/js/material-ui-popup-state)
 
 Takes care of the boilerplate for common Menu, Popover and Popper use cases.
