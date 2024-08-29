@@ -34,7 +34,7 @@ const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
 
 afterEach(cleanup)
 
-describe('usePopupState', () => {
+describe('<PopupState>', () => {
   describe('bindMenu/bindTrigger', () => {
     let buttonRef: any
     let button
@@ -408,5 +408,12 @@ describe('usePopupState', () => {
         fireEvent.click(button),
       ])
     })
+  })
+  it(`allows children to return undefined`, async function () {
+    render(
+      <PopupState popupId={'popper'} variant={'popper'}>
+        {() => undefined}
+      </PopupState>
+    )
   })
 })
