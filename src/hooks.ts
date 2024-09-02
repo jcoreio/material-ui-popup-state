@@ -73,9 +73,13 @@ export const initCoreState: CoreState = {
   _deferNextClose: false,
 }
 
+// https://github.com/jcoreio/material-ui-popup-state/issues/138
+// Webpack prod build doesn't like it if we refer to React.useId conditionally,
+// but aliasing to a variable like this works
+const _react = React
 const defaultPopupId =
-  'useId' in React
-    ? () => React.useId()
+  'useId' in _react
+    ? () => _react.useId()
     : // istanbul ignore next
       () => undefined
 
