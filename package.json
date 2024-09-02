@@ -73,7 +73,7 @@
     "eslint-plugin-no-only-tests": "^3.1.0",
     "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.145.0",
-    "gh-pages": "^2.0.1",
+    "gh-pages": "^5.0.0",
     "glob": "^8.0.3",
     "global-jsdom": "^9.0.1",
     "jsdom": "^22.1.0",
