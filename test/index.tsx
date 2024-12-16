@@ -36,7 +36,7 @@ afterEach(cleanup)
 
 describe('<PopupState>', () => {
   describe('bindMenu/bindTrigger', () => {
-    let buttonRef: any
+    let buttonRef: HTMLButtonElement | null
     let button
     let menu
 
@@ -50,7 +50,12 @@ describe('<PopupState>', () => {
           popupStates.push(popupState)
           return (
             <React.Fragment>
-              <Button {...bindTrigger(popupState)} ref={(c) => (buttonRef = c)}>
+              <Button
+                {...bindTrigger(popupState)}
+                ref={(c: HTMLButtonElement | null) => {
+                  buttonRef = c
+                }}
+              >
                 Open Menu
               </Button>
               <Menu data-testid="menu" {...bindMenu(popupState)}>

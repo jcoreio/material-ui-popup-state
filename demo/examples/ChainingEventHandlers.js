@@ -10,35 +10,38 @@ import { chainEventHandlers } from 'material-ui-popup-state/chainEventHandlers'
 
 const DialogPopupState = () => (
   <PopupState variant="dialog">
-    {(popupState) => (
-      <React.Fragment>
-        <Button variant="contained" {...bindTrigger(popupState)}>
-          Open Dialog
-        </Button>
-        <Dialog
-          {...chainEventHandlers(bindDialog(popupState), {
-            onClose: () => setTimeout(() => alert('closed dialog!'), 10),
-          })}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            Chaining Event Handlers example
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              After you close this dialog, you should get an alert
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={popupState.close}>Cancel</Button>
-            <Button onClick={popupState.close} autoFocus>
-              OK
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
-    )}
+    {(popupState) => {
+      const boundDialogProps = chainEventHandlers(bindDialog(popupState), {
+        onClose: () => setTimeout(() => alert('closed dialog!'), 10),
+      })
+      return (
+        <React.Fragment>
+          <Button variant="contained" {...bindTrigger(popupState)}>
+            Open Dialog
+          </Button>
+          <Dialog
+            {...boundDialogProps}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogTitle id="alert-dialog-title">
+              Chaining Event Handlers example
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                After you close this dialog, you should get an alert
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={boundDialogProps.onClose}>Cancel</Button>
+              <Button onClick={boundDialogProps.onClose} autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </React.Fragment>
+      )
+    }}
   </PopupState>
 )
 
