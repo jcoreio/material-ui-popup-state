@@ -53,3 +53,55 @@ describe(`chainEventHandlers`, function () {
     ])
   })
 })
+
+/* eslint-disable @typescript-eslint/no-unused-vars */
+function typeTest() {
+  {
+    const { onClick } = chainEventHandlers(
+        { onClick: (a: number) => {} },
+        { onClick: 'foo' }
+    )
+    // @ts-expect-error string isn't callable
+    onClick()
+    // @ts-expect-error string isn't callable
+    onClick(1)
+  }
+  {
+    const { onClick } = chainEventHandlers(
+        { onClick: 'foo' },
+        { onClick: (a: number) => {} }
+    )
+    // @ts-expect-error missing argument
+    onClick()
+    onClick(1)
+  }
+  {
+    const { onClick } = chainEventHandlers(
+        { onClick: (a: number) => {} },
+        { onClick: (a: string) => {} }
+    )
+    // @ts-expect-error signatures don't match so no typesafe call is possible
+    onClick()
+    // @ts-expect-error signatures don't match so no typesafe call is possible
+    onClick(1)
+    // @ts-expect-error signatures don't match so no typesafe call is possible
+    onClick('a')
+  }
+
+  {
+    const { onClick } = chainEventHandlers(
+        { onClick: (a: string, b?: number) => {} },
+        { onClick: (a: string, b?: string) => {} }
+    )
+    onClick('a')
+    onClick('a', undefined)
+    // @ts-expect-error invalid type for `a` argument
+    onClick(1)
+    onClick(
+        'a',
+        // @ts-expect-error the types for the `b` argument don't match, so only `undefined` is allowed here
+        1
+    )
+  }
+}
+/* eslint-enable @typescript-eslint/no-unused-vars */
