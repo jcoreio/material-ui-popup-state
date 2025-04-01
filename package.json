@@ -48,8 +48,8 @@
     "@jcoreio/toolchain-react": "^4.12.4",
     "@jcoreio/toolchain-semantic-release": "^4.12.4",
     "@jcoreio/toolchain-typescript": "^4.12.4",
-    "@mui/icons-material": "^6.2.0",
-    "@mui/material": "^6.2.0",
+    "@mui/icons-material": "^7.0.0",
+    "@mui/material": "^7.0.0",
     "@mui/styles": "6.2.0",
     "@mui/types": "^7.2.19",
     "@testing-library/react": "^16.1.0",
@@ -95,7 +95,7 @@
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "@mui/material": "^5.0.0 || ^6.0.0",
+    "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
     "@types/react": "^16.8.0 || ^17 || ^18 || ^19",
     "react": "^16.8.0 || ^17 || ^18 || ^19"
   },
