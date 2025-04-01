@@ -9,8 +9,7 @@ const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
     const paperSlotProps = React.useMemo(() => {
       const wrapped = props.slotProps?.paper
       if (wrapped instanceof Function) {
-        // eslint-disable-next-line @typescript-eslint/ban-types
-        return (ownerProps: {}) => {
+        return (ownerProps: Parameters<typeof wrapped>[0]) => {
           const base = wrapped(ownerProps)
           return {
             ...base,
