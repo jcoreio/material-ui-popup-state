@@ -1,22 +1,10 @@
 import * as React from 'react'
-import { makeStyles } from '@mui/styles'
+import HoverMenu from 'material-ui-popup-state/HoverMenu'
 import MenuItem from '@mui/material/MenuItem'
 import ChevronRight from '@mui/icons-material/ChevronRight'
 import Button from '@mui/material/Button'
+import Box from '@mui/material/Box'
 import PopupState, { bindHover, bindMenu } from 'material-ui-popup-state'
-import HoverMenu from 'material-ui-popup-state/HoverMenu'
-
-const useCascadingMenuStyles = makeStyles((theme) => ({
-  submenu: {
-    marginTop: theme.spacing(-1),
-  },
-  title: {
-    flexGrow: 1,
-  },
-  moreArrow: {
-    marginRight: theme.spacing(-1),
-  },
-}))
 
 const CascadingContext = React.createContext({
   parentPopupState: null,
@@ -38,7 +26,6 @@ function CascadingMenuItem({ onClick, ...props }) {
 }
 
 function CascadingSubmenu({ title, popupId, ...props }) {
-  const classes = useCascadingMenuStyles()
   const { parentPopupState } = React.useContext(CascadingContext)
   return (
     <PopupState
@@ -50,12 +37,16 @@ function CascadingSubmenu({ title, popupId, ...props }) {
       {(popupState) => (
         <React.Fragment>
           <MenuItem {...bindHover(popupState)}>
-            <span className={classes.title}>{title}</span>
-            <ChevronRight className={classes.moreArrow} />
+            <Box component="span" sx={{ flexGrow: 1 }}>
+              {title}
+            </Box>
+            <ChevronRight sx={{ marginRight: -1 }} />
           </MenuItem>
           <CascadingMenu
             {...props}
-            classes={{ ...props.classes, paper: classes.submenu }}
+            slotProps={{
+              paper: { sx: { marginTop: -1 } },
+            }}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
             transformOrigin={{ vertical: 'top', horizontal: 'left' }}
             popupState={popupState}

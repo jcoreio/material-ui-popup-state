@@ -1,79 +1,49 @@
 import * as React from 'react'
-import { withStyles } from '@mui/styles'
 import Code from '@mui/icons-material/Code'
 import Collapse from '@mui/material/Collapse'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Tooltip from '@mui/material/Tooltip'
+import Box from '@mui/material/Box'
 
 const { useState, useCallback } = React
 
-const styles = {
-  title: {
-    marginTop: 40,
-    marginBottom: 0,
-  },
-  root: {
-    margin: '20px auto',
-  },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  toolbarSpacer: {
-    flex: '1 1 auto',
-  },
-  code: {
-    margin: 0,
-    padding: 20,
-    backgroundColor: 'white',
-    borderRadius: 4,
-  },
-  example: {
-    backgroundColor: '#eee',
-    borderRadius: 4,
-    display: 'flex',
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 40,
-  },
-  titleAnchor: {
-    color: '#aaa',
-    marginLeft: 10,
-    textDecoration: 'none',
-    visibility: 'hidden',
-    '$title:hover > &': {
-      visibility: 'visible',
-    },
-  },
-}
-
-const Demo = ({
-  headerId,
-  classes,
-  title,
-  code,
-  example,
-  hooksCode,
-  hooksExample,
-}) => {
+const Demo = ({ headerId, title, code, example, hooksCode, hooksExample }) => {
   const [showSource, setShowSource] = useState(false)
   const [api, setApi] = useState('hooks')
   const setRenderProps = useCallback(() => setApi('render-props'), [])
   const setHooks = useCallback(() => setApi('hooks'), [])
   return (
-    <div className={classes.root}>
-      <Typography variant="h4" className={classes.title} id={headerId}>
+    <Box sx={{ margin: '20px auto' }}>
+      <Typography
+        variant="h4"
+        sx={{
+          marginTop: '40px',
+          marginBottom: 0,
+          '&:hover > a': {
+            visibility: 'visible',
+          },
+        }}
+        id={headerId}
+      >
         {title}
         {headerId && (
-          <a href={`#${headerId}`} className={classes.titleAnchor}>
+          <Box
+            component="a"
+            href={`#${headerId}`}
+            sx={{
+              color: '#aaa',
+              marginLeft: '10px',
+              textDecoration: 'none',
+              visibility: 'hidden',
+            }}
+          >
             #
-          </a>
+          </Box>
         )}
       </Typography>
-      <div className={classes.toolbar}>
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
         {code != null && hooksCode != null && (
           <React.Fragment>
             <Button
@@ -90,23 +60,41 @@ const Demo = ({
             </Button>
           </React.Fragment>
         )}
-        <div className={classes.toolbarSpacer} />
+        <Box sx={{ flex: '1 1 auto' }} />
         <Tooltip title="Show Source" placement="top">
           <IconButton onClick={() => setShowSource(!showSource)} size="large">
             <Code />
           </IconButton>
         </Tooltip>
-      </div>
+      </Box>
       <Collapse in={showSource}>
-        <pre className={classes.code}>
+        <Box
+          component="pre"
+          sx={{
+            margin: 0,
+            padding: '20px',
+            backgroundColor: 'white',
+            borderRadius: '4px',
+          }}
+        >
           {api === 'hooks' ? hooksCode || code : code || hooksCode}
-        </pre>
+        </Box>
       </Collapse>
-      <div className={classes.example}>
+      <Box
+        sx={{
+          backgroundColor: '#eee',
+          borderRadius: '4px',
+          display: 'flex',
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '40px',
+        }}
+      >
         {api === 'hooks' ? hooksExample || example : example || hooksExample}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
 
-export default withStyles(styles)(Demo)
+export default Demo

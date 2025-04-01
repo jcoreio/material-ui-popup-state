@@ -48,23 +48,16 @@ import ChainingEventHandlers from './examples/ChainingEventHandlers'
 import ChainingEventHandlersCode from '!!raw-loader!./examples/ChainingEventHandlers'
 import Demo from './Demo'
 import Typography from '@mui/material/Typography'
-import { withStyles } from '@mui/styles'
+import Box from '@mui/material/Box'
 import { StyledEngineProvider } from '@mui/material/styles'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 
 const theme = createTheme()
 
-const styles = {
-  root: {
-    margin: '0 auto',
-    maxWidth: 800,
-  },
-}
-
 const Root = ({ classes }) => (
   <StyledEngineProvider>
     <ThemeProvider theme={theme}>
-      <div className={classes.root}>
+      <Box sx={{ margin: '0 auto', maxWidth: 800 }}>
         <Typography variant="h3">material-ui-popup-state demos</Typography>
         <Demo
           title="Left Click to open Menu"
@@ -136,7 +129,6 @@ const Root = ({ classes }) => (
           hooksExample={<HoverFocusMenuHooks />}
           hooksCode={HoverFocusMenuHooksCode}
         />
-
         <Demo
           title="Custom Anchor"
           headerId="custom-anchor"
@@ -165,9 +157,9 @@ const Root = ({ classes }) => (
           example={<ChainingEventHandlers />}
           code={ChainingEventHandlersCode}
         />
-      </div>
+      </Box>
     </ThemeProvider>
   </StyledEngineProvider>
 )
 
-export default withStyles(styles)(Root)
+export default Root

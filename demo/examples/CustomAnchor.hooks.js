@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import Paper from '@mui/material/Paper'
 import Typography from '@mui/material/Typography'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import ListItemSecondaryAction from '@mui/material/ListItemSecondaryAction'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
@@ -28,7 +28,7 @@ const CustomAnchor = () => (
 
         <Paper>
           <List>
-            <ListItem button ContainerProps={{ ref: anchorRef(popupState) }}>
+            <ListItemButton ref={anchorRef(popupState)}>
               <ListItemText
                 primary="Stuff"
                 secondary="Last Modified Apr 9, 2019"
@@ -38,7 +38,7 @@ const CustomAnchor = () => (
                   <MoreVertIcon />
                 </IconButton>
               </ListItemSecondaryAction>
-            </ListItem>
+            </ListItemButton>
           </List>
         </Paper>
         <Menu
