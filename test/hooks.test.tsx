@@ -44,17 +44,14 @@ const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
     throw new Error('not true')
   }, opts)
 
-/* eslint-disable react/jsx-handler-names */
-
 let consoleError: sinon.SinonSpy<
   Parameters<(typeof console)['error']>,
   void
-  // eslint-disable-next-line no-console
 > = console.error as any
 
 beforeEach(() => {
   sinon.spy(console, 'error')
-  // eslint-disable-next-line no-console
+
   consoleError = console.error as any
 })
 
@@ -622,6 +619,7 @@ describe('usePopupState', () => {
         <MenuItem
           {...props}
           onClick={handleClick}
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string
           data-testid={String(props.children)}
         />
       )
@@ -759,6 +757,7 @@ describe('usePopupState', () => {
       assert.exists(screen.getByTestId('Death Metal'))
 
       fireEvent.mouseLeave(
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         screen.getByTestId('Death Metal').closest('.MuiMenu-root')!
       )
       await new Promise((r) => setTimeout(r, 30))

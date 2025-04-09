@@ -35,7 +35,7 @@ declare module 'react-dom' {
     e: E
   ): void
   declare function unstable_renderSubtreeIntoContainer<
-    ElementType: React$ElementType
+    ElementType: React$ElementType,
   >(
     parentComponent: React$Component<any, any>,
     nextElement: React$Element<ElementType>,

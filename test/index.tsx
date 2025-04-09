@@ -30,8 +30,6 @@ const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
     throw new Error('not true')
   }, opts)
 
-/* eslint-disable react/jsx-handler-names */
-
 afterEach(cleanup)
 
 describe('<PopupState>', () => {

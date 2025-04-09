@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-deprecated */
 import * as React from 'react'
 import { Popover as _Popover, type PopoverProps } from '@mui/material'
 import { interopRequireDefault } from './util/interopRequireDefault'
@@ -15,7 +16,7 @@ const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
             ...base,
             style: {
               pointerEvents: 'auto',
-              ...base?.style,
+              ...base.style,
             },
           } as const
         }

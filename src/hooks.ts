@@ -19,7 +19,7 @@ const printedWarnings: Record<string, boolean> = {}
 function warn(key: string, message: string) {
   if (printedWarnings[key]) return
   printedWarnings[key] = true
-  console.error('[material-ui-popup-state] WARNING', message) // eslint-disable-line no-console
+  console.error('[material-ui-popup-state] WARNING', message)
 }
 
 export type Variant = 'popover' | 'popper' | 'dialog'
@@ -78,10 +78,10 @@ export const initCoreState: CoreState = {
 // but aliasing to a variable like this works
 const _react = React
 const defaultPopupId =
-  'useId' in _react
-    ? () => _react.useId()
-    : // istanbul ignore next
-      () => undefined
+  'useId' in _react ?
+    () => _react.useId()
+    // istanbul ignore next
+  : () => undefined
 
 export function usePopupState({
   parentPopupState,
@@ -134,11 +134,10 @@ export function usePopupState({
     const event =
       eventOrAnchorEl instanceof Element ? undefined : eventOrAnchorEl
     const element =
-      eventOrAnchorEl instanceof Element
-        ? eventOrAnchorEl
-        : eventOrAnchorEl?.currentTarget instanceof Element
-        ? eventOrAnchorEl.currentTarget
-        : undefined
+      eventOrAnchorEl instanceof Element ? eventOrAnchorEl
+      : eventOrAnchorEl?.currentTarget instanceof Element ?
+        eventOrAnchorEl.currentTarget
+      : undefined
 
     if (event?.type === 'touchstart') {
       setState((state) => ({ ...state, _deferNextOpen: true }))
@@ -148,9 +147,9 @@ export function usePopupState({
     const clientX = (event as MouseEvent | undefined)?.clientX
     const clientY = (event as MouseEvent | undefined)?.clientY
     const anchorPosition =
-      typeof clientX === 'number' && typeof clientY === 'number'
-        ? { left: clientX, top: clientY }
-        : undefined
+      typeof clientX === 'number' && typeof clientY === 'number' ?
+        { left: clientX, top: clientY }
+      : undefined
 
     const doOpen = (state: CoreState): CoreState => {
       if (!eventOrAnchorEl && !state.setAnchorElUsed && variant !== 'dialog') {
@@ -176,7 +175,7 @@ export function usePopupState({
 
       if (!state.setAnchorElUsed) {
         if (event?.currentTarget) {
-          newState.anchorEl = event?.currentTarget as any
+          newState.anchorEl = event.currentTarget as any
         } else if (element) {
           newState.anchorEl = element
         }
@@ -259,7 +258,7 @@ export function usePopupState({
     })
   })
 
-  const onBlur = useEvent((event: FocusEvent) => {
+  const onBlur = useEvent((event?: FocusEvent) => {
     if (!event) return
     const { relatedTarget } = event
     setState((state: CoreState): CoreState => {
@@ -313,7 +312,7 @@ export function usePopupState({
  */
 export function anchorRef({
   setAnchorEl,
-}: PopupState): (el: Element | null | null | undefined) => any {
+}: PopupState): (el: Element | null | undefined) => any {
   return setAnchorEl
 }
 
@@ -329,14 +328,14 @@ function controlAriaProps({
   variant,
 }: PopupState): ControlAriaProps {
   return {
-    ...(variant === 'popover'
-      ? {
-          'aria-haspopup': true,
-          'aria-controls': isOpen ? popupId : undefined,
-        }
-      : variant === 'popper'
-      ? { 'aria-describedby': isOpen ? popupId : undefined }
-      : undefined),
+    ...(variant === 'popover' ?
+      {
+        'aria-haspopup': true,
+        'aria-controls': isOpen ? popupId : undefined,
+      }
+    : variant === 'popper' ?
+      { 'aria-describedby': isOpen ? popupId : undefined }
+    : undefined),
   }
 }
 
@@ -449,9 +448,8 @@ export function bindDoubleClick({
 } {
   return {
     // $FlowFixMe
-    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']: isOpen
-      ? popupId
-      : null,
+    [variant === 'popover' ? 'aria-controls' : 'aria-describedby']:
+      isOpen ? popupId : null,
     'aria-haspopup': variant === 'popover' ? true : undefined,
     onDoubleClick: open,
   }

@@ -35,19 +35,19 @@
   "devDependencies": {
     "@babel/eslint-parser": "^7.19.1",
     "@babel/node": "^7.20.5",
-    "@babel/plugin-syntax-flow": "^7.14.5",
-    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@babel/plugin-syntax-flow": "^7.26.0",
+    "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
     "@jcoreio/eslint-plugin-implicit-dependencies": "^1.1.1",
-    "@jcoreio/toolchain": "^4.12.4",
-    "@jcoreio/toolchain-circle": "^4.12.4",
-    "@jcoreio/toolchain-esnext": "^4.12.4",
-    "@jcoreio/toolchain-flow": "^4.12.4",
-    "@jcoreio/toolchain-mocha": "^4.12.4",
-    "@jcoreio/toolchain-react": "^4.12.4",
-    "@jcoreio/toolchain-semantic-release": "^4.12.4",
-    "@jcoreio/toolchain-typescript": "^4.12.4",
+    "@jcoreio/toolchain": "^5.3.2",
+    "@jcoreio/toolchain-circle": "^5.3.2",
+    "@jcoreio/toolchain-esnext": "^5.3.2",
+    "@jcoreio/toolchain-flow": "^5.3.2",
+    "@jcoreio/toolchain-mocha": "^5.3.2",
+    "@jcoreio/toolchain-react": "^5.3.2",
+    "@jcoreio/toolchain-semantic-release": "^5.3.2",
+    "@jcoreio/toolchain-typescript": "^5.3.2",
     "@mui/icons-material": "^7.0.1",
     "@mui/material": "^7.0.1",
     "@mui/types": "^7.4.0",
@@ -65,7 +65,7 @@
     "copy": "^0.3.2",
     "core-js": "^3.36.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.56.0",
+    "eslint": "^9.17.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-no-only-tests": "^3.1.0",
@@ -73,9 +73,12 @@
     "flow-bin": "^0.145.0",
     "gh-pages": "^2.0.1",
     "glob": "^8.0.3",
-    "global-jsdom": "^25.0.0",
-    "jsdom": "^25.0.1",
+    "global-jsdom": "^9.0.1",
+    "globals": "^16.0.0",
+    "jsdom": "^22.1.0",
+    "lint-staged": "^15.2.2",
     "mocha": "^10.2.0",
+    "prettier": "^3.4.2",
     "raw-loader": "^4.0.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -87,7 +90,7 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@babel/runtime": "^7.20.6",
+    "@babel/runtime": "^7.26.0",
     "@types/prop-types": "^15.7.3",
     "classnames": "^2.2.6",
     "prop-types": "^15.7.2"
@@ -141,8 +144,8 @@
   "engines": {
     "node": ">=16"
   },
-  "packageManager": "pnpm@8.11.0",
+  "packageManager": "pnpm@10.6.5",
   "@jcoreio/toolchain": {
-    "migratedVersion": "4.12.4"
+    "migratedVersion": "5.3.2"
   }
 }
