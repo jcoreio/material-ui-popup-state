@@ -47,11 +47,13 @@ const waitForTruthy = (cb: () => any, opts?: waitForOptions) =>
 let consoleError: sinon.SinonSpy<
   Parameters<(typeof console)['error']>,
   void
+  // eslint-disable-next-line no-console
 > = console.error as any
 
 beforeEach(() => {
   sinon.spy(console, 'error')
 
+  // eslint-disable-next-line no-console
   consoleError = console.error as any
 })
 

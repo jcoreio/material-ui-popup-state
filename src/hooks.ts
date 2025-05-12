@@ -19,6 +19,7 @@ const printedWarnings: Record<string, boolean> = {}
 function warn(key: string, message: string) {
   if (printedWarnings[key]) return
   printedWarnings[key] = true
+  // eslint-disable-next-line no-console
   console.error('[material-ui-popup-state] WARNING', message)
 }
 
