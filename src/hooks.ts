@@ -11,7 +11,7 @@ import {
   useEffect,
 } from 'react'
 import * as React from 'react'
-import { type PopoverPosition, type PopoverReference } from '@mui/material'
+import type { PopoverPosition, PopoverReference } from '@mui/material/Popover'
 import { useEvent } from './useEvent'
 
 const printedWarnings: Record<string, boolean> = {}

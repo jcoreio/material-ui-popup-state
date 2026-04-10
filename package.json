@@ -87,9 +87,9 @@
     "prop-types": "^15.7.2"
   },
   "peerDependencies": {
-    "@mui/material": "^5.0.0 || ^6.0.0 || ^7.0.0",
+    "@mui/material": ">=5 <10",
     "@types/react": "^16.8.0 || ^17 || ^18 || ^19",
-    "react": "^16.8.0 || ^17 || ^18 || ^19"
+    "react": ">=16.8.0 <20"
   },
   "peerDependenciesMeta": {
     "@types/react": {

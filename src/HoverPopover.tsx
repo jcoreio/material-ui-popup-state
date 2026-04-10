@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-deprecated */
 import * as React from 'react'
-import { Popover as _Popover, type PopoverProps } from '@mui/material'
+import _Popover, { type PopoverProps } from '@mui/material/Popover'
+import { major } from '@mui/material/version'
 import { interopRequireDefault } from './util/interopRequireDefault'
 // work around https://github.com/vercel/next.js/issues/57285
 const Popover = interopRequireDefault(_Popover)
@@ -32,17 +33,22 @@ const HoverPopover: React.ComponentType<PopoverProps> = React.forwardRef(
         {...props}
         ref={ref}
         style={{ pointerEvents: 'none', ...props.style }}
-        PaperProps={{
-          ...props.PaperProps,
-          style: {
-            pointerEvents: 'auto',
-            ...props.PaperProps?.style,
-          },
-        }}
-        slotProps={{
-          ...props.slotProps,
-          paper: paperSlotProps,
-        }}
+        {...(major < 5 ?
+          {
+            PaperProps: {
+              ...props.PaperProps,
+              style: {
+                pointerEvents: 'auto',
+                ...props.PaperProps?.style,
+              },
+            },
+          }
+        : {
+            slotProps: {
+              ...props.slotProps,
+              paper: paperSlotProps,
+            },
+          })}
       />
     )
   }
